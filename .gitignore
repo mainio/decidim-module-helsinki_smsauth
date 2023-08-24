@@ -24,3 +24,6 @@ node_modules
 # Asset compilation
 public/sw.js
 public/sw.js.map
+
+# VS settings
+.vscode
