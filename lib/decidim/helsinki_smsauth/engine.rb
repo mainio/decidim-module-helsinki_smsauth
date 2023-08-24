@@ -48,7 +48,7 @@ module Decidim
 
       initializer "decidim_helsinki_smsauth.overrides" do |app|
         app.config.to_prepare do
-          Decidim::User.include(Decidim::Smsauth::SmsConfirmableUser)
+          Decidim::User.include(Decidim::HelsinkiSmsauth::SmsConfirmableUser)
           # commands
           Decidim::DestroyAccount.include(
             Decidim::HelsinkiSmsauth::DestroyAccountOverrides
