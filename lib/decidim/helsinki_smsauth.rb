@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "countries"
 require "decidim/helsinki_smsauth/engine"
 require_relative "helsinki_smsauth/authorization"
 require_relative "helsinki_smsauth/verification"
