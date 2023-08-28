@@ -23,7 +23,7 @@ module Decidim
       end
 
       def confirmed_phone?
-        phone_number.present? && phone_country.present?
+        phone_number.present?
       end
 
       private
@@ -31,7 +31,7 @@ module Decidim
       def generated_phone_email
         return nil unless confirmed_phone?
 
-        @generated_phone_email ||= EmailGenerator.new(organization, phone_country, phone_number).generate
+        @generated_phone_email ||= EmailGenerator.new(organization, phone_number).generate
       end
     end
   end

@@ -6,7 +6,6 @@ en:
         name: Your name
         email: Your email (optional)
       sms_sign_in:
-        phone_country: Phone country
         phone_number: Phone number
       sms_verification:
         verification: Verification code
@@ -17,13 +16,16 @@ en:
       helsinki_smsauth_id:
         explanation: Verify yourself using an SMS code.
         fields:
-          phone_country: Phone country
           phone_number: Phone number
         name: SMS
     devise:
       sessions:
         new:
           email: Sign in with Email
+    budgets:
+      voting:
+        index:
+          sign_in_first: You need to sign in to start voting.
     helsinki_smsauth:
       omniauth:
         authenticate_user:

@@ -10,9 +10,6 @@
             <div class="card__content">
               <%= decidim_form_for(@form, url: authorization_path(redirect_url: redirect_url)) do |form| %>
                 <div class="row">
-                  <div class="columns large-6 padding-right-0">
-                    <%= form.select :phone_country, phone_country_options(form.object.phone_country), { id: "omniauth_country", include_blank: true }, class: "country-select" %>
-                  </div>
                   <div class="columns large-6 padding-left-0">
                     <%= form.number_field :phone_number %>
                   </div>

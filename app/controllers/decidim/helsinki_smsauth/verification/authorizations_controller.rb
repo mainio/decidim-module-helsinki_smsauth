@@ -124,8 +124,7 @@ module Decidim
 
         def authorization_params
           {
-            phone_number: authorization.metadata["phone_number"],
-            phone_country: authorization.metadata["phone_country"]
+            phone_number: authorization.metadata["phone_number"]
           }
         end
 

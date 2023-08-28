@@ -6,7 +6,6 @@ fr:
         name: Votre nom
         email: Votre adresse e-mail (facultatif)
       sms_sign_in:
-        phone_country: Pays du numéro de téléphone
         phone_number: Numéro de téléphone
       sms_verification:
         verification: Code de vérification
@@ -17,7 +16,6 @@ fr:
       helsinki_smsauth_id:
         explanation: Authentifiez vous en utilisant un code SMS.
         fields:
-          phone_country: Pays du numéro de téléphone
           phone_number: Numéro de téléphone
         name: SMS
     devise:

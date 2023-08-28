@@ -6,7 +6,6 @@ fi:
         name: Nimesi
         email: Sähköpostiosoitteesi (valinnainen)
       sms_sign_in:
-        phone_country: Puhelinnumeron maakoodi
         phone_number: Puhelinnumero
       sms_verification:
         verification: Vahvistuskoodi
@@ -17,7 +16,6 @@ fi:
       helsinki_smsauth_id:
         explanation: Vahvista käyttäjätilisi tekstiviestillä.
         fields:
-          phone_country: Puhelinnumeron maakoodi
           phone_number: Puhelinnumero
         name: Tekstiviesti
     devise:

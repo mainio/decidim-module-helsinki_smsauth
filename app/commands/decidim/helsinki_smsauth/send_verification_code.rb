@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'decidim/sms/twilio/gateway'
 module Decidim
   module HelsinkiSmsauth
     # A command with all the business to add new line items to orders
@@ -16,9 +16,6 @@ module Decidim
         return broadcast(:invalid) if @form.invalid?
 
         begin
-          # result = send_verification!
-          # generate_sessions!(result) if result
-          # broadcast(:ok)
           result = send_verification!
           return broadcast(:invalid, @gateway_error_code) unless result
 
@@ -43,7 +40,7 @@ module Decidim
       def gateway
         @gateway ||=
           begin
-            phone_number = phone_with_country_code(form.phone_country, form.phone_number)
+            phone_number = phone_with_country_code(form.phone_number)
             code = generate_code
             if Decidim.config.sms_gateway_service == "Decidim::Sms::Twilio::Gateway"
               Decidim.config.sms_gateway_service.constantize.new(phone_number, code, organization: organization)
@@ -62,8 +59,8 @@ module Decidim
         @auth_code_length ||= 7
       end
 
-      def phone_with_country_code(country_code, phone_number)
-        PhoneNumberFormatter.new(phone_number: phone_number, iso_country_code: country_code).format
+      def phone_with_country_code(phone_number)
+        PhoneNumberFormatter.new(phone_number).format
       end
 
       def add_zeros(code)

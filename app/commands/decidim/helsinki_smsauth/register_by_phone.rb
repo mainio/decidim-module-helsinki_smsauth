@@ -27,14 +27,13 @@ module Decidim
         Decidim::User.create! do |record|
           record.name = form.name
           record.nickname = UserBaseEntity.nicknamize(form.name)
-          record.email = form.email.presence || generate_email(form.phone_country, form.phone_number)
+          record.email = form.email.presence || generate_email
           record.password = generated_password
           record.password_confirmation = generated_password
 
           record.skip_confirmation! if form.email.blank?
 
           record.phone_number = form.phone_number
-          record.phone_country = form.phone_country
           record.tos_agreement = "1"
           record.organization = form.organization
           record.newsletter_notifications_at = form.newsletter_at
@@ -43,8 +42,12 @@ module Decidim
         end
       end
 
-      def generate_email(country, phone)
-        EmailGenerator.new(form.organization, country, phone).generate
+      def generate_email
+        EmailGenerator.new(form.organization, iso_country_name, form.phone_number).generate
+      end
+
+      def iso_country_name
+        PhoneNumberFormatter.new(form.phone_number).iso_country_name
       end
     end
   end

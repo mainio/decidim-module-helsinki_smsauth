@@ -14,7 +14,6 @@ module Decidim
           @user.nickname = ""
           @user.email = ""
           @user.phone_number = ""
-          @user.phone_country = ""
           @user.delete_reason = @form.delete_reason
           @user.admin = false if @user.admin?
           @user.deleted_at = Time.current

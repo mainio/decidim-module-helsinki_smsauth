@@ -9,7 +9,6 @@ module Decidim
       attribute :email, String
       attribute :tos_agreement, Boolean
       attribute :phone_number, String
-      attribute :phone_country, String
       attribute :newsletter, Boolean
       attribute :current_locale, String
       attribute :organization, Decidim::Organization
@@ -20,7 +19,6 @@ module Decidim
       validates :name, presence: true
       validates :organization, presence: true
       validates :phone_number, presence: true
-      validates :phone_country, presence: true
       validate :verify_email_uniqueness, if: ->(form) { form.email.present? }
 
       def newsletter_at

@@ -7,10 +7,9 @@ module Decidim
     module Verification
       class AuthorizationForm < Decidim::AuthorizationHandler
         attribute :phone_number, String
-        attribute :phone_country, String
         attribute :organization, Decidim::Organization
 
-        validates :phone_number, :phone_country, :verification_code, :gateway, presence: true
+        validates :phone_number, :verification_code, :gateway, presence: true
 
         def handler_name
           "helsinki_smsauth_id"
@@ -19,7 +18,7 @@ module Decidim
         # A mobile phone can only be verified once but it should be private.
         def unique_id
           Digest::MD5.hexdigest(
-            "#{phone_country}-#{phone_number}-#{Rails.application.secrets.secret_key_base}"
+            "#{iso_country_name}-#{phone_number}-#{Rails.application.secrets.secret_key_base}"
           )
         end
 
@@ -40,8 +39,7 @@ module Decidim
 
         def metadata
           {
-            phone_number: phone_number,
-            phone_country: phone_country
+            phone_number: phone_number
           }
         end
 
@@ -50,7 +48,7 @@ module Decidim
         def gateway
           @gateway ||=
             begin
-              mobile_number = phone_with_country_code(phone_country, phone_number)
+              mobile_number = phone_with_country_code(phone_number)
               if Decidim.config.sms_gateway_service == "Decidim::Sms::Twilio::Gateway"
                 Decidim.config.sms_gateway_service.constantize.new(mobile_number, generated_code, organization: organization)
               else
@@ -63,8 +61,12 @@ module Decidim
           @generated_code ||= SecureRandom.random_number(1_000_000).to_s
         end
 
-        def phone_with_country_code(country_code, phone_number)
-          PhoneNumberFormatter.new(phone_number: phone_number, iso_country_code: country_code).format
+        def phone_with_country_code
+          phone_formatter.format
+        end
+
+        def phone_formatter
+          @phone_formatter ||= PhoneNumberFormatter.new(phone_number)
         end
 
         def verification_code

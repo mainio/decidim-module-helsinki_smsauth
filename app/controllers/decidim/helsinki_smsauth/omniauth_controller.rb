@@ -5,9 +5,6 @@ module Decidim
     class OmniauthController < ::Decidim::Devise::OmniauthRegistrationsController
       # Make the view helpers available needed in the views
 
-      # include Decidim::Sms::Twilio::TokenGenerator
-      # include Decidim::NeedsPermission
-
       helper Decidim::HelsinkiSmsauth::Engine.routes.url_helpers
       helper Decidim::HelsinkiSmsauth::RegistrationHelper
       before_action :ensure_authorized, only: [:new, :registration, :user_registry]
@@ -173,7 +170,7 @@ module Decidim
           raise Authorization::AuthorizationBoundToOtherUserError
         end
 
-        authorization.metadata = { phone_number: user.phone_number, phone_country: user.phone_country } if authorization.metadata.blank?
+        authorization.metadata = { phone_number: user.phone_number } if authorization.metadata.blank?
         authorization.unique_id = unique_id(user)
 
         authorization.save!
@@ -188,12 +185,12 @@ module Decidim
 
       def unique_id(user)
         Digest::MD5.hexdigest(
-          "#{user.phone_country}-#{user.phone_number}-#{Rails.application.secrets.secret_key_base}"
+          "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{user.phone_number}-#{Rails.application.secrets.secret_key_base}"
         )
       end
 
       def formatted_phone_number(form)
-        PhoneNumberFormatter.new(phone_number: form.phone_number, iso_country_code: form.phone_country).format
+        PhoneNumberFormatter.new(form.phone_number).format
       end
 
       def reset_auth_session
@@ -204,7 +201,6 @@ module Decidim
         session[:authentication_attempt] = {
           verification_code: result,
           sent_at: Time.current,
-          country: @form.phone_country,
           phone: @form.phone_number,
           verified: false
         }
@@ -239,16 +235,14 @@ module Decidim
 
       def params_from_previous_attempts
         {
-          phone_number: user_params[:phone_number],
-          phone_country: user_params[:phone_country]
+          phone_number: user_params[:phone_number]
         }
       end
 
       def authenticate_params
         @authenticate_params ||= params.merge(
           {
-            phone_number: auth_session["phone"],
-            phone_country: auth_session["country"]
+            phone_number: auth_session["phone"]
           }
         )
       end
@@ -256,8 +250,7 @@ module Decidim
       def default_params
         {
           organization: current_organization,
-          phone_number: auth_session["phone"],
-          phone_country: auth_session["country"]
+          phone_number: auth_session["phone"]
         }
       end
 
@@ -271,8 +264,7 @@ module Decidim
 
       def find_user!
         Decidim::User.find_by(
-          phone_number: default_params[:phone_number],
-          phone_country: default_params[:phone_country]
+          phone_number: default_params[:phone_number]
         )
       end
 
@@ -289,8 +281,7 @@ module Decidim
 
         authorization.update(
           metadata: {
-            phone_number: auth_session["phone"],
-            phone_country: auth_session["country"]
+            phone_number: auth_session["phone"]
           },
           unique_id: unique_id(user)
         )
@@ -309,8 +300,7 @@ module Decidim
         return if user.blank?
 
         user.update!(
-          phone_number: auth_session["phone"],
-          phone_country: auth_session["country"]
+          phone_number: auth_session["phone"]
         )
       end
     end

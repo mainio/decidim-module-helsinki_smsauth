@@ -3,6 +3,7 @@
 require "decidim/helsinki_smsauth/engine"
 require_relative "helsinki_smsauth/authorization"
 require_relative "helsinki_smsauth/verification"
+require "decidim/sms/twilio"
 
 module Decidim
   # This namespace holds the logic of the `Smsauth` component. This component
@@ -12,10 +13,10 @@ module Decidim
 
     autoload :PhoneNumberFormatter, "decidim/helsinki_smsauth/phone_number_formatter"
 
-    # The country or countries to be selected in country selection
-    # during sms verification/authentication. The default is being set to nil
-    config_accessor :default_countries do
-      nil
+    # The country name is neeeded for generating the unique id and the countey code
+    # is the country code being used for sending sms
+    config_accessor :country_code do
+      { country: "FI", code: "+358" }
     end
   end
 end
