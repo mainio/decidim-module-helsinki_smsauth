@@ -12,10 +12,12 @@
               <%= decidim_form_for(@form, url: users_auth_sms_send_message_path, method: :post) do |form| %>
                 <%= render partial: "phone_form", locals: { form: form } %>
               <% end %>
-              <p class="text-center">
-                <%= link_to t(".another_method"), decidim.new_user_session_path, class: "text-center" %>
-              </p>
             </div>
+          </div>
+          <div class="text-center">
+            <h3><%= t(".problem_sign_in") %></h3>
+            <p><%= t(".explanation") %></p>
+            <p><%= link_to t(".another_method"), decidim.new_user_session_path, class: "text-center" %></p>
           </div>
         </div>
       </div>

@@ -40,7 +40,9 @@ en:
         edit:
           title: Update your phone number
         new:
-          another_method: Use another method to sign in
+          problem_sign_in: Do you have problem with SMS authentication?
+          explanation: If you can not authenticate yourself with a SMS, you can ask your teacher for an identification code.
+          another_method: Log in with the code given by your teacher
           title: Sign in with SMS
         phone_form:
           submit: Send code via SMS
