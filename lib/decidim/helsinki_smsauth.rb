@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "decidim/helsinki_smsauth/engine"
+require "decidim/helsinki_smsauth/admin"
+require "decidim/helsinki_smsauth/admin_engine"
 require_relative "helsinki_smsauth/authorization"
 require_relative "helsinki_smsauth/verification"
 require "decidim/sms/twilio"
