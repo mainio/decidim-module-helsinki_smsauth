@@ -8,7 +8,7 @@ module Decidim
       encrypt_attribute :metadata, type: :hash
       attribute :generated_code_amount, type: :integer
       attribute :used_code_amount, type: :integer
-      belongs_to :user, foreign_key: "decidim_user_id", class_name: "Decidim::User"
+      belongs_to :creator, foreign_key: "decidim_user_id", class_name: "Decidim::User"
     end
   end
 end
