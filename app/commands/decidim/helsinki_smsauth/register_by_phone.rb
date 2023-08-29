@@ -25,18 +25,18 @@ module Decidim
       def create_user!
         generated_password = SecureRandom.hex
         Decidim::User.create! do |record|
-          record.name = form.name
-          record.nickname = UserBaseEntity.nicknamize(form.name)
-          record.email = form.email.presence || generate_email
+          record.name = record_name
+          record.nickname = UserBaseEntity.nicknamize(record_name)
+          record.email = generate_email
           record.password = generated_password
           record.password_confirmation = generated_password
 
-          record.skip_confirmation! if form.email.blank?
+          record.skip_confirmation!
 
           record.phone_number = form.phone_number
           record.tos_agreement = "1"
           record.organization = form.organization
-          record.newsletter_notifications_at = form.newsletter_at
+          record.newsletter_notifications_at = Time.current
           record.accepted_tos_version = form.organization.tos_version
           record.locale = form.current_locale
         end
@@ -48,6 +48,10 @@ module Decidim
 
       def iso_country_name
         PhoneNumberFormatter.new(form.phone_number).iso_country_name
+      end
+
+      def record_name
+        "helsinki_smsauth_unnamed_user"
       end
     end
   end

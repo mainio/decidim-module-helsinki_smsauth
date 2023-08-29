@@ -26,7 +26,7 @@ module Decidim
             get :resend_code
             get :verification
             post :authenticate_user
-            get :registration
+            get :school_info
             post :user_registry
           end
         end

@@ -1,0 +1,42 @@
+<% add_decidim_page_title(t(".omastadi")) %>
+
+<div class="wrapper">
+<div class="row collapse">
+  <div class="row collapse">
+    <div class="columns large-8 large-centered text-center page-title">
+      <h1 class="text-center"><%= t(".omastadi") %></h1>
+      <p><%= t(".successfully_authenticated") %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns large-6 medium-10 medium-centered">
+      <h2><%= t(".enter_your_information")%></h2>
+      <%= decidim_form_for(@form, as: :user, url: users_auth_sms_user_registry_path, html: { class: "register-form new_user", id: "register-form" }) do |f| %>
+        <div class="card">
+          <div class="card__content">
+            <p><%= form_required_explanation %>
+
+            <div class="user-person">
+              <div class="field">
+                <%= f.select :school_code, school_options, { id: "school_code", include_blank: true } %>
+              </div>
+            </div>
+            <div class="field">
+              <%= f.number_field :grade, help_text: t(".grade_help") %>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__content">
+            <div class="actions">
+              <%= f.submit t("devise.registrations.new.sign_up"), class: "button expanded" %>
+            </div>
+            <%= yield :devise_links %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+<%= render "decidim/devise/shared/newsletter_modal" %>

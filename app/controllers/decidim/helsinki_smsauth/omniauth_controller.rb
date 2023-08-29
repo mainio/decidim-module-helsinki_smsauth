@@ -69,15 +69,15 @@ module Decidim
 
         VerifyMobilePhone.call(@form, auth_session) do
           on(:ok) do |result|
-            update_sessions!(result)
+            update_sessions!(verification_code: result, sent_at: Time.current)
             user = find_user!
 
-            if user
+            if user && has_school_metadata?(user)
               flash[:notice] = I18n.t(".signed_in", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
               sign_in_and_redirect(user)
             else
               flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
-              redirect_to action: "registration"
+              redirect_to action: "school_info"
             end
           end
 
@@ -88,20 +88,24 @@ module Decidim
         end
       end
 
-      def registration
-        @form = form(UserRegistrationForm).instance
+      def school_info
+        @form = form(SchoolMetadataForm).instance
       end
 
       def user_registry
-        @form = UserRegistrationForm.from_params(user_params.merge(current_locale: current_locale))
+        @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization))
+        update_sessions!(school_code: @form.school_code, grade: @form.grade)
+        user = find_user!
+        sign_in_and_redirect user, event: :authentication if user
+
         RegisterByPhone.call(@form) do
-          on(:ok) do |user|
-            flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.registration")
-            sign_in_and_redirect user, event: :authentication
+          on(:ok) do |new_user|
+            flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.school_info")
+            sign_in_and_redirect new_user, event: :authentication
           end
           on(:invalid) do
-            flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.registration")
-            render action: "registration"
+            flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.school_info")
+            render action: "school_info"
           end
         end
       end
@@ -115,7 +119,7 @@ module Decidim
 
         SendVerificationCode.call(@form, organization: set_organization) do
           on(:ok) do |result|
-            update_sessions!(result)
+            update_sessions!(verification_code: result, sent_at: Time.current)
             flash[:notice] = I18n.t(".resend", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
             redirect_to action: "verification"
           end
@@ -132,7 +136,7 @@ module Decidim
       # that we also need to add the authorization for the user automatically
       # because a succesful sms authentication means the user has been
       # successfully authorized as well.
-      def sign_in_and_redirect(resource_or_scope, *args)
+      def sign_in_and_redirect(resource_or_scope, **args)
         # Add authorization for the user
         return fail_authorize unless resource_or_scope.is_a?(::Decidim::User) &&
                                      authorize_user(resource_or_scope)
@@ -170,7 +174,7 @@ module Decidim
           raise Authorization::AuthorizationBoundToOtherUserError
         end
 
-        authorization.metadata = { phone_number: user.phone_number } if authorization.metadata.blank?
+        authorization.metadata = generated_metadata(authorization, user.phone_number)
         authorization.unique_id = unique_id(user)
 
         authorization.save!
@@ -181,6 +185,13 @@ module Decidim
         authorization.grant!
 
         authorization
+      end
+
+      def generated_metadata(authorization, phone_number)
+        metadata = authorization.metadata || {}
+        metadata.merge!({ phone_number: phone_number })
+        metadata.merge!({ school_code: session["school_code"] }) if metadata[:school_code].blank?
+        metadata.merge!({ grade: session["grade"] }) if metadata[:grade].blank?
       end
 
       def unique_id(user)
@@ -202,12 +213,16 @@ module Decidim
           verification_code: result,
           sent_at: Time.current,
           phone: @form.phone_number,
+          school_code: nil,
+          grade: nil,
           verified: false
         }
       end
 
-      def update_sessions!(result)
-        auth_session.merge!(verification_code: result, sent_at: Time.current)
+      def update_sessions!(**args)
+        args.each do |key, value|
+          auth_session[key.to_s] = value if auth_session.has_key?(key.to_s)
+        end
       end
 
       def auth_session
@@ -264,7 +279,8 @@ module Decidim
 
       def find_user!
         Decidim::User.find_by(
-          phone_number: default_params[:phone_number]
+          phone_number: default_params[:phone_number],
+          organization: current_organization
         )
       end
 
@@ -302,6 +318,24 @@ module Decidim
         user.update!(
           phone_number: auth_session["phone"]
         )
+      end
+
+      def has_school_metadata?(user)
+        return if user.blank?
+
+        authorization = find_authorization(user)
+
+        metadata_exist_for?(authorization, :school_code, :school_grade)
+      end
+
+      def metadata_exist_for?(authorization, *args)
+        return unless authorization.is_a?(::Decidim::Authorization) && args.present?
+        return if authorization.metadata.blank?
+
+        args.each do |key|
+          break if authorization.metadata[key.to_s].blank?
+        end
+        true
       end
     end
   end

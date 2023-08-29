@@ -13,9 +13,7 @@ module Decidim
       end
 
       def generate
-        generated_email = "helsinki_smsauth-#{generate_token(token_data)}@#{organization.host}"
-        # Add extension to the host to prevent form error in development mode
-        "#{generated_email}.test" if organization.host == "localhost"
+        "helsinki_smsauth-#{generate_token(token_data)}@#{organization.host}"
       end
 
       private

@@ -11,6 +11,7 @@ module Decidim
   module HelsinkiSmsauth
     include ActiveSupport::Configurable
 
+    autoload :SchoolMetadata, "decidim/helsinki_smsauth/school_metadata"
     autoload :PhoneNumberFormatter, "decidim/helsinki_smsauth/phone_number_formatter"
 
     # The country name is neeeded for generating the unique id and the countey code

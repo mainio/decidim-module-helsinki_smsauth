@@ -12,6 +12,10 @@ module Decidim
       def terms_and_conditions_page
         @terms_and_conditions_page ||= Decidim::StaticPage.find_by(slug: "terms-and-conditions", organization: current_organization)
       end
+
+      def school_options
+        SchoolMetadata.school_options
+      end
     end
   end
 end
