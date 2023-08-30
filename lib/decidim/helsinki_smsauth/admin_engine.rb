@@ -28,7 +28,7 @@ module Decidim
                         I18n.t("menu.access_codes", scope: "decidim.helsinki_smsauth"),
                         decidim_helsinki_smsauth_admin.signin_code_sets_path,
                         if: allowed_to?(:index, :officialization),
-                        position: 6,
+                        position: 5.1,
                         active: is_active_link?(decidim_helsinki_smsauth_admin.signin_code_sets_path)
         end
       end
