@@ -5,7 +5,7 @@ module Decidim
     module Admin
       class SigninCodeSetsController < Decidim::Admin::ApplicationController
         def index
-          enforce_permission_to :read, Decidim::HelsinkiSmsauth::SigninCodeSets.new
+          enforce_permission_to :read, :signin_code_sets
         end
       end
     end

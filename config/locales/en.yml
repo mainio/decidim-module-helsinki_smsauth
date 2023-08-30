@@ -27,6 +27,8 @@ en:
         index:
           sign_in_first: You need to sign in to start voting.
     helsinki_smsauth:
+      menu:
+        access_codes: SMS alternative access codes
       omniauth:
         authenticate_user:
           error: Verification failed. Please try again.

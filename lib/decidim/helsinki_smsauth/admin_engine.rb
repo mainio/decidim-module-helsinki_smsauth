@@ -10,8 +10,8 @@ module Decidim
       paths["lib/tasks"] = nil
 
       routes do
-        scope "/organization" do
-          resources :auth_settings, param: :slug, only: [:edit, :update], path: ""
+        scope "/access_codes" do
+          resources :signin_code_sets, only: [:index], path: ""
         end
       end
 
@@ -21,22 +21,16 @@ module Decidim
         end
       end
 
-      initializer "decidim_helsinki_smsauth.add_half_signup_menu_to_admin", before: "decidim_admin.admin_settings_menu" do
-        Decidim.menu :admin_settings_menu do |menu|
-          # /organization/
-          menu.add_item :edit_organization,
-                        I18n.t("menu.auth_settings", scope: "decidim.helsinki_smsauth"),
-                        decidim_helsinki_smsauth.edit_auth_setting_path(slug: "authentication_settings"),
-                        position: 1.1,
-                        if: allowed_to?(:update, :organization, organization: current_organization),
-                        active: is_active_link?(decidim_helsinki_smsauth.edit_auth_setting_path(
-                                                  slug: "authentication_settings"
-                                                ))
+      initializer "decidim_helsinki_smsauth.add_helsinki_signin_codes_to_admin", after: "decidim_admin.admin_user_menu" do
+        Decidim.menu :admin_user_menu do |menu|
+          # /admin/
+          menu.add_item :access_codes,
+                        I18n.t("menu.access_codes", scope: "decidim.helsinki_smsauth"),
+                        decidim_helsinki_smsauth_admin.signin_code_sets_path,
+                        if: allowed_to?(:index, :officialization),
+                        position: 6,
+                        active: is_active_link?(decidim_helsinki_smsauth_admin.signin_code_sets_path)
         end
-      end
-
-      def load_seed
-        nil
       end
     end
   end
