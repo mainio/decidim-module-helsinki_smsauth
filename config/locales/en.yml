@@ -17,7 +17,7 @@ en:
         explanation: Verify yourself using an SMS code.
         fields:
           phone_number: Phone number
-        name: SMS
+        name: SMS alterative access codes
     devise:
       sessions:
         new:

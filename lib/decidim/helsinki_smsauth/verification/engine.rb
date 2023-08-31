@@ -25,6 +25,7 @@ module Decidim
 
           Decidim::Verifications.register_workflow(:helsinki_smsauth_id) do |workflow|
             workflow.engine = Decidim::HelsinkiSmsauth::Verification::Engine
+            workflow.admin_engine = Decidim::HelsinkiSmsauth::Verification::AdminEngine
           end
         end
       end
