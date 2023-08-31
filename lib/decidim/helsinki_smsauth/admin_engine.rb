@@ -20,18 +20,6 @@ module Decidim
           mount Decidim::HelsinkiSmsauth::AdminEngine => "/"
         end
       end
-
-      initializer "decidim_helsinki_smsauth.add_helsinki_signin_codes_to_admin", after: "decidim_admin.admin_user_menu" do
-        Decidim.menu :admin_user_menu do |menu|
-          # /admin/
-          menu.add_item :access_codes,
-                        I18n.t("menu.access_codes", scope: "decidim.helsinki_smsauth"),
-                        decidim_helsinki_smsauth_admin.signin_code_sets_path,
-                        if: allowed_to?(:index, :officialization),
-                        position: 5.1,
-                        active: is_active_link?(decidim_helsinki_smsauth_admin.signin_code_sets_path)
-        end
-      end
     end
   end
 end

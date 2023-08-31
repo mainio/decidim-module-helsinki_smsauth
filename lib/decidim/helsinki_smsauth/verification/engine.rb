@@ -23,11 +23,6 @@ module Decidim
         initializer "decidim_helsinki_smsauth.verification_workflow", after: :load_config_initializers do |_app|
           next unless Decidim.sms_gateway_service
 
-          # We cannot use the name `:smsauth` for the verification workflow
-          # because otherwise the route namespace (decidim_smsauth) would
-          # conflict with the main engine controlling the authentication flows.
-          # The main problem that this would bring is that the root path for
-          # this engine would not be found.
           Decidim::Verifications.register_workflow(:helsinki_smsauth_id) do |workflow|
             workflow.engine = Decidim::HelsinkiSmsauth::Verification::Engine
           end
