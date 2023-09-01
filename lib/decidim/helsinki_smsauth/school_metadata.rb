@@ -164,16 +164,16 @@ module Decidim
         "10120" => { name: "Perho Liiketalousopisto" }
       }.freeze
 
-      def self.exists?(school_code)
-        metadata_for_school(school_code).present?
+      def self.exists?(school)
+        metadata_for_school(school).present?
       end
 
-      def self.metadata_for_school(school_code)
-        MAPPING[school_code]
+      def self.metadata_for_school(school)
+        MAPPING[school]
       end
 
-      def self.school_name(school_code)
-        data = metadata_for_school(school_code)
+      def self.school_name(school)
+        data = metadata_for_school(school)
         return nil unless data
 
         data[:name]
@@ -181,8 +181,8 @@ module Decidim
 
       def self.school_options
         [].tap do |array|
-          MAPPING.map do |key, value|
-            array << [value[:name], key]
+          MAPPING.map do |_key, value|
+            array << value[:name]
           end
         end
       end

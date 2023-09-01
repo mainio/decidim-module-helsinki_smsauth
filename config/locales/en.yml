@@ -9,6 +9,7 @@ en:
         phone_number: Phone number
       sms_verification:
         verification: Verification code
+        access_code: Code given by your teacher
       user:
         mask_number: Your phone number
   decidim:
@@ -18,15 +19,21 @@ en:
         fields:
           phone_number: Phone number
         name: SMS alterative access codes
-    devise:
-      sessions:
-        new:
-          email: Sign in with Email
-    budgets:
-      voting:
-        index:
-          sign_in_first: You need to sign in to start voting.
+    helsinki_smsauth:
+      devise:
+        sessions:
+          new:
+            email: Sign in with Email
+      budgets:
+        voting:
+          index:
+            sign_in_first: You need to sign in to start voting.
       omniauth:
+        access_code:
+          authenticate: Identify yourself with the key given by your teacher
+          enter_access_code: If you cannot identify yourself with a text message, you can ask your teacher for a code that you can use to identify yourself. Enter the code you received in the field shown below.
+          return_to_sms_login: Return to SMS authentication
+          submit: Identify yourself
         authenticate_user:
           error: Verification failed. Please try again.
           signed_in: Signed in successfully.
@@ -34,7 +41,7 @@ en:
           updated_phone_number: Phone number successfully updated.
           unauthorized: You are not authorized to perform this action.
         development_hint:
-          verification_code: "The verificaiton code is: "
+          verification_code: "The verification code is: "
           hint_notification: (This message only appears in development mode)
         edit:
           title: Update your phone number

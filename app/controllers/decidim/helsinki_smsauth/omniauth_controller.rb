@@ -94,7 +94,7 @@ module Decidim
 
       def user_registry
         @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization))
-        update_sessions!(school_code: @form.school_code, grade: @form.grade)
+        update_sessions!(school: @form.school, grade: @form.grade)
         user = find_user!
         sign_in_and_redirect user, event: :authentication if user
 
@@ -146,6 +146,27 @@ module Decidim
         super
       end
 
+      def access_code
+        @form = form(AccessCodeForm).instance
+        generate_sessions!
+      end
+
+      def access_code_validation
+        @form = AccessCodeForm.from_params(params.merge(current_locale: current_locale, organization: current_organization))
+        VerifyAccessCode.call(@form) do
+          on(:ok) do |user, access_hash|
+            update_sessions!(**access_hash)
+            flash[:notice] = I18n.t(".signed_in", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
+            sign_in_and_redirect(user)
+          end
+
+          on(:invalid) do
+            flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
+            render action: "access_code"
+          end
+        end
+      end
+
       private
 
       def sms_sending_error(error_code)
@@ -190,8 +211,9 @@ module Decidim
       def generated_metadata(authorization, phone_number)
         metadata = authorization.metadata || {}
         metadata.merge!({ phone_number: phone_number })
-        metadata.merge!({ school_code: session["school_code"] }) if metadata[:school_code].blank?
-        metadata.merge!({ grade: session["grade"] }) if metadata[:grade].blank?
+        metadata.merge!({ school: auth_session["school"] }) if metadata["school"].nil?
+        metadata.merge!({ grade: auth_session["grade"] }) if metadata["grade"].nil?
+        metadata
       end
 
       def unique_id(user)
@@ -208,12 +230,13 @@ module Decidim
         session&.delete(:authentication_attempt)
       end
 
-      def generate_sessions!(result)
+      def generate_sessions!(result = nil)
+        phone_number = @form.attributes.keys.include?("phone_number") ? @form.phone_number : nil
         session[:authentication_attempt] = {
           verification_code: result,
           sent_at: Time.current,
-          phone: @form.phone_number,
-          school_code: nil,
+          phone: phone_number,
+          school: nil,
           grade: nil,
           verified: false
         }
@@ -221,7 +244,7 @@ module Decidim
 
       def update_sessions!(**args)
         args.each do |key, value|
-          auth_session[key.to_s] = value if auth_session.has_key?(key.to_s)
+          session[:authentication_attempt][key.to_sym] = value if auth_session.has_key?(key.to_s)
         end
       end
 
@@ -325,7 +348,7 @@ module Decidim
 
         authorization = find_authorization(user)
 
-        metadata_exist_for?(authorization, :school_code, :school_grade)
+        metadata_exist_for?(authorization, :school, :grade)
       end
 
       def metadata_exist_for?(authorization, *args)
@@ -333,7 +356,7 @@ module Decidim
         return if authorization.metadata.blank?
 
         args.each do |key|
-          break if authorization.metadata[key.to_s].blank?
+          return false if authorization.metadata[key.to_s].blank?
         end
         true
       end

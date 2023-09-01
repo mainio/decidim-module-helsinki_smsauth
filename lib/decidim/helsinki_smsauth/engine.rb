@@ -28,6 +28,8 @@ module Decidim
             post :authenticate_user
             get :school_info
             post :user_registry
+            get :access_code
+            post :access_code_validation
           end
         end
       end

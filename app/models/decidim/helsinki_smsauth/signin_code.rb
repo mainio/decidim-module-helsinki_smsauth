@@ -7,10 +7,7 @@ module Decidim
 
       validates :code_hash, uniqueness: true, if: -> { code_hash.present? }
       before_save :generate
-
-      def self.hash_generator
-        Digest::MD5.hexdigest("#{uid}-#{Rails.application.secrets.secret_key_base}")
-      end
+      after_destroy :increment_used_codes
 
       private
 
@@ -30,6 +27,11 @@ module Decidim
       def random_code(code_length = 10)
         characters = ("0".."9").to_a + ("A".."Z").to_a
         characters.sample(code_length).join
+      end
+
+      def increment_used_codes
+        signin_code_set.increment(:used_code_amount)
+        signin_code_set.save!
       end
     end
   end
