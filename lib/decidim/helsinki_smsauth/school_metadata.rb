@@ -161,7 +161,8 @@ module Decidim
         "10079" => { name: "Keskuspuiston ammattiopisto" },
         "10086" => { name: "Business College Helsinki" },
         "10105" => { name: "Stadin ammattiopisto" },
-        "10120" => { name: "Perho Liiketalousopisto" }
+        "10120" => { name: "Perho Liiketalousopisto" },
+        "00000" => { name: "Other" }
       }.freeze
 
       def self.exists?(school)
