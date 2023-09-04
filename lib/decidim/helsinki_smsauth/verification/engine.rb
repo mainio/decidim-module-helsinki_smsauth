@@ -18,6 +18,7 @@ module Decidim
             get :access_code, on: :collection
             get :school_info
             post :school_validation
+            get :access_code
           end
 
           root to: "authorizations#new"

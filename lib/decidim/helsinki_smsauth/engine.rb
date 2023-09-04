@@ -55,6 +55,9 @@ module Decidim
           Decidim::DestroyAccount.include(
             Decidim::HelsinkiSmsauth::DestroyAccountOverrides
           )
+          Decidim::Verifications::ConfirmUserAuthorization.include(
+            Decidim::HelsinkiSmsauth::ConfirmUserAuthorizationExtensions
+          )
           # forms
           Decidim::AccountForm.include(Decidim::HelsinkiSmsauth::AccountFormExtensions)
         end

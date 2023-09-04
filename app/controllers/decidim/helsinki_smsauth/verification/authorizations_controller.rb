@@ -8,7 +8,6 @@ module Decidim
         include Decidim::Verifications::Renewable
 
         helper_method :authorization
-        before_action :ensure_school_info, only: [:new, :edit, :create, :update]
 
         def new
           # We use the :update action here because this is also where the user
@@ -25,7 +24,7 @@ module Decidim
           # but did not finish it (i.e. the authorization is "pending").
           enforce_permission_to :update, :authorization, authorization: authorization
 
-          @form = AuthorizationForm.from_params(params.merge(user: current_user).merge(school: school_session["school"], grade: school_session["grade"]))
+          @form = AuthorizationForm.from_params(params.merge(user: current_user).merge(school: nil, grade: nil))
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
             on(:ok) do
               update_attempt_session
@@ -72,10 +71,9 @@ module Decidim
 
         def school_validation
           @form = form(::Decidim::HelsinkiSmsauth::SchoolMetadataForm).from_params(params)
-          ValidateSchoolInfo.call(@form) do
+          ValidateSchoolInfo.call(@form, authorization) do
             on(:ok) do
-              update_school_session!(**{ school: @form[:school], grade: @form[:grade] })
-              redirect_to new_authorization_path
+              handle_redirect
             end
           end
         end
@@ -84,16 +82,10 @@ module Decidim
           enforce_permission_to :update, :authorization, authorization: authorization
 
           @form = ConfirmationForm.from_params(params)
-          ::Decidim::Verifications::ConfirmUserAuthorization.call(authorization, @form, session) do
+          ConfirmUserPhoneAuthorization.call(authorization, @form, session) do
             on(:ok) do
               update_current_user!
-              handle_school_session
-              flash[:notice] = t("authorizations.update.success", scope: "decidim.verifications.sms")
-              if redirect_url.blank?
-                redirect_to decidim_verifications.authorizations_path
-              else
-                redirect_to stored_location_for(current_user)
-              end
+              handle_redirect
             end
             on(:invalid) do
               flash[:error] = t("update.incorrect", scope: "decidim.helsinki_smsauth.verification.authorizations")
@@ -107,7 +99,6 @@ module Decidim
 
           DestroyAuthorization.call(authorization) do
             on(:ok) do
-              handle_school_session
               flash[:notice] = t("authorizations.destroy.success", scope: "decidim.verifications.sms")
               redirect_to action: :new
             end
@@ -162,29 +153,18 @@ module Decidim
           authorization_method.resume_authorization_path(redirect_url: redirect_url)
         end
 
-        def ensure_school_info
-          return if school_session["school"].present?
-          return if school_session["grade"].present?
-
-          flash[:warning] = I18n.t(".school_info", scope: "decidim.helsinki_smsauth.verification.authorizations.school_info")
-          redirect_to school_info_authorization_path
-        end
-
-        def school_session
-          session[:school_info] ||= {
-            school: nil,
-            grade: nil
-          }
-        end
-
-        def update_school_session!(**args)
-          args.each do |key, value|
-            school_session[key] = value
+        def handle_redirect
+          if authorization.metadata["school"].nil?
+            flash[:notice] = I18n.t(".school_info", scope: "decidim.helsinki_smsauth.verification.authorizations.school_info")
+            redirect_to school_info_authorization_path
+          else
+            flash[:notice] = t("authorizations.update.success", scope: "decidim.verifications.sms")
+            if redirect_url.blank?
+              redirect_to decidim_verifications.authorizations_path
+            else
+              redirect_to stored_location_for(current_user)
+            end
           end
-        end
-
-        def handle_school_session
-          session&.delete(:school_info)
         end
       end
     end
