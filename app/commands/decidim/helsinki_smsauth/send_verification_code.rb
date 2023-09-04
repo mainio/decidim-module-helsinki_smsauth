@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'decidim/sms/twilio/gateway'
+require "decidim/sms/twilio/gateway"
+
 module Decidim
   module HelsinkiSmsauth
     # A command with all the business to add new line items to orders

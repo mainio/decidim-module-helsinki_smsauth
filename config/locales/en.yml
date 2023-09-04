@@ -62,15 +62,15 @@ en:
           enter_your_information: Enter your information
           required_fields: "*Required fields are marked with an asterisk"
           submit: Complete your account
-          error: An error occured, please try again
+          error: An error occurred, please try again
           success: You have successfully registered and authorized
-          grade_help: In which grade are you studing?
+          grade_help: In which grade are you studying?
         send_message:
           error:
             invalid_from_number: The sender number is not correctly configured or is not able to send messages. Please contact the platform support for further help.
             invalid_geo_permission: The system is not configured to send messages to your country. Please contact the platform support for further help.
             invalid_to_number: The phone number you provided is not correct. Please check that you entered your phone number correctly.
-            unknown: An error occured which has been logged, please try again. If the error persists, please contact the platform support for further help.
+            unknown: An error occurred which has been logged, please try again. If the error persists, please contact the platform support for further help.
           success: "Verification code sent to %{phone}."
           resend: "Verification code resent to %{phone}."
           not_allowed: Please wait at least 1 minute to resend the code.
@@ -98,8 +98,20 @@ en:
           new:
             title: Authorize your account
             submit: Send code via SMS
+            problem_authorization: Do you have problem with SMS authorization?
+            explanation: If you can not authorize yourself with a SMS, you can ask your teacher for an identification code.
+            another_method: Authorize yourself with the code given by your teacher
           update:
             incorrect: Verification failed. Please try again.
+          school_info:
+            omastadi: Omastadi
+            enter_your_information: Enter your information
+            required_fields: "*Required fields are marked with an asterisk"
+            submit: Complete your account
+            school_info: Enter your school information first
+            error: An error occurred, please try again
+            grade_help: In which grade are you studying?
+            submit: Submit
     verifications:
       sms:
         decidim:

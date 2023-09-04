@@ -10,7 +10,7 @@
       <div class="columns medium-7 large-10 medium-centered">
         <%= decidim_form_for(@form, url: users_auth_sms_access_code_validation_path, method: :post) do |form| %>
           <div class="row">
-              <%= form.text_field :access_code %>
+              <%= form.text_field :access_code, autocomplete: "off" %>
           </div>
           <div class="row">
             <div class="columns large-centered">

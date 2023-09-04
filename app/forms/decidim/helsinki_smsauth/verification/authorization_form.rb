@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require "securerandom"
+require "decidim/sms/twilio/gateway"
 
 module Decidim
   module HelsinkiSmsauth
     module Verification
       class AuthorizationForm < Decidim::AuthorizationHandler
         attribute :phone_number, String
+        attribute :school, String
+        attribute :grade, String
         attribute :organization, Decidim::Organization
 
         validates :phone_number, :verification_code, :gateway, presence: true
@@ -18,7 +21,7 @@ module Decidim
         # A mobile phone can only be verified once but it should be private.
         def unique_id
           Digest::MD5.hexdigest(
-            "#{iso_country_name}-#{phone_number}-#{Rails.application.secrets.secret_key_base}"
+            "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{phone_number}-#{Rails.application.secrets.secret_key_base}"
           )
         end
 
@@ -39,7 +42,9 @@ module Decidim
 
         def metadata
           {
-            phone_number: phone_number
+            phone_number: phone_number,
+            school: school,
+            grade: grade
           }
         end
 
@@ -48,7 +53,7 @@ module Decidim
         def gateway
           @gateway ||=
             begin
-              mobile_number = phone_with_country_code(phone_number)
+              mobile_number = phone_with_country_code
               if Decidim.config.sms_gateway_service == "Decidim::Sms::Twilio::Gateway"
                 Decidim.config.sms_gateway_service.constantize.new(mobile_number, generated_code, organization: organization)
               else

@@ -5,6 +5,7 @@ module Decidim
     module Verification
       module AuthorizationsHelper
         include Decidim::HelsinkiSmsauth::OmniauthHelper
+        include Decidim::HelsinkiSmsauth::RegistrationHelper
       end
     end
   end

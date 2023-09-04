@@ -15,6 +15,9 @@ module Decidim
           resource :authorizations, only: [:new, :create, :edit, :update, :destroy], as: :authorization do
             get :resend_code, on: :collection
             get :renew, on: :collection
+            get :access_code, on: :collection
+            get :school_info
+            post :school_validation
           end
 
           root to: "authorizations#new"
