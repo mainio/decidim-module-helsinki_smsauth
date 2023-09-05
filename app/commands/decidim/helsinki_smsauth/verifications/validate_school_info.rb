@@ -2,7 +2,7 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class ValidateSchoolInfo < Decidim::Command
         def initialize(form, handler)
           @form = form

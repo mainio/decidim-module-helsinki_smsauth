@@ -4,7 +4,7 @@ require "securerandom"
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class ConfirmationForm < AuthorizationHandler
         attribute :verification_code, String
 

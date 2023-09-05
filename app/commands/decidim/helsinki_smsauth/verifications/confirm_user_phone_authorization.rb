@@ -2,7 +2,7 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class ConfirmUserPhoneAuthorization < ::Decidim::Verifications::ConfirmUserAuthorization
         private
 

@@ -2,7 +2,7 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class AuthorizationsController < Decidim::Verifications::ApplicationController
         include Decidim::FormFactory
         include Decidim::Verifications::Renewable

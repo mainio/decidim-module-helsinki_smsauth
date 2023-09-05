@@ -2,11 +2,11 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       module Admin
         class SigninCodeSetsController < Decidim::Admin::ApplicationController
           def index
-            enforce_permission_to :read, :signin_code_sets
+            enforce_permission_to :index, :authorization
           end
         end
       end

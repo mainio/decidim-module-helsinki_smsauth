@@ -4,7 +4,7 @@ require "decidim/helsinki_smsauth/engine"
 require "decidim/helsinki_smsauth/admin"
 require "decidim/helsinki_smsauth/admin_engine"
 require_relative "helsinki_smsauth/authorization"
-require_relative "helsinki_smsauth/verification"
+require_relative "helsinki_smsauth/verifications"
 require "decidim/sms/twilio"
 
 module Decidim

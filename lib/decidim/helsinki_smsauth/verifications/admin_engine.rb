@@ -2,11 +2,11 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       # This is an engine that implements the administration interface for
       # user authorization by postal letter code.
       class AdminEngine < ::Rails::Engine
-        isolate_namespace Decidim::HelsinkiSmsauth::Verification::Admin
+        isolate_namespace Decidim::HelsinkiSmsauth::Verifications::Admin
 
         paths["db/migrate"] = nil
         paths["lib/tasks"] = nil

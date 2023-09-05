@@ -2,7 +2,7 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class ValidateAccessCode < ::Decidim::HelsinkiSmsauth::VerifyAccessCode
         def initialize(form, authorization, user)
           @form = form

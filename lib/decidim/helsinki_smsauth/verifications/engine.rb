@@ -2,11 +2,11 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       # This is an engine that authorizes users by sending them a code through
       # an SMS. Different from the core "sms" authorization method.
       class Engine < ::Rails::Engine
-        isolate_namespace Decidim::HelsinkiSmsauth::Verification
+        isolate_namespace Decidim::HelsinkiSmsauth::Verifications
 
         paths["db/migrate"] = nil
         paths["lib/tasks"] = nil
@@ -29,8 +29,8 @@ module Decidim
           next unless Decidim.sms_gateway_service
 
           Decidim::Verifications.register_workflow(:helsinki_smsauth_id) do |workflow|
-            workflow.engine = Decidim::HelsinkiSmsauth::Verification::Engine
-            workflow.admin_engine = Decidim::HelsinkiSmsauth::Verification::AdminEngine
+            workflow.engine = Decidim::HelsinkiSmsauth::Verifications::Engine
+            workflow.admin_engine = Decidim::HelsinkiSmsauth::Verifications::AdminEngine
           end
         end
       end

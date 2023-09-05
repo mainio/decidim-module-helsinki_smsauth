@@ -2,7 +2,7 @@
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       module AuthorizationsHelper
         include Decidim::HelsinkiSmsauth::OmniauthHelper
         include Decidim::HelsinkiSmsauth::RegistrationHelper

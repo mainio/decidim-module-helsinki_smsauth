@@ -5,7 +5,7 @@ require "decidim/sms/twilio/gateway"
 
 module Decidim
   module HelsinkiSmsauth
-    module Verification
+    module Verifications
       class AuthorizationForm < Decidim::AuthorizationHandler
         attribute :phone_number, String
         attribute :school, String
