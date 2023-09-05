@@ -66,10 +66,14 @@ module Decidim
         end
 
         def school_info
+          enforce_permission_to :update, :authorization, authorization: authorization
+
           @form = form(::Decidim::HelsinkiSmsauth::SchoolMetadataForm).instance
         end
 
         def school_validation
+          enforce_permission_to :update, :authorization, authorization: authorization
+
           @form = form(::Decidim::HelsinkiSmsauth::SchoolMetadataForm).from_params(params)
           ValidateSchoolInfo.call(@form, authorization) do
             on(:ok) do
@@ -101,6 +105,26 @@ module Decidim
             on(:ok) do
               flash[:notice] = t("authorizations.destroy.success", scope: "decidim.verifications.sms")
               redirect_to action: :new
+            end
+          end
+        end
+
+        def access_code
+          enforce_permission_to :update, :authorization, authorization: authorization
+
+          @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).instance
+        end
+
+        def access_code_validation
+          @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).from_params(params.merge({ current_locale: current_locale, organization: current_organization }))
+          ValidateAccessCode.call(@form, authorization, current_user) do
+            on(:ok) do
+              handle_redirect
+            end
+
+            on(:invalid) do
+              flash[:error] = t("update.incorrect", scope: "decidim.helsinki_smsauth.verification.authorizations")
+              redirect_to action: :access_code
             end
           end
         end

@@ -19,6 +19,7 @@ module Decidim
             get :school_info
             post :school_validation
             get :access_code
+            post :access_code_validation
           end
 
           root to: "authorizations#new"

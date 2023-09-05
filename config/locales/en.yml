@@ -112,6 +112,11 @@ en:
             error: An error occurred, please try again
             grade_help: In which grade are you studying?
             submit: Submit
+          access_code:
+            verify: Verify your account with the key given by your teacher
+            enter_access_code: If you cannot identify yourself with a text message, you can ask your teacher for a code that you can use to identify yourself. Enter the code you received in the field shown below.
+            submit: Verify your account
+            return_to_sms_verification: Return to SMS verification
     verifications:
       sms:
         decidim:
