@@ -13,6 +13,12 @@ en:
       user:
         mask_number: Your phone number
   decidim:
+    admin:
+      filters:
+        search_placeholder:
+          decidim_user_id: Creator of the code sets
+        generated_code_amount_lteq:
+          label: To be added
     authorization_handlers:
       helsinki_smsauth_id:
         explanation: Verify yourself using an SMS code.
@@ -74,7 +80,7 @@ en:
           success: "Verification code sent to %{phone}."
           resend: "Verification code resent to %{phone}."
           not_allowed: Please wait at least 1 minute to resend the code.
-        verification:
+        verifications:
           authenticate: Authenticate with SMS
           sign_in: Sign in with SMS
           step_two: Step 2 of 2
@@ -87,7 +93,11 @@ en:
           different_phone_number: use
           already_verified: Your account has already verified
           or: or
-      verification:
+      verifications:
+        admin:
+          signin_code_sets:
+            index:
+              title: SMS alternative access code
         authorizations:
           edit:
             verify: Introduce the verification code you received
