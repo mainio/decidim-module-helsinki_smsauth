@@ -11,6 +11,7 @@ module Decidim
 
           def index
             enforce_permission_to :index, :authorization
+            @collection = collection
           end
 
           private

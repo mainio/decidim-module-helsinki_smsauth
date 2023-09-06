@@ -14,6 +14,15 @@ en:
         mask_number: Your phone number
   decidim:
     admin:
+      models:
+        signin_code_set:
+          fields:
+            creation_time: Creation time
+            creator: Creator
+            school: School
+            class_level: Class level
+            total_codes: Total codes
+            used_codes: Used codes
       filters:
         search_placeholder:
           decidim_user_id: Creator of the code sets
@@ -98,6 +107,11 @@ en:
           signin_code_sets:
             index:
               title: SMS alternative access code
+              generate_codes: Generate codes
+          signin_codes:
+            new:
+              generate_codes: Generate codes
+              generate: Generate
         authorizations:
           edit:
             verify: Introduce the verification code you received

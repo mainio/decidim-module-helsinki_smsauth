@@ -13,6 +13,7 @@ module Decidim
 
         routes do
           resources :signin_code_sets, only: :index
+          resources :signin_codes, only: [:new, :create]
 
           root to: "signin_code_sets#index"
         end

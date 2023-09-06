@@ -3,7 +3,36 @@
   <div class="card-divider">
     <h2 class="card-title">
       <%= t(".title") %>
+      <%= link_to t(".generate_codes"), new_signin_code_path, class: "button tiny button--title" %>
     </h2>
   </div>
-</div>
 <%= admin_filter_selector %>
+<div class="card-section">
+    <div class="table-scroll">
+      <table class="stack table-list">
+        <thead>
+          <tr>
+            <th><%= t("models.signin_code_set.fields.creation_time", scope: "decidim.admin") %></th>
+            <th><%= t("models.signin_code_set.fields.creator", scope: "decidim.admin") %></th>
+            <th><%= t("models.signin_code_set.fields.school", scope: "decidim.admin") %></th>
+            <th><%= t("models.signin_code_set.fields.class_level", scope: "decidim.admin") %></th>
+            <th><%= t("models.signin_code_set.fields.total_codes", scope: "decidim.admin") %></th>
+            <th><%= t("models.signin_code_set.fields.used_codes", scope: "decidim.admin") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @collection.each do |code_set| %>
+            <tr>
+              <td><%= code_set.created_at %><br></td>
+              <td><%= code_set.creator.name %><br></td>
+              <td><%= code_set.metadata["school"] %><br></td>
+              <td><%= code_set.metadata["grade"] %><br></td>
+              <td><%= code_set.generated_code_amount %><br></td>
+              <td><%= code_set.used_code_amount %><br></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
