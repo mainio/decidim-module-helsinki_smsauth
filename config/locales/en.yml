@@ -122,7 +122,11 @@ en:
               success: Access codes successfully generated!
               error: Something went wrong! Please try again later.
             view_generated_codes:
-              notice:
+              access_codes: Access codes
+              download_as_csv: Download CSV
+              download_as_xlsx: Download XLSX
+              access_code: Access code
+              continue: Continue
         authorizations:
           edit:
             verify: Introduce the verification code you received

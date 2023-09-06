@@ -1,0 +1,32 @@
+<% add_decidim_page_title(t(".access_codes")) %>
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title">
+      <%= t(".access_codes") %>
+      <%= link_to t(".download_as_csv"), signin_codes_path, class: "button tiny button--title" %>
+      <%= link_to t(".download_as_xlsx"), signin_codes_path, class: "button tiny button--title" %>
+    </h2>
+  </div>
+  <div class="card-section">
+      <div class="table-scroll">
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th class="float-left"><%= t(".access_code") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @codes&.each do |code| %>
+              <tr>
+                <td class="float-left"><%= code %><br></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="button--double form-general-submit">
+    <%= link_to t(".continue"), signin_codes_path, class: "button" %>
+  </div>
+</div>

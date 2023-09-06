@@ -15,7 +15,7 @@ module Decidim
           resources :signin_code_sets, only: :index
           resources :signin_codes, only: [:new, :create]
 
-          get :view_generated_codes
+          get "view_generated_codes", to: "signin_codes#view_generated_codes", as: :view_generated_codes
 
           root to: "signin_code_sets#index"
         end
