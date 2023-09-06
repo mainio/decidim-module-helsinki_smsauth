@@ -6,25 +6,28 @@ module Decidim
       belongs_to :signin_code_set, foreign_key: "decidim_signin_code_set_id", class_name: "::Decidim::HelsinkiSmsauth::SigninCodeSet"
 
       validates :code_hash, uniqueness: true, if: -> { code_hash.present? }
-      before_save :generate
+      before_save :generate!
       after_destroy :increment_used_codes
 
-      private
-
-      def generate
+      # generate method should be public, since it should be accessible by GenerateAccessCode
+      # class, to be able to retrieve the codes being generated. Otherwise, after generating the
+      # code, we can not retrieve the random code to be shown to the user.
+      def generate!
         return if code_hash.present?
 
         loop do
-          digest = "#{random_code}-#{Rails.application.secrets.secret_key_base}"
+          digest = "#{generated_code}-#{Rails.application.secrets.secret_key_base}"
           self.code_hash = Digest::MD5.hexdigest(digest)
           if ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash: code_hash).blank?
             save!
-            break
+            return generated_code
           end
         end
       end
 
-      def random_code(code_length = 10)
+      private
+
+      def generated_code(code_length = 10)
         characters = ("0".."9").to_a + ("A".."Z").to_a
         characters.sample(code_length).join
       end

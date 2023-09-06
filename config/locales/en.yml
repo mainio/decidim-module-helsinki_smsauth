@@ -29,6 +29,10 @@ en:
         generated_code_amount_lteq:
           label: To be added
     authorization_handlers:
+      admin:
+        helsinki_smsauth_id:
+          help:
+          - Admins generates the access codes for the teachers based on their classes
       helsinki_smsauth_id:
         explanation: Verify yourself using an SMS code.
         fields:
@@ -110,8 +114,15 @@ en:
               generate_codes: Generate codes
           signin_codes:
             new:
+              title: Generate codes
+              cancel: Cancel
               generate_codes: Generate codes
               generate: Generate
+            create:
+              success: Access codes successfully generated!
+              error: Something went wrong! Please try again later.
+            view_generated_codes:
+              notice:
         authorizations:
           edit:
             verify: Introduce the verification code you received

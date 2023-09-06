@@ -10,7 +10,7 @@ module Decidim
           attribute :generate_code_amount, Integer
           attribute :school, String
           attribute :grade, Integer
-          attribute :user, String
+          attribute :user, Decidim::User
 
           validates :generate_code_amount, numericality: { greater_than: 0 }
           validates :generate_code_amount, numericality: { less_than: 100 }
