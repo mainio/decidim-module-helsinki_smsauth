@@ -16,6 +16,8 @@ module Decidim
           resources :signin_codes, only: [:new, :create]
 
           get "view_generated_codes", to: "signin_codes#view_generated_codes", as: :view_generated_codes
+          get "generate_csv_file", to: "signin_codes#generate_csv_file", as: :generate_csv_file
+          get "generate_xlsx_file", to: "signin_codes#generate_xlsx_file", as: :generate_xlsx_file
 
           root to: "signin_code_sets#index"
         end

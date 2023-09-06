@@ -4,6 +4,8 @@ module Decidim
   module HelsinkiSmsauth
     module Verifications
       module Admin
+        require "csv"
+        require "rubyXL"
         class SigninCodesController < Decidim::Admin::ApplicationController
           layout "decidim/admin/users"
 
@@ -29,6 +31,40 @@ module Decidim
           def view_generated_codes
             @codes = generated_codes_session
             remove_generated_codes_session
+          end
+
+          def generate_csv_file
+            codes = params[:codes]
+
+            csv_data = CSV.generate(headers: true) do |csv|
+              csv << [I18n.t(".access_codes", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes")]
+              codes.each do |code|
+                csv << [code]
+              end
+            end
+
+            respond_to do |format|
+              format.csv { send_data csv_data, file_name: "csv_codes_#{Time.current.strftime("%Y%m%d%H%M%S")}.csv" }
+            end
+          end
+
+          def generate_xlsx_file
+            codes = params[:codes]
+
+            workbook = RubyXL::Workbook.new
+            sheet = workbook[0]
+            sheet.add_cell(0, 0, I18n.t(".access_codes", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes"))
+
+            codes.each_with_index do |row, rowi|
+              sheet.add_cell(rowi + 1, 0, row)
+            end
+
+            respond_to do |format|
+              format.xlsx do
+                # Generate XLSX data from the workbook and send it as a file
+                send_data workbook.stream.string, type: "application/xlsx", filename: "xlsx_codes_#{Time.current.strftime("%Y%m%d%H%M%S")}.xlsx"
+              end
+            end
           end
 
           private

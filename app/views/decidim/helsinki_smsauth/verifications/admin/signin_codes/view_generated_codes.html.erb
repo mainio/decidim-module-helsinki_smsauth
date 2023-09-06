@@ -3,8 +3,10 @@
   <div class="card-divider">
     <h2 class="card-title">
       <%= t(".access_codes") %>
-      <%= link_to t(".download_as_csv"), signin_codes_path, class: "button tiny button--title" %>
-      <%= link_to t(".download_as_xlsx"), signin_codes_path, class: "button tiny button--title" %>
+      <%# unless @codes.empty? %>
+        <%= link_to t(".download_as_csv"), generate_csv_file_path(codes: @codes, format: :csv), class: "button tiny button--title" %>
+        <%= link_to t(".download_as_xlsx"), generate_xlsx_file_path(codes: @codes, format: "xlsx"), class: "button tiny button--title" %>
+      <%# end %>
     </h2>
   </div>
   <div class="card-section">

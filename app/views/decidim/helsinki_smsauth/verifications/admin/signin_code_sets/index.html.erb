@@ -25,7 +25,7 @@
             <tr>
               <td><%= code_set.created_at %><br></td>
               <td><%= code_set.creator.name %><br></td>
-              <td><%= code_set.metadata["school"] %><br></td>
+              <td><%= school_name(code_set.metadata["school"]) %><br></td>
               <td><%= code_set.metadata["grade"] %><br></td>
               <td><%= code_set.generated_code_amount %><br></td>
               <td><%= code_set.used_code_amount %><br></td>
