@@ -11,7 +11,7 @@ module Decidim
 
           def index
             enforce_permission_to :index, :authorization
-            @collection = collection
+            @collection
           end
 
           private
@@ -20,12 +20,8 @@ module Decidim
             @collection ||= Decidim::HelsinkiSmsauth::SigninCodeSet.all
           end
 
-          def ideas
-            @signin_code_sets ||= filtered_collection
-          end
-
           def school_name(school_code)
-            Decidim::HelsinkiSmsauth::SchoolMetadata.school_name(school_code)
+            ::Decidim::HelsinkiSmsauth::SchoolMetadata.school_name(school_code)
           end
         end
       end

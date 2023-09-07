@@ -15,7 +15,7 @@ module Decidim
       validates :grade, numericality: { greater_than: 0 }
 
       def valid_schools
-        SchoolMetadata.school_options.map { |data| data[1] }
+        SchoolMetadata.school_options
       end
     end
   end

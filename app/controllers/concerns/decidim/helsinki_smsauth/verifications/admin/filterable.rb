@@ -15,25 +15,25 @@ module Decidim
             private
 
             def base_query
-              collection.order(start_time: :desc)
+              collection
             end
 
-            def filters
-              [
-                :generated_code_amount_lteq,
-                :creator_present
-              ]
-            end
+            # def filters
+            #   [
+            #     :generated_code_amount_lteq,
+            #     :creator_cont
+            #   ]
+            # end
 
             def search_field_predicate
-              :decidim_user_id
+              :creator_name_or_metadata_school_cont
             end
 
-            def filters_with_values
-              {
-                generated_code_amount_lteq: :used_code_amount
-              }
-            end
+            # def filters_with_values
+            #   {
+            #     generated_code_amount_lteq: :used_code_amount
+            #   }
+            # end
           end
         end
       end

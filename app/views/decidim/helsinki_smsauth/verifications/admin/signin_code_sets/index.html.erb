@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @collection.each do |code_set| %>
+          <% @collection&.each do |code_set| %>
             <tr>
               <td><%= code_set.created_at %><br></td>
               <td><%= code_set.creator.name %><br></td>
