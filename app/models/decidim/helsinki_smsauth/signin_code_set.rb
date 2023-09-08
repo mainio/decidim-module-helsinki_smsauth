@@ -4,7 +4,6 @@ module Decidim
   module HelsinkiSmsauth
     class SigninCodeSet < ApplicationRecord
       include Decidim::FilterableResource
-      include Decidim::Searchable
 
       attribute :metadata, type: :hash
 
