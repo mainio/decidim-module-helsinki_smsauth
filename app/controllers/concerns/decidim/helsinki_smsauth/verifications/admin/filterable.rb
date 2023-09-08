@@ -10,30 +10,27 @@ module Decidim
           included do
             include Decidim::Admin::Filterable
 
-            helper Decidim::Meetings::Admin::FilterableHelper
-
             private
 
             def base_query
               collection
             end
 
-            # def filters
-            #   [
-            #     :generated_code_amount_lteq,
-            #     :creator_cont
-            #   ]
-            # end
+            def filters
+              [
+                :has_unused_codes_eq
+              ]
+            end
 
             def search_field_predicate
               :creator_name_or_metadata_school_cont
             end
 
-            # def filters_with_values
-            #   {
-            #     generated_code_amount_lteq: :used_code_amount
-            #   }
-            # end
+            def filters_with_values
+              {
+                has_unused_codes_eq: [true, false]
+              }
+            end
           end
         end
       end

@@ -24,10 +24,14 @@ en:
             total_codes: Total codes
             used_codes: Used codes
       filters:
+        signin_code_sets:
+          has_unused_codes_eq:
+            label: Has unused codes
+            values:
+              "true": "Yes"
+              "false": "No"
         search_placeholder:
           creator_name_or_metadata_school_cont: Creator or name of the school
-        generated_code_amount_lteq:
-          label: To be added
     authorization_handlers:
       admin:
         helsinki_smsauth_id:

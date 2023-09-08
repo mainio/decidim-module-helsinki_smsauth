@@ -6,22 +6,26 @@ module Decidim
       module Admin
         class SigninCodeSetsController < Decidim::Admin::ApplicationController
           include Decidim::HelsinkiSmsauth::Verifications::Admin::Filterable
-          helper_method :school_name
           layout "decidim/admin/users"
+
+          helper_method :sets
 
           def index
             enforce_permission_to :index, :authorization
-            @collection
+            @collection = paginate(collection)
           end
 
           private
 
-          def collection
-            @collection ||= Decidim::HelsinkiSmsauth::SigninCodeSet.all
+          def sets
+            @sets ||= filtered_collection
           end
 
-          def school_name(school_code)
-            ::Decidim::HelsinkiSmsauth::SchoolMetadata.school_name(school_code)
+          def collection
+            @collection = ::Decidim::HelsinkiSmsauth::SigninCodeSet.all
+            return filtered_collection.where("generated_code_amount < 0") if ransack_params[:generated_code_amount_not_eq].present?
+
+            @collection
           end
         end
       end

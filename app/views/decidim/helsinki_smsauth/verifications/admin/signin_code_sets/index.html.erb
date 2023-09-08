@@ -6,7 +6,7 @@
       <%= link_to t(".generate_codes"), new_signin_code_path, class: "button tiny button--title" %>
     </h2>
   </div>
-<%= admin_filter_selector %>
+<%= admin_filter_selector(:signin_code_sets) %>
 <div class="card-section">
     <div class="table-scroll">
       <table class="stack table-list">
@@ -21,16 +21,18 @@
           </tr>
         </thead>
         <tbody>
-          <% @collection&.each do |code_set| %>
+        <% if sets.any? %>
+          <% sets.each do |code_set| %>
             <tr>
               <td><%= code_set.created_at %><br></td>
               <td><%= code_set.creator.name %><br></td>
-              <td><%= school_name(code_set.metadata["school"]) %><br></td>
+              <td><%= code_set.metadata["school"] %><br></td>
               <td><%= code_set.metadata["grade"] %><br></td>
               <td><%= code_set.generated_code_amount %><br></td>
               <td><%= code_set.used_code_amount %><br></td>
             </tr>
           <% end %>
+        <% end %>
         </tbody>
       </table>
     </div>
