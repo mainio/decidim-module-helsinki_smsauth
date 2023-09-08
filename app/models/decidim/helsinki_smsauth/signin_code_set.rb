@@ -13,12 +13,6 @@ module Decidim
       validates :generated_code_amount, numericality: { greater_than: 0 }
       validates :used_code_amount, numericality: { greater_than_or_equal_to: 0 }
 
-      # TODO: Store the school codes and search the school codes matching the
-      #       given search string.
-      ransacker :metadata_school do
-        Arel.sql(%((#{table_name}.metadata->>'school')::text))
-      end
-
       ransacker :has_unused_codes do
         Arel.sql(%((#{table_name}.used_code_amount < #{table_name}.generated_code_amount)::boolean))
       end

@@ -182,8 +182,8 @@ module Decidim
 
       def self.school_options
         [].tap do |array|
-          MAPPING.map do |_key, value|
-            array << value[:name]
+          MAPPING.map do |key, value|
+            array << [value[:name], key]
           end
         end
       end

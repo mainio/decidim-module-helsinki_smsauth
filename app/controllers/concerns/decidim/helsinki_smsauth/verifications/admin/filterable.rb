@@ -23,7 +23,7 @@ module Decidim
             end
 
             def search_field_predicate
-              :creator_name_or_metadata_school_cont
+              :creator_name_cont
             end
 
             def filters_with_values

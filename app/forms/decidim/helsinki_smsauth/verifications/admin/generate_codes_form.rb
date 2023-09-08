@@ -18,7 +18,7 @@ module Decidim
           validates :user, presence: true
 
           def valid_schools
-            Decidim::HelsinkiSmsauth::SchoolMetadata.school_options
+            Decidim::HelsinkiSmsauth::SchoolMetadata.school_options.map { |data| data[1] }
           end
         end
       end

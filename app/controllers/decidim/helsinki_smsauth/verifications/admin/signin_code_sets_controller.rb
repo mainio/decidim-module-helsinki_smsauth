@@ -8,7 +8,7 @@ module Decidim
           include Decidim::HelsinkiSmsauth::Verifications::Admin::Filterable
           layout "decidim/admin/users"
 
-          helper_method :sets
+          helper_method :sets, :school_name
 
           def index
             enforce_permission_to :index, :authorization
@@ -18,14 +18,35 @@ module Decidim
           private
 
           def sets
-            @sets ||= filtered_collection
+            @sets ||= (filtered_collection + school_matches).uniq
+            # @sets ||= filtered_collection
           end
 
           def collection
-            @collection = ::Decidim::HelsinkiSmsauth::SigninCodeSet.all
-            return filtered_collection.where("generated_code_amount < 0") if ransack_params[:generated_code_amount_not_eq].present?
+            ::Decidim::HelsinkiSmsauth::SigninCodeSet.all
+          end
 
-            @collection
+          def school_name(code)
+            Decidim::HelsinkiSmsauth::SchoolMetadata.school_name(code)
+          end
+
+          def school_matches
+            collection.select { |code_set| school_selections&.include?(code_set.metadata["school"]) }
+          end
+
+          def school_selections
+            @school_selections ||= if ransack_params[:creator_name_cont].blank?
+                                     nil
+                                   else
+                                     find_schools(ransack_params[:creator_name_cont])
+                                   end
+          end
+
+          def find_schools(query)
+            schools = Decidim::HelsinkiSmsauth::SchoolMetadata.school_options
+            schools.select { |opt| opt[0].include?(query) }.map do |_key, val|
+              val
+            end
           end
         end
       end
