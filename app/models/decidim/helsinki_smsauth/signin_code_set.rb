@@ -16,7 +16,7 @@ module Decidim
       # TODO: Store the school codes and search the school codes matching the
       #       given search string.
       ransacker :metadata_school do
-        Arel.sql(%{("#{table_name}.metadata->>'school'")::text})
+        Arel.sql(%((#{table_name}.metadata->>'school')::text))
       end
 
       ransacker :has_unused_codes do
