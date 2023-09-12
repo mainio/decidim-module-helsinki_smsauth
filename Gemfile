@@ -23,7 +23,8 @@ gem "faker", "~> 2.14"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
-  gem "decidim-sms-twilio", github: "Pipeline-to-Power/decidim-module-ptp", branch: "main"
+  # gem "decidim-sms-twilio", github: "mainio/decidim-sms-telia", branch: "main"
+  gem "decidim-sms-telia", path: "../decidim-sms-telia"
 end
 
 group :development do
