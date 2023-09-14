@@ -18,6 +18,7 @@ module Decidim
       def country_code_prefix
         country_code_hash[:code]
       end
+
       private
 
       attr_reader :phone_number
