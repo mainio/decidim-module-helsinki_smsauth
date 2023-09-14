@@ -42,6 +42,8 @@ en:
         explanation: Verify yourself using an SMS code.
         fields:
           phone_number: Phone number
+          grade: School grade
+          school: School name
         name: SMS alterative access codes
     helsinki_smsauth:
       devise:
@@ -98,7 +100,7 @@ en:
           success: "Verification code sent to %{phone}."
           resend: "Verification code resent to %{phone}."
           not_allowed: Please wait at least 1 minute to resend the code.
-        verifications:
+        verification:
           authenticate: Authenticate with SMS
           sign_in: Sign in with SMS
           step_two: Step 2 of 2
@@ -153,7 +155,7 @@ en:
             required_fields: "*Required fields are marked with an asterisk"
             submit: Complete your account
             school_info: You have successfully verified your account. Now you need to enter your school information
-            error: An error occurred, please try again
+            error: An error occurred, please try again, or contact the administrator if error persisted
             grade_help: In which grade are you studying?
             submit: Submit
           access_code:
@@ -161,6 +163,17 @@ en:
             enter_access_code: If you cannot identify yourself with a text message, you can ask your teacher for a code that you can use to identify yourself. Enter the code you received in the field shown below.
             submit: Verify your account
             return_to_sms_verification: Return to SMS verification
+      verification:
+        authorizations:
+          school_info:
+            omastadi: Omastadi
+            enter_your_information: Enter your information
+            required_fields: "*Required fields are marked with an asterisk"
+            submit: Complete your account
+            school_info: You have successfully verified your account. Now you need to enter your school information
+            error: An error occurred, please try again, or contact the administrator if error persisted
+            grade_help: In which grade are you studying?
+            submit: Submit
     verifications:
       sms:
         decidim:
