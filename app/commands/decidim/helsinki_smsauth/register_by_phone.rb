@@ -3,8 +3,6 @@
 module Decidim
   module HelsinkiSmsauth
     class RegisterByPhone < Decidim::Command
-      include Decidim::Sms::Twilio::TokenGenerator
-
       def initialize(form)
         @form = form
       end
@@ -33,7 +31,7 @@ module Decidim
 
           record.skip_confirmation!
 
-          record.phone_number = form.phone_number
+          record.phone_number = formatted_phone_number
           record.tos_agreement = "1"
           record.organization = form.organization
           record.newsletter_notifications_at = Time.current
@@ -44,6 +42,10 @@ module Decidim
 
       def generate_email
         EmailGenerator.new(form.organization, iso_country_name, form.phone_number).generate
+      end
+
+      def formatted_phone_number
+        PhoneNumberFormatter.new(form.phone_number).format
       end
 
       def iso_country_name

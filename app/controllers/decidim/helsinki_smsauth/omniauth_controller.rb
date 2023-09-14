@@ -42,7 +42,7 @@ module Decidim
         # in the test, and development environment, and with the Twilio gateway installation,
         # we have to set the organization to nil, since the delivery report can not be sent to the
         # localhost. However, we should set this to the current_organization if production
-        ::Decidim::HelsinkiSmsauth::SendVerificationCode.call(@form, organization: set_organization) do
+        ::Decidim::HelsinkiSmsauth::SendVerificationCode.call(@form, organization: current_organization) do
           on(:ok) do |result|
             generate_sessions!(result)
             flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
@@ -96,14 +96,14 @@ module Decidim
         @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization))
         update_sessions!(school: @form.school, grade: @form.grade)
         user = find_user!
-        sign_in_and_redirect user, event: :authentication if user
-
+        sign_in_and_redirect user, event: :authentication if user.present?
         RegisterByPhone.call(@form) do
           on(:ok) do |new_user|
             flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.school_info")
             sign_in_and_redirect new_user, event: :authentication
           end
-          on(:invalid) do
+          on(:error) do |_error|
+            # TODO: ADD LOG
             flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.school_info")
             render action: "school_info"
           end
@@ -117,7 +117,7 @@ module Decidim
 
         @form = OmniauthForm.from_params(params)
 
-        SendVerificationCode.call(@form, organization: set_organization) do
+        SendVerificationCode.call(@form, organization: current_organization) do
           on(:ok) do |result|
             update_sessions!(verification_code: result, sent_at: Time.current)
             flash[:notice] = I18n.t(".resend", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
@@ -252,12 +252,6 @@ module Decidim
         session[:authentication_attempt].transform_keys(&:to_s)
       end
 
-      def set_organization
-        return nil if Rails.env.test? || Rails.env.development?
-
-        current_organization
-      end
-
       def resend_code_allowed?
         auth_session.present? &&
           auth_session["sent_at"] < 1.minute.ago
@@ -302,7 +296,7 @@ module Decidim
 
       def find_user!
         Decidim::User.find_by(
-          phone_number: default_params[:phone_number],
+          phone_number: PhoneNumberFormatter.new(default_params[:phone_number]).format,
           organization: current_organization
         )
       end
