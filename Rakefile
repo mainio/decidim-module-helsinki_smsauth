@@ -4,7 +4,6 @@ require "decidim/dev/common_rake"
 
 def install_module(path)
   Dir.chdir(path) do
-    system("bundle exec rake decidim_sms_twilio:install:migrations")
     system("bundle exec rake decidim_helsinki_smsauth:install:migrations")
     system("bundle exec rake db:migrate")
   end
