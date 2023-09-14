@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require "decidim/sms/twilio/gateway"
+
+require "decidim/sms/telia/gateway"
 
 module Decidim
   module HelsinkiSmsauth
@@ -43,10 +44,11 @@ module Decidim
           begin
             phone_number = phone_with_country_code(form.phone_number)
             code = generate_code
-            if Decidim.config.sms_gateway_service == "Decidim::Sms::Twilio::Gateway"
-              Decidim.config.sms_gateway_service.constantize.new(phone_number, code, organization: organization)
+            gateway = Decidim.config.sms_gateway_service.constantize
+            if gateway.instance_method(:initialize).parameters.length > 2
+              gateway.new(phone_number, code, organization: organization)
             else
-              Decidim.config.sms_gateway_service.constantize.new(phone_number, code)
+              gateway.new(phone_number, code)
             end
           end
       end
