@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "securerandom"
-require "decidim/sms/twilio/gateway"
+require "decidim/sms/telia/gateway"
 
 module Decidim
   module HelsinkiSmsauth
@@ -42,7 +42,7 @@ module Decidim
 
         def metadata
           {
-            phone_number: phone_number,
+            phone_number: phone_with_country_code,
             school: school,
             grade: grade
           }
@@ -54,10 +54,11 @@ module Decidim
           @gateway ||=
             begin
               mobile_number = phone_with_country_code
-              if Decidim.config.sms_gateway_service == "Decidim::Sms::Twilio::Gateway"
-                Decidim.config.sms_gateway_service.constantize.new(mobile_number, generated_code, organization: organization)
+              gateway = Decidim.config.sms_gateway_service.constantize
+              if gateway.instance_method(:initialize).parameters.length > 2
+                gateway.new(mobile_number, generated_code, organization: organization)
               else
-                Decidim.config.sms_gateway_service.constantize.new(mobile_number, generated_code)
+                gateway.new(mobile_number, generated_code)
               end
             end
         end
