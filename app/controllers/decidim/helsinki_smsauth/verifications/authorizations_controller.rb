@@ -24,7 +24,7 @@ module Decidim
           # but did not finish it (i.e. the authorization is "pending").
           enforce_permission_to :update, :authorization, authorization: authorization
 
-          @form = AuthorizationForm.from_params(params.merge(user: current_user).merge(school: nil, grade: nil))
+          @form = AuthorizationForm.from_params(params.merge(user: current_user, school: nil, grade: nil, organization: current_organization))
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
             on(:ok) do
               update_attempt_session
