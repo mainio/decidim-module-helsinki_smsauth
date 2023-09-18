@@ -22,7 +22,7 @@ module Decidim
         @verification_code = auth_session["verification_code"]
 
         VerifyMobilePhone.call(@form, auth_session) do
-          on(:ok) do |_result|
+          on(:ok) do
             update_authorization!(current_user, auth_session)
             update_user!(current_user)
             reset_auth_session
@@ -43,14 +43,18 @@ module Decidim
         # we have to set the organization to nil, since the delivery report can not be sent to the
         # localhost. However, we should set this to the current_organization if production
         ::Decidim::HelsinkiSmsauth::SendVerificationCode.call(@form, organization: current_organization) do
-          on(:ok) do |result|
+          on(:ok) do |result, notice|
             generate_sessions!(result)
-            flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
+            if notice.present?
+              flash[:alert] = I18n.t(".server_busy", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
+            else
+              flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
+            end
             redirect_to action: "verification"
           end
 
-          on(:invalid) do |error_code|
-            flash.now[:alert] = sms_sending_error(error_code)
+          on(:invalid) do
+            flash[:alert] = I18n.t(".generic_error", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
             render action: "new"
           end
         end
@@ -169,18 +173,18 @@ module Decidim
 
       private
 
-      def sms_sending_error(error_code)
-        case error_code
-        when :invalid_to_number
-          I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-        when :invalid_geo_permission
-          I18n.t(".invalid_geo_permission", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-        when :invalid_from_number
-          I18n.t(".invalid_from_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-        else
-          I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-        end
-      end
+      # def generate_error(error_code)
+      #   raise error_code.inspect
+      #   case error_code
+      #   when :invalid_to_number
+      #     I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+      #   when :destination_blacklist
+
+      #     I18n.t(".generic_error", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+      #   else
+      #     I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+      #   end
+      # end
 
       def authorize_user(user)
         authorize_user!(user)
