@@ -7,3 +7,4 @@ Decidim::Webpacker.register_entrypoints(
   decidim_helsinki_smsauth: "#{base_path}/app/packs/entrypoints/decidim_helsinki_smsauth.js",
   decidim_newsletter_checkbox: "#{base_path}/app/packs/entrypoints/decidim_newsletter_checkbox.js"
 )
+Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/helsinki_smsauth/helsinki_smsauth")
