@@ -18,10 +18,7 @@ module Decidim
         loop do
           digest = "#{generated_code}-#{Rails.application.secrets.secret_key_base}"
           self.code_hash = Digest::MD5.hexdigest(digest)
-          if ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash: code_hash).blank?
-            save!
-            return generated_code
-          end
+          return generated_code if ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash: code_hash).blank?
         end
       end
 

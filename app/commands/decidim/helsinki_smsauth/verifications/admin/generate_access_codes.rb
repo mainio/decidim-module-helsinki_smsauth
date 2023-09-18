@@ -48,7 +48,15 @@ module Decidim
 
           def create_access_code
             code_instance = ::Decidim::HelsinkiSmsauth::SigninCode.new(signin_code_set: @signin_code_set)
-            code_instance.generate!
+            code_hash = code_instance.generate!
+            code_instance.code_hash = encrypt_hash(code_hash)
+            code_instance.save!
+            code_hash
+          end
+
+          def encrypt_hash(code)
+            digest = "#{code}-#{Rails.application.secrets.secret_key_base}"
+            code_instance.code_hash = Digest::MD5.hexdigest(digest)
           end
         end
       end
