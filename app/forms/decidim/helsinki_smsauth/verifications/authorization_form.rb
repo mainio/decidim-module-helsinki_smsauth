@@ -84,19 +84,21 @@ module Decidim
           @verification_code = generated_code
         rescue Decidim::Sms::GatewayError => e
           @gateway_error_code = e.error_code
+          return if @gateway_error_code == :server_busy
+
           errors.add(:base, sms_sending_error(@gateway_error_code))
         end
 
         def sms_sending_error(error_code)
           case error_code
           when :invalid_to_number
-            I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.sms.send_message.error")
-          when :invalid_geo_permission
-            I18n.t(".invalid_geo_permission", scope: "decidim.helsinki_smsauth.omniauth.sms.send_message.error")
-          when :invalid_from_number
-            I18n.t(".invalid_from_number", scope: "decidim.helsinki_smsauth.omniauth.sms.send_message.error")
+            I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+          when :destination_whitelist
+            I18n.t(".destination_whitelist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+          when :destination_blacklist
+            I18n.t(".destination_blacklist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
           else
-            I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.sms.send_message.error")
+            I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
           end
         end
       end

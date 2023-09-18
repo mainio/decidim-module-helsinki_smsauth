@@ -56,7 +56,7 @@ module Decidim
 
           def encrypt_hash(code)
             digest = "#{code}-#{Rails.application.secrets.secret_key_base}"
-            code_instance.code_hash = Digest::MD5.hexdigest(digest)
+            Digest::MD5.hexdigest(digest)
           end
         end
       end
