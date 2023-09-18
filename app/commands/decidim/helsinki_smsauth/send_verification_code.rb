@@ -17,12 +17,13 @@ module Decidim
       def call
         return broadcast(:invalid) if @form.invalid?
 
-        begin
-          result = send_verification!
-          return broadcast(:invalid, @gateway_error_code) unless result
-
-          broadcast(:ok, result)
+        result = send_verification!
+        unless result
+          form.errors.add(:base, sms_sending_error(@gateway_error_code))
+          return broadcast(:invalid)
         end
+
+        broadcast(:ok, result, @gateway_error_code)
       end
 
       private
@@ -36,7 +37,24 @@ module Decidim
       rescue Decidim::Sms::GatewayError => e
         @gateway_error_code = e.error_code
 
+        # This is the special case, where we want to inform the user that
+        # their message has been queued because of the server busy
+        return gateway.code if @gateway_error_code == :server_busy
+
         false
+      end
+
+      def sms_sending_error(error_code)
+        case error_code
+        when :invalid_to_number
+          I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+        when :destination_whitelist
+          I18n.t(".destination_whitelist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+        when :destination_blacklist
+          I18n.t(".destination_blacklist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+        else
+          I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+        end
       end
 
       def gateway
