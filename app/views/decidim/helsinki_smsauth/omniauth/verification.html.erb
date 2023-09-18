@@ -14,7 +14,7 @@
         <%= decidim_form_for(@form, url: current_user ? users_auth_sms_update_path : users_auth_sms_authenticate_user_path, method: :post) do |form| %>
           <div class="row">
             <%= render partial: "development_hint" if Rails.env.development? || Rails.env.test? %>
-              <%= form.text_field :verification %>
+              <%= form.text_field :verification, autocomplete: "off" %>
           </div>
           <div class="row">
             <div class="columns large-centered">
