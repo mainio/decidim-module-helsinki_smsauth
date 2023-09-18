@@ -93,11 +93,13 @@ en:
           grade_help: In which grade are you studying?
         send_message:
           error:
-            invalid_from_number: The sender number is not correctly configured or is not able to send messages. Please contact the platform support for further help.
-            invalid_geo_permission: The system is not configured to send messages to your country. Please contact the platform support for further help.
-            invalid_to_number: The phone number you provided is not correct. Please check that you entered your phone number correctly.
+            generic_error: SMS sending failed.
+            destination_blacklist: Error 'POL3007':The gateway is not able to send message to this number. Please contact the platform support for further help.
+            destination_whitelist: "Error 'POL3006': The system is not configured to send messages to your country. Please contact the platform support for further help."
+            invalid_to_number: "Error 'POL3101': The phone number you provided is not correct. Please check that you entered your phone number correctly."
             unknown: An error occurred which has been logged, please try again. If the error persists, please contact the platform support for further help.
           success: "Verification code sent to %{phone}."
+          server_busy: We are experiencing a flux of request. We will send the code as soon as possible. However, if you don't receive the code, please retry again.
           resend: "Verification code resent to %{phone}."
           not_allowed: Please wait at least 1 minute to resend the code.
         verification:
