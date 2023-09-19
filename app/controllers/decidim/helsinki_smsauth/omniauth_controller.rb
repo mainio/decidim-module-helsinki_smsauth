@@ -97,13 +97,13 @@ module Decidim
       end
 
       def user_registry
-        @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization))
-        update_sessions!(school: @form.school, grade: @form.grade)
         user = find_user!
-        sign_in_and_redirect user, event: :authentication if user.present?
+        @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization, user: user))
+
         RegisterByPhone.call(@form) do
           on(:ok) do |new_user|
             flash[:notice] = I18n.t(".success", scope: "decidim.helsinki_smsauth.omniauth.school_info")
+            update_sessions!(school: @form.school, grade: @form.grade)
             sign_in_and_redirect new_user, event: :authentication
           end
           on(:error) do |_error|
@@ -172,19 +172,6 @@ module Decidim
       end
 
       private
-
-      # def generate_error(error_code)
-      #   raise error_code.inspect
-      #   case error_code
-      #   when :invalid_to_number
-      #     I18n.t(".invalid_to_number", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-      #   when :destination_blacklist
-
-      #     I18n.t(".generic_error", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-      #   else
-      #     I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
-      #   end
-      # end
 
       def authorize_user(user)
         authorize_user!(user)

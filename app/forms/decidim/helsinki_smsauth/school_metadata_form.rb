@@ -10,6 +10,7 @@ module Decidim
       attribute :phone_number, String
       attribute :current_locale, String
       attribute :organization, Decidim::Organization
+      attribute :user, Decidim::User
 
       validates :school, :grade, presence: true
 

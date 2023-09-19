@@ -10,8 +10,8 @@ module Decidim
       def call
         return broadcast(:invalid) unless form.valid?
 
-        user = create_user!
-        broadcast(:ok, user)
+        result = update_or_create_user!
+        broadcast(:ok, result)
       rescue ActiveRecord::RecordInvalid => e
         broadcast(:error, e.record)
       end
@@ -19,6 +19,12 @@ module Decidim
       private
 
       attr_reader :form
+
+      def update_or_create_user!
+        return update_user! if form.user.present?
+
+        create_user!
+      end
 
       def create_user!
         generated_password = SecureRandom.hex
@@ -38,6 +44,13 @@ module Decidim
           record.accepted_tos_version = form.organization.tos_version
           record.locale = form.current_locale
         end
+      end
+
+      def update_user!
+        return unless form.user
+
+        form.user.update!(phone_number: formatted_phone_number)
+        form.user
       end
 
       def generate_email
