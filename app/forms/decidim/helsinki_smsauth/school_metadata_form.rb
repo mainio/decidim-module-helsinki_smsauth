@@ -11,6 +11,8 @@ module Decidim
       attribute :current_locale, String
       attribute :organization, Decidim::Organization
 
+      validates :school, :grade, presence: true
+
       validates :school, inclusion: { in: :valid_schools }
       validates :grade, numericality: { greater_than: 0 }
 
