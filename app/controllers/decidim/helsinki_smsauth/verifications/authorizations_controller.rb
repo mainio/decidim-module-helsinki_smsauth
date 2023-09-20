@@ -49,7 +49,7 @@ module Decidim
         def resend_code
           return unless eligible_to?
 
-          @form = AuthorizationForm.from_params(params.merge(user: current_user).merge(authorization_params))
+          @form = AuthorizationForm.from_params(params.merge(user: current_user, organization: current_organization).merge(authorization_params))
 
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
             on(:ok) do

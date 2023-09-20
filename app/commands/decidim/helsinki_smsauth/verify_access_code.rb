@@ -14,7 +14,7 @@ module Decidim
         transaction do
           destroy_access_code!
           create_user!
-          create_code_seesion!
+          create_code_session!
         end
         broadcast(:ok, @user, code_set_hash)
       end
@@ -51,11 +51,24 @@ module Decidim
       end
 
       def record_name
-        "helsinki_smsauth_unnamed_user"
+        I18n.t("decidim.helsinki_smsauth.common.unnamed_user")
       end
 
       def generate_email
-        "helsinki_smsauth_#{prefix}_#{form.access_code}@#{form.organization.host}"
+        "helsinkisms-#{generate_token("#{prefix}_#{form.access_code}")}@#{email_domain}"
+      end
+
+      def email_domain
+        Decidim::HelsinkiSmsauth.auto_email_domain || form.organization.host
+      end
+
+      def generate_token(payload)
+        Digest::MD5.hexdigest(
+          [
+            payload.to_s,
+            Rails.application.secrets.secret_key_base
+          ].join(":")
+        )
       end
 
       def prefix
@@ -73,7 +86,7 @@ module Decidim
         access_code.destroy
       end
 
-      def create_code_seesion!
+      def create_code_session!
         ::Decidim::HelsinkiSmsauth::SigninCodeSession.create!(
           user: @user,
           signin_code_set: access_code.signin_code_set

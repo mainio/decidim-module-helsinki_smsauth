@@ -48,6 +48,12 @@ module Decidim
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
 
+      initializer "decidim_suomifi.mail_interceptors" do
+        ActionMailer::Base.register_interceptor(
+          MailInterceptors::GeneratedRecipientsInterceptor
+        )
+      end
+
       initializer "decidim_helsinki_smsauth.overrides" do |app|
         app.config.to_prepare do
           Decidim::User.include(Decidim::HelsinkiSmsauth::SmsConfirmableUser)

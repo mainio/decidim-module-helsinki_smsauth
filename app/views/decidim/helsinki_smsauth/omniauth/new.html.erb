@@ -1,12 +1,12 @@
 <div class="content">
-  <div class="wraper">
-    <div class="row collapse">
-      <div class="columns large-8 large-centered text-center page-title margin-top-3">
+  <div class="wrapper">
+    <div class="row">
+      <div class="columns large-10 large-centered text-center page-title margin-top-1">
         <h1><%= t(".title") %></h1>
         <%= render partial: "phone_instructions" %>
       </div>
       <div class="row">
-        <div class="columns large-6 medium-centered" id="select-wrapper">
+        <div class="columns medium-10 mediumlarge-8 large-6 medium-centered">
           <div class="card">
             <div class="card__content">
               <%= decidim_form_for(@form, url: users_auth_sms_send_message_path, method: :post) do |form| %>
@@ -14,7 +14,7 @@
               <% end %>
             </div>
           </div>
-          <div class="text-center">
+          <div class="text-center margin-top-2">
             <h3><%= t(".problem_sign_in") %></h3>
             <p><%= t(".explanation") %></p>
             <p><%= link_to t(".another_method"), users_auth_sms_access_code_path, class: "text-center" %></p>

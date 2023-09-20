@@ -11,7 +11,7 @@ module Decidim
       end
 
       def generate
-        "helsinki_smsauth-#{generate_token(token_data)}@#{organization.host}"
+        "helsinkisms-#{generate_token(token_data)}@#{email_domain}"
       end
 
       private
@@ -20,6 +20,10 @@ module Decidim
 
       def token_data
         "#{phone_country}-#{phone_number}"
+      end
+
+      def email_domain
+        Decidim::HelsinkiSmsauth.auto_email_domain || organization.host
       end
 
       def generate_token(payload)

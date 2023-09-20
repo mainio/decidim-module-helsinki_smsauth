@@ -17,7 +17,7 @@ module Decidim
           transaction do
             destroy_access_code!
             update_authorization!
-            create_code_seesion!
+            create_code_session!
           end
           broadcast(:ok)
         end

@@ -5,6 +5,8 @@ module Decidim
     class SchoolMetadataForm < Decidim::Form
       include ::Decidim::FormFactory
 
+      mimic :sms_verification_school_metadata
+
       attribute :school, String
       attribute :grade, Integer
       attribute :phone_number, String

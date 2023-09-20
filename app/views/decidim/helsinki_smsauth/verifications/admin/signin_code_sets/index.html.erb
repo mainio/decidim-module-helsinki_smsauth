@@ -8,33 +8,32 @@
   </div>
 <%= admin_filter_selector(:signin_code_sets) %>
 <div class="card-section">
-    <div class="table-scroll">
-      <table class="stack table-list">
-        <thead>
+  <div class="table-scroll">
+    <table class="stack table-list">
+      <thead>
+        <tr>
+          <th><%= t("models.signin_code_set.fields.creation_time", scope: "decidim.admin") %></th>
+          <th><%= t("models.signin_code_set.fields.creator", scope: "decidim.admin") %></th>
+          <th><%= t("models.signin_code_set.fields.school", scope: "decidim.admin") %></th>
+          <th><%= t("models.signin_code_set.fields.class_level", scope: "decidim.admin") %></th>
+          <th><%= t("models.signin_code_set.fields.total_codes", scope: "decidim.admin") %></th>
+          <th><%= t("models.signin_code_set.fields.used_codes", scope: "decidim.admin") %></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% if sets.any? %>
+        <% sets.each do |code_set| %>
           <tr>
-            <th><%= t("models.signin_code_set.fields.creation_time", scope: "decidim.admin") %></th>
-            <th><%= t("models.signin_code_set.fields.creator", scope: "decidim.admin") %></th>
-            <th><%= t("models.signin_code_set.fields.school", scope: "decidim.admin") %></th>
-            <th><%= t("models.signin_code_set.fields.class_level", scope: "decidim.admin") %></th>
-            <th><%= t("models.signin_code_set.fields.total_codes", scope: "decidim.admin") %></th>
-            <th><%= t("models.signin_code_set.fields.used_codes", scope: "decidim.admin") %></th>
+            <td><%= code_set.created_at %><br></td>
+            <td><%= code_set.creator.name %><br></td>
+            <td><%= school_name(code_set.metadata["school"]) %><br></td>
+            <td><%= code_set.metadata["grade"] %><br></td>
+            <td><%= code_set.generated_code_amount %><br></td>
+            <td><%= code_set.used_code_amount %><br></td>
           </tr>
-        </thead>
-        <tbody>
-        <% if sets.any? %>
-          <% sets.each do |code_set| %>
-            <tr>
-              <td><%= code_set.created_at %><br></td>
-              <td><%= code_set.creator.name %><br></td>
-              <td><%= school_name(code_set.metadata["school"]) %><br></td>
-              <td><%= code_set.metadata["grade"] %><br></td>
-              <td><%= code_set.generated_code_amount %><br></td>
-              <td><%= code_set.used_code_amount %><br></td>
-            </tr>
-          <% end %>
         <% end %>
-        </tbody>
-      </table>
-    </div>
+      <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

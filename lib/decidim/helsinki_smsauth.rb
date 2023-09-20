@@ -5,6 +5,7 @@ require "decidim/helsinki_smsauth/admin"
 require "decidim/helsinki_smsauth/admin_engine"
 require_relative "helsinki_smsauth/authorization"
 require_relative "helsinki_smsauth/verifications"
+require_relative "helsinki_smsauth/mail_interceptors"
 
 module Decidim
   # This namespace holds the logic of the `Smsauth` component. This component
@@ -19,6 +20,13 @@ module Decidim
     # is the country code being used for sending sms
     config_accessor :country_code do
       { country: "FI", code: "+358" }
+    end
+
+    # The auto email domain that is used for the generated account emails. If
+    # this is not set, the organization host will be used and these emails will
+    # not be intercepted.
+    config_accessor :auto_email_domain do
+      nil
     end
   end
 end
