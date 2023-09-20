@@ -9,7 +9,7 @@
       <div class="columns medium-7 large-10 medium-centered">
         <%= decidim_form_for(@form, url: authorization_path(redirect_url: redirect_url), method: :put) do |form| %>
           <div class="row">
-            <%= render partial: "decidim/helsinki_smsauth/omniauth/development_hint" if Rails.env.development? %>
+            <%= render partial: "decidim/helsinki_smsauth/omniauth/development_hint" if Rails.env.development? || Rails.env.test? %>
               <%= form.text_field :verification_code, autocomplete: "off" %>
           </div>
           <div class="row">
