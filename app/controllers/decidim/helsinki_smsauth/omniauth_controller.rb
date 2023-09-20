@@ -72,8 +72,7 @@ module Decidim
         @verification_code = auth_session["verification_code"]
 
         VerifyMobilePhone.call(@form, auth_session) do
-          on(:ok) do |result|
-            update_sessions!(verification_code: result, sent_at: Time.current)
+          on(:ok) do
             user = find_user!
 
             if user && has_school_metadata?(user)
@@ -343,6 +342,7 @@ module Decidim
         args.each do |key|
           return false if authorization.metadata[key.to_s].blank?
         end
+
         true
       end
     end

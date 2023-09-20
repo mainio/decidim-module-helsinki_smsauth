@@ -5,6 +5,8 @@ shared_examples "phone verification process" do
 
   describe "authentication process" do
     it "does the authentication process" do
+      expect(page).to have_content("Do you have problem with SMS authentication?")
+      expect(page).to have_link("Log in with the code given by your teacher", href: "/users/auth/sms/access_code")
       fill_in "Phone number", with: "45887874"
       click_button "Send code via SMS"
       within_flash_messages do
