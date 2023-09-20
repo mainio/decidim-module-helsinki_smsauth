@@ -176,6 +176,8 @@ en:
             error: An error occurred, please try again, or contact the administrator if error persisted
             grade_help: In which grade are you studying?
             submit: Submit
+          update:
+            incorrect: Verification failed. Please try again.
     verifications:
       sms:
         decidim:

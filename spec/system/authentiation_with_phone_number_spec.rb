@@ -4,7 +4,6 @@ require "spec_helper"
 
 describe "authentication with phone number", type: :system do
   let(:organization) { create(:organization) }
-  # let(:auth_metadata) { { "school" => "0004", "grade" => 1, "phone_number" => "+3584551122334" } }
   let(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
 
   include_context "with telia gateway"
@@ -14,7 +13,7 @@ describe "authentication with phone number", type: :system do
     visit_helsinki_smsauth
   end
 
-  it_behaves_like "phone verification process"
+  it_behaves_like "authenticate with phone process"
   describe "log-in with SMS" do
     let(:phone) { 4_551_122_334 }
 

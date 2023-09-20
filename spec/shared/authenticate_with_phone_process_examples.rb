@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples "phone verification process" do
+shared_examples "authenticate with phone process" do
   include_context "with telia gateway"
 
   describe "authentication process" do
