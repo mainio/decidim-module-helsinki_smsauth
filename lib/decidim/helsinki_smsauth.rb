@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "csv"
+require "rubyXL"
+
 require "decidim/helsinki_smsauth/engine"
 require "decidim/helsinki_smsauth/admin"
 require "decidim/helsinki_smsauth/admin_engine"
