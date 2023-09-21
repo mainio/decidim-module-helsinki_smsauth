@@ -10,13 +10,13 @@ module Decidim
           end
 
           def call
-            broadcast(:invalid) unless @form.valid?
+            return broadcast(:invalid) unless @form.valid?
 
             transaction do
               generate_code_set!
               generate_codes!
             end
-            broadcast(:invalid) if @codes.empty?
+            return broadcast(:invalid) if @codes.empty?
 
             broadcast(:ok, @codes)
           end

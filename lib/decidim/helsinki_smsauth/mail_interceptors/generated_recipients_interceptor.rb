@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+module Decidim
+  module HelsinkiSmsauth
+    module MailInterceptors
+      # Prevents sending emails to the auto-generated email addresses.
+      class GeneratedRecipientsInterceptor
+        def self.delivering_email(message)
+          return unless Decidim::HelsinkiSmsauth.auto_email_domain
+
+          # Regexp to match the auto-generated emails
+          regexp = /^helsinkisms-[a-z0-9]{32}@#{Decidim::HelsinkiSmsauth.auto_email_domain}$/
+
+          # Remove the auto-generated email from the message recipients
+          message.to = message.to.grep_v(regexp) if message.to
+          message.cc = message.cc.grep_v(regexp) if message.cc
+          message.bcc = message.bcc.grep_v(regexp) if message.bcc
+
+          # Prevent delivery in case there are no recipients on the email
+          message.perform_deliveries = false if message.to.empty?
+        end
+      end
+    end
+  end
+end

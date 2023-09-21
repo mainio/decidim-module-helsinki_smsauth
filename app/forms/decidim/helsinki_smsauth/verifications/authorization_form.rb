@@ -7,6 +7,8 @@ module Decidim
   module HelsinkiSmsauth
     module Verifications
       class AuthorizationForm < Decidim::AuthorizationHandler
+        mimic :sms_authorization
+
         attribute :phone_number, String
         attribute :school, String
         attribute :grade, String

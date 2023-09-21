@@ -13,6 +13,7 @@ module Decidim
         result = update_or_create_user!
         broadcast(:ok, result)
       rescue ActiveRecord::RecordInvalid => e
+        raise e
         broadcast(:error, e.record)
       end
 
@@ -41,7 +42,7 @@ module Decidim
           record.tos_agreement = "1"
           record.organization = form.organization
           record.newsletter_notifications_at = Time.current
-          record.accepted_tos_version = form.organization.tos_version
+          # record.accepted_tos_version = form.organization.tos_version
           record.locale = form.current_locale
         end
       end
@@ -66,7 +67,7 @@ module Decidim
       end
 
       def record_name
-        "helsinki_smsauth_unnamed_user"
+        I18n.t("decidim.helsinki_smsauth.common.unnamed_user")
       end
     end
   end

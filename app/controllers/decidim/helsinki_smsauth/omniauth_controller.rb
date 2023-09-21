@@ -213,7 +213,7 @@ module Decidim
       end
 
       def formatted_phone_number(form)
-        PhoneNumberFormatter.new(form.phone_number).format
+        PhoneNumberFormatter.new(form.phone_number).format_human(show_country: false)
       end
 
       def reset_auth_session

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="columns large-centered">
-    <%= form.number_field :phone_number %>
+    <%= form.number_field :phone_number, value: (form.object.phone_number.present? ? "0#{form.object.phone_number}" : nil) %>
   </div>
 </div>
 <div class="row">

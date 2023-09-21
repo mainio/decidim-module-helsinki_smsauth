@@ -1,32 +1,32 @@
 <div class="content">
-  <div class="wraper">
-    <div class="row collapse">
-      <div class="columns large-8 large-centered text-center page-title margin-top-3">
+  <div class="wrapper">
+    <div class="row">
+      <div class="columns large-10 large-centered text-center page-title margin-top-1">
         <h1><%= t(".title") %></h1>
       </div>
-      <div class="row">
-        <div class="columns large-6 medium-centered" id="select-wrapper">
-          <div class="card">
-            <div class="card__content">
-              <%= decidim_form_for(@form, url: authorization_path(redirect_url: redirect_url)) do |form| %>
-                <div class="row">
-                  <div class="columns large-centered">
-                    <%= form.number_field :phone_number %>
-                  </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-10 mediumlarge-8 large-6 medium-centered">
+        <div class="card">
+          <div class="card__content">
+            <%= decidim_form_for(@form, url: authorization_path(redirect_url: redirect_url)) do |form| %>
+              <div class="row">
+                <div class="columns large-centered">
+                  <%= form.number_field :phone_number %>
                 </div>
-                <div class="row">
-                  <div class="columns large-centered">
-                    <%= form.submit t(".submit"), class:"button expanded" %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-            <div class="text-center">
-                <h3><%= t(".problem_authorization") %></h3>
-                <p><%= t(".explanation") %></p>
-                <p><%= link_to t(".another_method"), access_code_authorization_path, class: "text-center" %></p>
               </div>
+              <div class="row">
+                <div class="columns large-centered">
+                  <%= form.submit t(".submit"), class:"button expanded" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="text-center">
+          <h3><%= t(".problem_authorization") %></h3>
+          <p><%= t(".explanation") %></p>
+          <p><%= link_to t(".another_method"), access_code_authorization_path, class: "text-center" %></p>
         </div>
       </div>
     </div>

@@ -4,8 +4,6 @@ module Decidim
   module HelsinkiSmsauth
     module Verifications
       module Admin
-        require "csv"
-        require "rubyXL"
         class SigninCodesController < Decidim::Admin::ApplicationController
           layout "decidim/admin/users"
 

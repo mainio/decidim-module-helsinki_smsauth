@@ -1,42 +1,35 @@
-<% add_decidim_page_title(t(".omastadi")) %>
+<% add_decidim_page_title(t(".title")) %>
 
 <div class="wrapper">
-<div class="row collapse">
-  <div class="row collapse">
-    <div class="columns large-8 large-centered text-center page-title">
-      <h1 class="text-center"><%= t(".omastadi") %></h1>
-      <p><%= t(".successfully_authenticated") %></p>
-    </div>
-  </div>
   <div class="row">
-    <div class="columns large-6 medium-10 medium-centered">
-      <h2><%= t(".enter_your_information")%></h2>
-      <%= decidim_form_for(@form, as: :user, url: users_auth_sms_user_registry_path, html: { class: "register-form new_user", id: "register-form" }) do |f| %>
-        <div class="card">
-          <div class="card__content">
-            <p><%= form_required_explanation %>
+    <div class="row">
+      <div class="columns large-10 large-centered text-center page-title margin-top-1">
+        <h1 class="text-center"><%= t(".title") %></h1>
+        <p><%= t(".successfully_authenticated") %></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns medium-10 mediumlarge-8 large-6 medium-centered">
+        <h2 class="text-center"><%= t(".enter_your_information")%></h2>
+        <%= decidim_form_for(@form, as: :user, url: users_auth_sms_user_registry_path, html: { class: "register-form new_user", id: "sms-register-form" }) do |f| %>
+          <div class="card">
+            <div class="card__content">
+              <p><%= form_required_explanation %>
 
-            <div class="user-person">
-              <div class="field">
-                <%= f.select :school, school_options, { id: "school", include_blank: true } %>
+              <div class="user-person">
+                <div class="field">
+                  <%= f.select :school, school_options, { id: "school", include_blank: t(".select_school") } %>
+                </div>
               </div>
-            </div>
-            <div class="field grade-info">
-              <%= f.number_field :grade, help_text: t(".grade_help") %>
+              <div class="field grade-info">
+                <%= f.number_field :grade, help_text: t(".grade_help") %>
+              </div>
+
+              <%= f.submit t(".submit"), class: "button expanded" %>
             </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card__content">
-            <div class="actions">
-              <%= f.submit t("devise.registrations.new.sign_up"), class: "button expanded" %>
-            </div>
-            <%= yield :devise_links %>
-          </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
-</div>
-<%= render "decidim/devise/shared/newsletter_modal" %>
