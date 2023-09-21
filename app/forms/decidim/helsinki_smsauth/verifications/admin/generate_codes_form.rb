@@ -13,7 +13,7 @@ module Decidim
           attribute :user, Decidim::User
 
           validates :generate_code_amount, numericality: { greater_than: 0 }
-          validates :generate_code_amount, numericality: { less_than: 100 }
+          validates :generate_code_amount, numericality: { less_than_or_equal_to: 100 }
           validates :school, inclusion: { in: :valid_schools }
           validates :user, presence: true
 
