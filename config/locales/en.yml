@@ -2,6 +2,10 @@
 en:
   activemodel:
     attributes:
+      signin_codes:
+        school: School
+        grade: Grade
+        generate_code_amount: Generated code amount
       sms_registration:
         name: Your name
         email: Your email (optional)

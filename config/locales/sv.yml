@@ -2,6 +2,10 @@
 sv:
   activemodel:
     attributes:
+      signin_codes:
+          school: School
+          grade: Grade
+          generate_code_amount: Generated code amount
       sms_registration:
         name: Ditt namn
         email: Din e-post (valfritt)
