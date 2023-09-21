@@ -31,6 +31,15 @@
     </div>
   </div>
   <div class="button--double form-general-submit">
-    <%= link_to t(".continue"), signin_code_sets_path, class: "button" %>
+    <%#= link_to t(".continue"), signin_code_sets_path, class: "button", method: :get, data: {confrim: "Are you sure?" } %>
+    <%= link_to(
+                 t(".continue"),
+                  signin_code_sets_path,
+                  method: :get,
+                  class: "button",
+                  data: {
+                    confirm: t(".are_you_sure")
+                    }
+                ) %>
   </div>
 </div>

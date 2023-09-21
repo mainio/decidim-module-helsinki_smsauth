@@ -156,6 +156,7 @@ en:
               download_as_xlsx: Download XLSX
               access_code: Login code
               continue: Continue
+              are_you_sure: Are you sure you have downloaded the codes?
         authorizations:
           edit:
             verify: Enter the login code

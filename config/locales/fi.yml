@@ -155,6 +155,7 @@ fi:
               download_as_xlsx: Lataa XLSX
               access_code: Kirjautumiskoodi
               continue: Jatka
+              are_you_sure: Are you sure you have downloaded the codes?
         authorizations:
           edit:
             verify: Syötä kirjautumiskoodi
