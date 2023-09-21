@@ -181,11 +181,15 @@ module Decidim
       end
 
       def self.school_options
-        [].tap do |array|
+        options = [].tap do |array|
           MAPPING.map do |key, value|
+            next if key == "00000"
+
             array << [value[:name], key]
           end
         end
+        result = options.sort_by { |item| item[0] }
+        result << %w(Other 00000)
       end
     end
   end
