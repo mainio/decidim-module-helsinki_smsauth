@@ -73,6 +73,7 @@ en:
           submit: Log in
         authenticate_user:
           error: Failed to verify the phone number. Please try again and check that you have entered the login code correctly.
+          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
           signed_in: Login successful.
           success:  Login successful.
           updated_phone_number: Updating the phone number was successful.
@@ -189,7 +190,7 @@ en:
             grade_help: What is your grade level at your school?
             submit: Save and continue
           update:
-            incorrect: Failed to log in. Please try again.
+            incorrect: Failed to authorize. Please try again.
     verifications:
       sms:
         decidim:

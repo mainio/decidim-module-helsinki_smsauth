@@ -73,6 +73,7 @@ sv:
           submit: Log in
         authenticate_user:
           error: Det gick inte att verifiera telefonnumret. Försök igen och kontrollera att du har skrivit in inloggningskoden korrekt.
+          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
           signed_in: Inloggningen lyckades.
           success:  Inloggningen lyckades.
           updated_phone_number: Uppdateringen av telefonnumret lyckades.
@@ -189,7 +190,7 @@ sv:
             grade_help: Vilken är din årskurs på din skola?
             submit: Spara uppgifterna och fortsätt
           update:
-            incorrect: Det gick inte att logga in. Försök igen.
+            incorrect: Failed to authorize. Please try again.
     verifications:
       sms:
         decidim:

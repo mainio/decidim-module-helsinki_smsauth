@@ -73,6 +73,7 @@ fi:
           submit: Kirjaudu
         authenticate_user:
           error: Puhelinnumeron varmistaminen epäonnistui. Yritä uudestaan ja tarkasta, että olet kirjoittanut kirjautumiskoodin oikein.
+          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
           signed_in: Kirjautuminen onnistui.
           success:  Kirjautuminen onnistui.
           updated_phone_number: Puhelinnumeron päivitys onnistui.
@@ -189,7 +190,7 @@ fi:
             grade_help: Millä luokka-asteella opiskelet koulussasi?
             submit: Tallenna tiedot ja jatka
           update:
-            incorrect: Kirjautuminen epäonnistui. Yritä uudestaan.
+            incorrect: Failed to authorize. Please try again.
     verifications:
       sms:
         decidim:

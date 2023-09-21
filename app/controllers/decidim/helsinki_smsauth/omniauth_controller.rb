@@ -164,7 +164,7 @@ module Decidim
           end
 
           on(:invalid) do
-            flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
+            flash.now[:alert] = I18n.t(".access_code_error", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
             render action: "access_code"
           end
         end

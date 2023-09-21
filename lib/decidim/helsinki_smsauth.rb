@@ -31,5 +31,12 @@ module Decidim
     config_accessor :auto_email_domain do
       nil
     end
+
+    # This configuration adds the validation period for the codes being generated
+    # by the teachers. After this period of time since the generated code, the codes
+    # would no longer be valid
+    config_accessor :global_expiration_period do
+      14
+    end
   end
 end

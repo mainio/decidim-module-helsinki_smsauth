@@ -28,7 +28,7 @@ module Decidim
       end
 
       def validate!
-        access_code.present?
+        access_code.present? && still_valid?(access_code)
       end
 
       def create_user!
@@ -95,6 +95,14 @@ module Decidim
 
       def code_set_hash
         access_code.signin_code_set.metadata
+      end
+
+      def still_valid?(code_instance)
+        code_instance.created_at >= global_expiration_period.days.ago
+      end
+
+      def global_expiration_period
+        Decidim::HelsinkiSmsauth.global_expiration_period
       end
     end
   end
