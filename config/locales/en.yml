@@ -146,6 +146,7 @@ en:
               success: Creating the login codes was successful.
               error: Failed to create the login codes. Please try again.
             view_generated_codes:
+              expiration_note: These codes will expire at %{expiration_time}
               access_codes: Login codes
               download_as_csv: Download CSV
               download_as_xlsx: Download XLSX

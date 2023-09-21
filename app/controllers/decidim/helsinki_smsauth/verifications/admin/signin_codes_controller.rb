@@ -29,12 +29,15 @@ module Decidim
           def view_generated_codes
             @codes = generated_codes_session
             remove_generated_codes_session
+            @expiration_info = set_expiration_info
           end
 
           def generate_csv_file
             codes = params[:codes]
 
             csv_data = CSV.generate(headers: true) do |csv|
+              csv << [set_expiration_info]
+              csv << [""]
               csv << [I18n.t(".access_codes", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes")]
               codes.each do |code|
                 csv << [code]
@@ -51,10 +54,11 @@ module Decidim
 
             workbook = RubyXL::Workbook.new
             sheet = workbook[0]
-            sheet.add_cell(0, 0, I18n.t(".access_codes", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes"))
+            sheet.add_cell(0, 0, set_expiration_info)
+            sheet.add_cell(2, 0, I18n.t(".access_codes", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes"))
 
             codes.each_with_index do |row, rowi|
-              sheet.add_cell(rowi + 1, 0, row)
+              sheet.add_cell(rowi + 3, 0, row)
             end
 
             respond_to do |format|
@@ -77,6 +81,19 @@ module Decidim
 
           def remove_generated_codes_session
             session&.delete(:generated_codes)
+          end
+
+          def expiration_time
+            expiration = Time.current + global_expiration_period
+            expiration.strftime("%d-%m-%Y %H:%M")
+          end
+
+          def set_expiration_info
+            t("expiration_note", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes", expiration_time: expiration_time)
+          end
+
+          def global_expiration_period
+            Decidim::HelsinkiSmsauth.global_expiration_period
           end
         end
       end
