@@ -13,7 +13,6 @@ module Decidim
         result = update_or_create_user!
         broadcast(:ok, result)
       rescue ActiveRecord::RecordInvalid => e
-        raise e
         broadcast(:error, e.record)
       end
 
