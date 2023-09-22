@@ -99,6 +99,8 @@ module Decidim
             I18n.t(".destination_whitelist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
           when :destination_blacklist
             I18n.t(".destination_blacklist", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
+          when :server_error
+            I18n.t(".server_error", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
           else
             I18n.t(".unknown", scope: "decidim.helsinki_smsauth.omniauth.send_message.error")
           end

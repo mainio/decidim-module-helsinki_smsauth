@@ -115,6 +115,7 @@ sv:
             destination_whitelist: SMS-tjänsten kan inte skicka meddelanden till det valda landet. Kontakta systemansvarig. (POL3006)
             invalid_to_number: Telefonnumret är i felaktigt format. Försök igen eller kontakta systemansvarig. (POL3101)
             unknown: Det gick inte att skicka textmeddelandet och felet har loggats. Försök snart igen. Kontakta systemansvarig om problemet kvarstår.
+            server_error: There is a temporary error at the SMS sending service. Please try again later.
           success: "Koden har skickats till numret %{phone}."
           server_busy: Det är överbelastat att skicka textmeddelanden. Vi skickar koden till dig så snart som möjligt. Om du fortfarande inte får koden, försök igen efter ett tag.
           resend: "Koden har skickats till numret %{phone}."

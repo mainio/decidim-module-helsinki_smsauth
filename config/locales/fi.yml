@@ -115,6 +115,7 @@ fi:
             destination_whitelist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä valittuun maahan. Ota yhteyttä järjestelmän ylläpitäjään. (POL3006)
             invalid_to_number: Syötetty puhelinnumero on väärän muotoinen. Yritä uudestaan tai ota yhteyttä järjestelmän ylläpitäjään. (POL3101)
             unknown: Tekstiviestin lähetys epäonnistui ja virhe on lokitettu. Yritä hetken kuluttua uudestaan. Jos ongelma jatkuu, ota yhteyttä järjestelmän ylläpitäjään.
+            server_error: There is a temporary error at the SMS sending service. Please try again later.
           success: "Kirjautumiskoodi lähetetty numeroon %{phone}."
           server_busy: Tekstiviestien lähetys on ruuhkautunut. Lähetämme koodin sinulle heti, kun mahdollista. Jos et siitä huolimatta saa koodia, yritä hetken kuluttua uudestaan.
           resend: "Kirjautumiskoodi lähetetty numeroon %{phone}."

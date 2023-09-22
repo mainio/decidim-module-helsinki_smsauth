@@ -115,6 +115,7 @@ en:
             destination_whitelist: The text message sending service cannot send messages to the selected country. Please contact the system maintainer. (POL3006)
             invalid_to_number: The phone number is in incorrect format. Please try again or contact the system maintainer. (POL3101)
             unknown: Failed to send the text message and the error has been logged. Please try again shortly. If the problem persists, contact the system maintainer.
+            server_error: There is a temporary error at the SMS sending service. Please try again later.
           success: "The code has been sent to %{phone}."
           server_busy: Sending text messages is congested. We will send the code to you as soon as possible. If you still don't get the code, try again after a while.
           resend: "The code has been sent to %{phone}."
