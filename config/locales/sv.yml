@@ -119,6 +119,7 @@ sv:
           success: "Koden har skickats till numret %{phone}."
           server_busy: Det är överbelastat att skicka textmeddelanden. Vi skickar koden till dig så snart som möjligt. Om du fortfarande inte får koden, försök igen efter ett tag.
           resend: "Koden har skickats till numret %{phone}."
+          expired: Your authentication code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
           not_allowed: Vänta minst 1 minut för att skicka koden igen.
         verification:
           authenticate: Logga in med SMS

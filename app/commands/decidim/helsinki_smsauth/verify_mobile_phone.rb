@@ -12,6 +12,7 @@ module Decidim
       def call
         return broadcast(:invalid) if @form.invalid?
         return broadcast(:invalid) unless validate!(@form.verification)
+        return broadcast(:expired) unless code_still_valid?
 
         broadcast(:ok)
       end
@@ -21,15 +22,11 @@ module Decidim
       attr_accessor :data, :user
 
       def validate!(provided_code)
-        return false unless code_still_valid?
-
         verification_code == provided_code
       end
 
       def code_still_valid?
-        return false unless verification_code_sent_at
-
-        verification_code_sent_at > 5.minutes.ago
+        verification_code_sent_at && verification_code_sent_at > 10.minutes.ago
       end
 
       def verification_code

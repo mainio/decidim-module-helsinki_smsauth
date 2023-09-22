@@ -30,7 +30,7 @@ module Decidim
             redirect_to decidim.account_path
           end
 
-          on(:invalid) do
+          on(:invalid, :new_code) do
             flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
             render action: "verification"
           end
@@ -39,7 +39,7 @@ module Decidim
 
       def send_message
         @form = ::Decidim::HelsinkiSmsauth::OmniauthForm.from_params(params)
-        # in the test, and development environment, and with the Twilio gateway installation,
+        # in the test, and development environment, and with the telia gateway installation,
         # we have to set the organization to nil, since the delivery report can not be sent to the
         # localhost. However, we should set this to the current_organization if production
         ::Decidim::HelsinkiSmsauth::SendVerificationCode.call(@form, organization: current_organization) do
@@ -88,6 +88,11 @@ module Decidim
             flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
             render action: "verification"
           end
+
+          on(:expired) do
+            flash[:alert] = I18n.t(".expired", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
+            redirect_to action: "resend_code"
+          end
         end
       end
 
@@ -106,7 +111,6 @@ module Decidim
             sign_in_and_redirect new_user, event: :authentication
           end
           on(:error) do |_error|
-            # TODO: ADD LOG
             flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.school_info")
             render action: "school_info"
           end
@@ -117,13 +121,12 @@ module Decidim
         return unless ensure_resend_code
 
         params = params_from_previous_attempts
-
         @form = OmniauthForm.from_params(params)
 
         SendVerificationCode.call(@form, organization: current_organization) do
           on(:ok) do |result|
+            set_flash_message_for_resend
             update_sessions!(verification_code: result, sent_at: Time.current)
-            flash[:notice] = I18n.t(".resend", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
             redirect_to action: "verification"
           end
 
@@ -344,6 +347,18 @@ module Decidim
         end
 
         true
+      end
+
+      def set_flash_message_for_resend
+        if code_expired?
+          flash[:alert] = I18n.t(".expired", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
+        else
+          flash[:notice] = I18n.t(".resend", scope: "decidim.helsinki_smsauth.omniauth.send_message", phone: formatted_phone_number(@form))
+        end
+      end
+
+      def code_expired?
+        auth_session["sent_at"] < 10.minutes.ago
       end
     end
   end

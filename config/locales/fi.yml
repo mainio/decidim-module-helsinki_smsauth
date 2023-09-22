@@ -119,6 +119,7 @@ fi:
           success: "Kirjautumiskoodi lähetetty numeroon %{phone}."
           server_busy: Tekstiviestien lähetys on ruuhkautunut. Lähetämme koodin sinulle heti, kun mahdollista. Jos et siitä huolimatta saa koodia, yritä hetken kuluttua uudestaan.
           resend: "Kirjautumiskoodi lähetetty numeroon %{phone}."
+          expired: Your authentication code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
           not_allowed: Odota vähintään 1 minuutti lähettääksesi koodin uudestaan.
         verification:
           authenticate: Kirjaudu tekstiviestillä
