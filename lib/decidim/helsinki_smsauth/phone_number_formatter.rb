@@ -9,7 +9,7 @@ module Decidim
       end
 
       def format
-        "#{country_code_prefix}#{phone_number}"
+        "#{country_code_prefix}#{refined_phone_number}"
       end
 
       def format_human(show_country: true)
@@ -43,6 +43,20 @@ module Decidim
 
       def country_code_hash
         @country_code_hash ||= ::Decidim::HelsinkiSmsauth.country_code
+      end
+
+      def refined_phone_number
+        country_prefix = country_code_prefix.split("+").last
+        entry = phone_number.to_s
+        if entry.start_with?("00")
+          refine_format(entry.gsub(/\A00/, ""))
+        elsif entry.start_with?("0")
+          entry.gsub(/\A0/, "")
+        elsif entry.match?(/\A#{country_prefix}/)
+          entry.gsub(/\A#{country_prefix}/, "")
+        else
+          entry
+        end
       end
     end
   end
