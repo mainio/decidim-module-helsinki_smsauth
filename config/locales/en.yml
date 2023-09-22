@@ -183,7 +183,7 @@ en:
             title: My information
             enter_your_information: My information
             required_fields: "* Required fields are marked with an asterisk"
-            school_info: Text message login successful. Please enter few more details and you are done.
+            school_info: Text message verification successful. Please enter few more details and you are done.
             error: Failed to save the details. Please try again or contact the system administrator.
             grade_help: What is your grade level at your school?
             submit: Save and continue
@@ -198,7 +198,7 @@ en:
             title: My information
             enter_your_information: Please enter your information
             required_fields: "* Required fields are marked with an asterisk"
-            school_info: Text message login successful. Please enter few more details and you are done.
+            school_info: Text message verification successful. Please enter few more details and you are done.
             error: Failed to save the details. Please try again or contact the system administrator.
             grade_help: What is your grade level at your school?
             submit: Save and continue

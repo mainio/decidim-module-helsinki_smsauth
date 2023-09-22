@@ -27,7 +27,6 @@ module Decidim
           @form = AuthorizationForm.from_params(params.merge(user: current_user, school: nil, grade: nil, organization: current_organization))
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
             on(:ok) do
-              update_attempt_session
               flash[:notice] = t("authorizations.create.success", scope: "decidim.verifications.sms")
               redirect_to redirect_smsauth
             end
@@ -50,11 +49,10 @@ module Decidim
           return unless eligible_to?
 
           @form = AuthorizationForm.from_params(params.merge(user: current_user, organization: current_organization).merge(authorization_params))
-
+          last_request_time = last_request
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
             on(:ok) do
-              update_attempt_session
-              flash[:notice] = t("authorizations.create.success", scope: "decidim.verifications.sms")
+              flash_message_for_resend(last_request_time)
               authorization_method = Decidim::Verifications::Adapter.from_element(authorization.name)
               redirect_to authorization_method.resume_authorization_path(redirect_url: redirect_url)
             end
@@ -94,6 +92,9 @@ module Decidim
             on(:invalid) do
               flash[:error] = t("update.incorrect", scope: "decidim.helsinki_smsauth.verification.authorizations")
               redirect_to action: :edit
+            end
+            on(:expired) do
+              redirect_to action: "resend_code", expired: true
             end
           end
         end
@@ -138,18 +139,6 @@ module Decidim
           )
         end
 
-        def attempt_session
-          session[:last_attempt]
-        end
-
-        def update_attempt_session
-          session[:last_attempt] = Time.current
-        end
-
-        def expired?
-          attempt_session <= 1.minute.ago
-        end
-
         def update_current_user!
           current_user.update(authorization_params)
         end
@@ -165,11 +154,15 @@ module Decidim
         end
 
         def eligible_to?
-          return true if expired?
+          return true if ensure_sending_limit
 
           flash[:error] = I18n.t(".not_allowed", scope: "decidim.helsinki_smsauth.omniauth.send_message")
           redirect_to redirect_smsauth
           false
+        end
+
+        def ensure_sending_limit
+          authorization.verification_metadata["code_sent_at"] < 1.minute.ago
         end
 
         def redirect_smsauth
@@ -189,6 +182,22 @@ module Decidim
               redirect_to stored_location_for(current_user)
             end
           end
+        end
+
+        def flash_message_for_resend(last_request)
+          if long_ago?(last_request)
+            flash[:alert] = I18n.t(".expired", scope: "decidim.helsinki_smsauth.omniauth.send_message")
+          else
+            flash[:notice] = t("authorizations.create.success", scope: "decidim.verifications.sms")
+          end
+        end
+
+        def long_ago?(last_attempt)
+          last_attempt <= 10.minutes.ago
+        end
+
+        def last_request
+          authorization.verification_metadata["code_sent_at"]
         end
       end
     end

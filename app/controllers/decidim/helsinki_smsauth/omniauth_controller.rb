@@ -90,7 +90,6 @@ module Decidim
           end
 
           on(:expired) do
-            flash[:alert] = I18n.t(".expired", scope: "decidim.helsinki_smsauth.omniauth.authenticate_user")
             redirect_to action: "resend_code"
           end
         end
