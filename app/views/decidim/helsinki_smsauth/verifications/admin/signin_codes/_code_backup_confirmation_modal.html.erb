@@ -1,0 +1,24 @@
+<div class="reveal" id="backup-confirmation" data-reveal aria-labelledby="access-code-backup-confirmation-label" aria-live="polite">
+<% scope = "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes.exit_confirmation" %>
+  <div class="reveal__header">
+    <h4 id="exit-generated-codes-view"><%= t("title", scope: scope ) %></h4>
+    <p></p>
+    <button class="close-button" data-close aria-label="<%= t("exit", scope: scope) %>" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row text-left margin-bottom-2">
+    <p><%= t("codes_visibility_warning", scope: scope)%></p>
+  </div>
+  <div class="row">
+    <div class="columns medium-8">
+      <button class="button expanded" data-close type="button">
+        <%= t("cancel", scope: scope) %>
+      </button>
+    </div>
+    <div class="columns medium-8">
+      <%= link_to t("exit_modal", scope: scope), signin_code_sets_path, id: "exit-notification-link", class: "button hollow expanded" %>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag "decidim_backup_confirmation" %>

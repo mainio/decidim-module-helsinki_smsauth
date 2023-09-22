@@ -156,7 +156,12 @@ en:
               download_as_xlsx: Download XLSX
               access_code: Login code
               continue: Continue
-              are_you_sure: Are you sure you have downloaded the codes?
+              exit_confirmation:
+                title: Are you sure you have downloaded the codes?
+                cancel: "No"
+                exit_modal: Yes, have downloaded the codes
+                codes_visibility_warning: The codes are visible only in this view and you are not able to return the codes after you move forward from this view. Please make sure you have downloaded the codes and saved them to a location where you can find them.
+                exit: Exit
         authorizations:
           edit:
             verify: Enter the login code
