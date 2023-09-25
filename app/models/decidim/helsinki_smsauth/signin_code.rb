@@ -6,7 +6,7 @@ module Decidim
       belongs_to :signin_code_set, foreign_key: "decidim_signin_code_set_id", class_name: "::Decidim::HelsinkiSmsauth::SigninCodeSet"
 
       validates :code_hash, uniqueness: true, if: -> { code_hash.present? }
-      before_save :generate!
+      before_create :generate!
       after_destroy :increment_used_codes
 
       # generate method should be public, since it should be accessible by GenerateAccessCode

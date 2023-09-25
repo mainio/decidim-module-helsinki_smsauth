@@ -8,7 +8,7 @@ FactoryBot.define do
     generated_code_amount { 1 }
     metadata do
       {
-        school: Faker::Name.name,
+        school: Decidim::HelsinkiSmsauth::SchoolMetadata.school_options.map { |sc| sc[1] }.sample,
         grade: Faker::Number.between(from: 1, to: 6)
       }
     end
@@ -19,6 +19,14 @@ FactoryBot.define do
   end
 
   factory :signin_code, class: "Decidim::HelsinkiSmsauth::SigninCode" do
+    transient do
+      code { 10.times.map { (("0".."9").to_a + ("A".."Z").to_a).sample }.join }
+    end
+
     signin_code_set { create(signin_code_set) }
+
+    before(:create) do |signin_code, evaluator|
+      signin_code.code_hash = Digest::MD5.hexdigest("#{evaluator.code}-#{Rails.application.secrets.secret_key_base}")
+    end
   end
 end
