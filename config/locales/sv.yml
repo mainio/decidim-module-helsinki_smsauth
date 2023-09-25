@@ -3,9 +3,9 @@ sv:
   activemodel:
     attributes:
       signin_codes:
-          school: School
-          grade: Grade
-          generate_code_amount: Generated code amount
+          school: Skola
+          grade: Årskurs
+          generate_code_amount: Antal koder som ska genereras
       sms_registration:
         name: Ditt namn
         email: Din e-post (valfritt)
@@ -115,11 +115,11 @@ sv:
             destination_whitelist: SMS-tjänsten kan inte skicka meddelanden till det valda landet. Kontakta systemansvarig. (POL3006)
             invalid_to_number: Telefonnumret är i felaktigt format. Försök igen eller kontakta systemansvarig. (POL3101)
             unknown: Det gick inte att skicka textmeddelandet och felet har loggats. Försök snart igen. Kontakta systemansvarig om problemet kvarstår.
-            server_error: There is a temporary error at the SMS sending service. Please try again later.
+            server_error: Det finns ett tillfälligt fel i SMS-sändningstjänsten. Vänligen försök igen senare.
           success: "Koden har skickats till numret %{phone}."
           server_busy: Det är överbelastat att skicka textmeddelanden. Vi skickar koden till dig så snart som möjligt. Om du fortfarande inte får koden, försök igen efter ett tag.
           resend: "Koden har skickats till numret %{phone}."
-          expired: Your authentication code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
+          expired: Din inloggningskod har upphört att gälla. Vi har skickat en ny kod till dig och du bör få den inom kort. Ange den nya koden i formuläret nedan.
           not_allowed: Vänta minst 1 minut för att skicka koden igen.
         verification:
           authenticate: Logga in med SMS
@@ -158,11 +158,11 @@ sv:
               access_code: Inloggningskod
               continue: Fortsätta
               exit_confirmation:
-                title: Are you sure you have downloaded the codes?
-                cancel: "No"
-                exit_modal: Yes, have downloaded the codes
-                codes_visibility_warning: The codes are visible only in this view and you are not able to return the codes after you move forward from this view. Please make sure you have downloaded the codes and saved them to a location where you can find them.
-                exit: Exit
+                title: Är du säker på att du har laddat ner koderna?
+                cancel: "Nej"
+                exit_modal: Ja, har laddat ner koderna
+                codes_visibility_warning: Koderna är endast synliga i den här vyn och du kan inte returnera koderna efter att du gått vidare från den här vyn. Se till att du har laddat ner koderna och sparat dem på en plats där du kan hitta dem.
+                exit: Utgång
         authorizations:
           edit:
             verify: Ange inloggningskoden
@@ -202,7 +202,7 @@ sv:
             grade_help: Vilken är din årskurs på din skola?
             submit: Spara uppgifterna och fortsätt
           update:
-            incorrect: Failed to authorize. Please try again.
+            incorrect: Det gick inte att auktorisera. Var god försök igen.
     verifications:
       sms:
         decidim:

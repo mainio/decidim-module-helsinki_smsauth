@@ -119,7 +119,7 @@ en:
           success: "The code has been sent to %{phone}."
           server_busy: Sending text messages is congested. We will send the code to you as soon as possible. If you still don't get the code, try again after a while.
           resend: "The code has been sent to %{phone}."
-          expired: Your authentication code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
+          expired: Your sign in code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
           not_allowed: Please wait at least 1 minute to resend the code.
         verification:
           authenticate: Log in via text message
