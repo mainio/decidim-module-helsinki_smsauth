@@ -69,9 +69,9 @@ describe "verification with phone number", type: :system do
 
       it "gives error" do
         # visit current_path
-        expect(page).to have_content("Authorize your account")
+        expect(page).to have_content("Verify your phone number")
         fill_in "Phone number", with: 4_567_890
-        click_button "Send code via SMS"
+        click_button "Send code"
 
         expect(page).to have_content "There was a problem with your request"
         expect(page).to have_content "A participant is already authorized with the same data. An administrator will contact you to verify your details."
@@ -79,16 +79,16 @@ describe "verification with phone number", type: :system do
     end
 
     it "shows phone number authorization" do
-      expect(page).to have_content("Authorize your account")
-      expect(page).to have_link("Authorize yourself with the code given by your teacher", href: "/helsinki_smsauth_id/authorizations/access_code")
-      click_button "Send code via SMS"
+      expect(page).to have_content("Verify your phone number")
+      expect(page).to have_link("Log in with a code given by your teacher or youth worker", href: "/helsinki_smsauth_id/authorizations/access_code")
+      click_button "Send code"
       expect(page).to have_content "There's an error in this field."
     end
 
     context "with valid phone number" do
       before do
         fill_in "Phone number", with: 4_567_891
-        click_button "Send code via SMS"
+        click_button "Send code"
       end
 
       it "generates the authorization process" do
@@ -97,18 +97,18 @@ describe "verification with phone number", type: :system do
           expect(page).to have_content "Thanks! We've sent an SMS to your phone."
         end
 
-        expect(page).to have_link("Resend code", href: "/helsinki_smsauth_id/authorizations/resend_code")
-        expect(page).to have_link("Restart verification", href: "/helsinki_smsauth_id/authorizations")
-        fill_in "Verification code", with: "wrong code"
-        click_button "Verify"
-        expect(page).to have_content("Verification failed. Please try again.")
+        expect(page).to have_link("Resend the code", href: "/helsinki_smsauth_id/authorizations/resend_code")
+        expect(page).to have_link("Re-enter the phone number", href: "/helsinki_smsauth_id/authorizations")
+        fill_in "Login code", with: "wrong code"
+        click_button "Continue"
+        expect(page).to have_content("Failed to authorize. Please try again.")
       end
 
       it "Verifies accont when everything is ok" do
         code = page.find("#hint").text
-        fill_in "Verification code", with: code
+        fill_in "Login code", with: code
         authorization = Decidim::Authorization.find_by(decidim_user_id: user.id)
-        click_button "Verify"
+        click_button "Continue"
 
         expect(authorization.metadata["phone_number"]).to eq("+3584567891")
         expect(authorization).not_to be_granted
@@ -120,15 +120,15 @@ describe "verification with phone number", type: :system do
       context "when adding school info" do
         before do
           code = page.find("#hint").text
-          fill_in "Verification code", with: code
-          click_button "Verify"
+          fill_in "Login code", with: code
+          click_button "Continue"
         end
 
         it "renders the school info correctly" do
           expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
-          expect(page).to have_content("You have successfully verified your account. Now you need to enter your school information")
+          expect(page).to have_content("Text message verification successful. Please enter few more details and you are done.")
 
-          click_button "Submit"
+          click_button "Save and continue"
           expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
           within ".user-person" do
             expect(page).to have_content("There's an error in this field.")
@@ -143,8 +143,9 @@ describe "verification with phone number", type: :system do
             select "Etu-Töölön lukio", from: "School"
           end
           fill_in "Grade", with: 1
+
           expect(Decidim::Authorization.find_by(decidim_user_id: user.id)).not_to be_granted
-          click_button "Submit"
+          click_button "Save and continue"
           authorization = Decidim::Authorization.find_by(decidim_user_id: user.id)
           expect(authorization).to be_granted
           expect(authorization.metadata["grade"]).to eq(1)
@@ -162,7 +163,7 @@ describe "verification with phone number", type: :system do
     end
 
     it "shows masked phone number" do
-      expect(page).to have_field("Your phone number", disabled: true, with: "+358*****123")
+      expect(page).to have_field("Phone number", disabled: true, with: "+358*****123")
     end
   end
 end

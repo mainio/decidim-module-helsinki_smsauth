@@ -49,7 +49,7 @@ describe "authentication with phone number", type: :system do
           end
 
           fill_in "Grade", with: 1
-          click_signup
+          click_button "Save and continue"
           expect(page).to have_current_path decidim_verifications.authorizations_path
           user = Decidim::User.last
           expect(user.phone_number).to eq("+3584551122334")
@@ -69,18 +69,11 @@ describe "authentication with phone number", type: :system do
 
   private
 
-  def click_signup
-    click_button "Sign up"
-    within "#sign-up-newsletter-modal" do
-      click_button "Keep unchecked"
-    end
-  end
-
   def verify_phone
     fill_in "Phone number", with: phone
-    click_button "Send code via SMS"
+    click_button "Send code"
     code = page.find("#hint").text
-    fill_in "Verification code", with: code
-    click_button "Verify"
+    fill_in "Login code", with: code
+    click_button "Log in"
   end
 end
