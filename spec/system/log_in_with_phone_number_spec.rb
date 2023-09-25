@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "authentication with phone number", type: :system do
+describe "log in with phone number", type: :system do
   let(:organization) { create(:organization) }
   let(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
 
