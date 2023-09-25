@@ -45,15 +45,17 @@ module Decidim
         @country_code_hash ||= ::Decidim::HelsinkiSmsauth.country_code
       end
 
-      def refined_phone_number
+      def refined_phone_number(phone_number)
         country_prefix = country_code_prefix.split("+").last
         entry = phone_number.to_s
         if entry.start_with?("00")
-          refine_format(entry.gsub(/\A00/, ""))
+          refined_phone_number(entry.gsub(/\A00/, ""))
+        elsif entry.start_with?("+")
+          refined_phone_number(entry.gsub(/\A\+/, ""))
         elsif entry.start_with?("0")
           entry.gsub(/\A0/, "")
         elsif entry.match?(/\A#{country_prefix}/)
-          entry.gsub(/\A#{country_prefix}/, "")
+          refined_phone_number(entry.gsub(/\A#{country_prefix}/, ""))
         else
           entry
         end
