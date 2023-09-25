@@ -25,8 +25,16 @@ module Decidim
       private
 
       def generated_code(code_length = 10)
-        characters = ("0".."9").to_a + ("A".."Z").to_a
-        characters.sample(code_length).join
+        clear_sample.sample(code_length).join
+      end
+
+      def clear_sample
+        sample = ("0".."9").to_a + ("A".."Z").to_a
+        sample - ambiguous_chars
+      end
+
+      def ambiguous_chars
+        %w(0 O I 1)
       end
 
       def increment_used_codes
