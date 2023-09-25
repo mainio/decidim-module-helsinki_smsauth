@@ -3,9 +3,9 @@ fi:
   activemodel:
     attributes:
       signin_codes:
-        school: School
-        grade: Grade
-        generate_code_amount: Generated code amount
+        school: Koulu
+        grade: Luokka-aste
+        generate_code_amount: Luotavien koodien määrä
       sms_registration:
         name: Nimesi
         email: Sähköpostiosoitteesi (vapaaehtoinen)
@@ -115,11 +115,11 @@ fi:
             destination_whitelist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä valittuun maahan. Ota yhteyttä järjestelmän ylläpitäjään. (POL3006)
             invalid_to_number: Syötetty puhelinnumero on väärän muotoinen. Yritä uudestaan tai ota yhteyttä järjestelmän ylläpitäjään. (POL3101)
             unknown: Tekstiviestin lähetys epäonnistui ja virhe on lokitettu. Yritä hetken kuluttua uudestaan. Jos ongelma jatkuu, ota yhteyttä järjestelmän ylläpitäjään.
-            server_error: There is a temporary error at the SMS sending service. Please try again later.
+            server_error: Tekstiviestin lähetyspalvelussa on väliaikainen ongelma. Yritä uudestaan myöhemmin.
           success: "Kirjautumiskoodi lähetetty numeroon %{phone}."
           server_busy: Tekstiviestien lähetys on ruuhkautunut. Lähetämme koodin sinulle heti, kun mahdollista. Jos et siitä huolimatta saa koodia, yritä hetken kuluttua uudestaan.
           resend: "Kirjautumiskoodi lähetetty numeroon %{phone}."
-          expired: Your authentication code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
+          expired: Kirjautumiskoodisi on vanhentunut. Olemme lähettäneet sinulle uuden koodin ja sinun pitäisi saada se pian. Syötä uusi koodi alla näkyvälle lomakkeelle.
           not_allowed: Odota vähintään 1 minuutti lähettääksesi koodin uudestaan.
         verification:
           authenticate: Kirjaudu tekstiviestillä
@@ -158,11 +158,11 @@ fi:
               access_code: Kirjautumiskoodi
               continue: Jatka
               exit_confirmation:
-                title: Are you sure you have downloaded the codes?
-                cancel: "No"
-                exit_modal: Yes, have downloaded the codes
-                codes_visibility_warning: The codes are visible only in this view and you are not able to return the codes after you move forward from this view. Please make sure you have downloaded the codes and saved them to a location where you can find them.
-                exit: Exit
+                title: Oletko varmasti ladannut koodit talteen?
+                cancel: "En"
+                exit_modal: Kyllä, olen ladannut koodit
+                codes_visibility_warning: Koodit näkyvät vain tässä näkymässä, etkä voi palauttaa koodeja, kun olet siirtynyt eteenpäin tästä näkymästä. Varmista, että olet ladannut koodit ja tallentanut ne paikkaan, josta löydät ne.
+                exit: Poistu
         authorizations:
           edit:
             verify: Syötä kirjautumiskoodi
@@ -202,7 +202,7 @@ fi:
             grade_help: Millä luokka-asteella opiskelet koulussasi?
             submit: Tallenna tiedot ja jatka
           update:
-            incorrect: Failed to authorize. Please try again.
+            incorrect: Vahvistaminen epäonnistui. Yritä uudestaan.
     verifications:
       sms:
         decidim:
