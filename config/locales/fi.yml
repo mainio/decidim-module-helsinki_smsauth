@@ -152,6 +152,7 @@ fi:
               success: Kirjautumiskoodien luonti onnistui.
               error: Kirjautumiskoodien luonti epäonnistui. Yritä uudestaan.
             view_generated_codes:
+              expiration_note: Nämä koodit vanhenevat %{expiration_time}
               access_codes: Kirjautumiskoodit
               download_as_csv: Lataa CSV
               download_as_xlsx: Lataa XLSX

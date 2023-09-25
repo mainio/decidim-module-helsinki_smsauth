@@ -152,6 +152,7 @@ sv:
               success: Skapandet av inloggningskoderna lyckades.
               error: Det gick inte att skapa inloggningskoderna. Var god försök igen.
             view_generated_codes:
+              expiration_note: Dessa koder upphör att gälla %{expiration_time}
               access_codes: Inloggningskoder
               download_as_csv: Ladda ner CSV
               download_as_xlsx: Ladda ner XLSX
