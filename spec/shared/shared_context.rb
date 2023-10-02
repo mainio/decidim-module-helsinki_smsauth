@@ -30,8 +30,4 @@ shared_context "with single access code" do
   let!(:creator) { create(:user, :confirmed, :admin, organization: organization) }
 
   let!(:signin_code_set) { create(:signin_code_set, creator: creator) }
-
-  # before do
-  #   allow_any_instance_of(::Decidim::HelsinkiSmsauth::SigninCode).to receive(:generate!).and_return { raise "CALLED " } # rubocop:disable RSpec/AnyInstance
-  # end
 end

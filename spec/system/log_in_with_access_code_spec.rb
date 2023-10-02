@@ -32,11 +32,6 @@ describe "log in with access code", type: :system do
     it "creates users and signs in with correct code" do
       expect(signin_code_set.used_code_amount).to eq(0)
 
-      # digest = "#{access_code}-#{Rails.application.secrets.secret_key_base}"
-      # puts "TEST:digest is: #{digest} "
-      # puts "TEST: the code hash is:#{Digest::MD5.hexdigest(digest)}"
-      # puts "The access code is #{::Decidim::HelsinkiSmsauth::SigninCode.last.code_hash}"
-
       fill_in "sms_verification[access_code]", with: access_code
       click_button "Log in"
       expect(page).to have_content("Login successful.")
