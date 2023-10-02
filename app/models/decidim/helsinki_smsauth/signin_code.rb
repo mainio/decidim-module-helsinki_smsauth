@@ -26,7 +26,7 @@ module Decidim
       private
 
       def generated_code(code_length = 10)
-        clear_sample.sample(code_length).join
+        Array.new(code_length) { clear_sample[rand(clear_sample.length)] }.join
       end
 
       def clear_sample
