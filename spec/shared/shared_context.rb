@@ -31,3 +31,15 @@ shared_context "with single access code" do
 
   let!(:signin_code_set) { create(:signin_code_set, creator: creator) }
 end
+
+shared_context "with helsinki_smsauth_id authorization" do
+  let!(:organization) { create(:organization, omniauth_settings: omniauth_settings, available_authorizations: available_authorizations) }
+  let!(:user) { create(:user, :confirmed, organization: organization) }
+  let(:available_authorizations) { ["helsinki_smsauth_id"] }
+  let(:omniauth_settings) do
+    {
+      "omniauth_settings_sms_enabled" => true,
+      "omniauth_settings_sms_icon" => ""
+    }
+  end
+end
