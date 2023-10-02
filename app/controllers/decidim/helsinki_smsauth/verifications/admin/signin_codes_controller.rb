@@ -85,7 +85,7 @@ module Decidim
 
           def expiration_time
             expiration = Time.current + global_expiration_period
-            expiration.strftime("%d-%m-%Y %H:%M")
+            l expiration, format: :short
           end
 
           def set_expiration_info
