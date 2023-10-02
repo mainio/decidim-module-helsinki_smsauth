@@ -11,17 +11,17 @@
     <%= decidim_form_for(@form, url: signin_codes_path, method: :post) do |f| %>
       <div class="card">
         <div class="card__content">
-        <div class="card-section">
-          <div class="field">
-            <%= f.select :school, school_options, { id: "school", include_blank: true } %>
+          <div class="card-section">
+            <div class="field">
+              <%= f.select :school, school_options, { id: "school", include_blank: true } %>
+            </div>
+            <div class="field">
+              <%= f.number_field :grade %>
+            </div>
+            <div class="field">
+              <%= f.number_field :generate_code_amount %>
+            </div>
           </div>
-          <div class="field">
-            <%= f.number_field :grade %>
-          </div>
-          <div class="field">
-            <%= f.number_field :generate_code_amount %>
-          </div>
-        </div>
         </div>
       </div>
       <div class="button--double form-general-submit">
