@@ -3,19 +3,8 @@ en:
   activemodel:
     attributes:
       signin_codes:
-        school: School
-        grade: Grade
         generate_code_amount: Generated code amount
-      sms_registration:
-        name: Your name
-        email: Your email (optional)
-      sms_sign_in:
-        phone_number: Phone number
-      sms_verification:
-        verification: Login code
-        access_code: Code provided by a teacher or a youth worker
-      sms_verification_school_metadata:
-        grade: Grade level
+        grade: Grade
         school: School
       sms_authorization:
         grade: Grade level
@@ -23,187 +12,226 @@ en:
         school: School
       sms_authorization_confirmation:
         verification_code: Login code
+      sms_registration:
+        email: Your email (optional)
+        name: Your name
+      sms_sign_in:
+        phone_number: Phone number
+      sms_verification:
+        access_code: Code provided by a teacher or a youth worker
+        verification: Login code
+      sms_verification_school_metadata:
+        grade: Grade level
+        school: School
       user:
         mask_number: Phone number
   decidim:
     admin:
-      models:
-        signin_code_set:
-          fields:
-            creation_time: Creation time
-            creator: Creator
-            school: School
-            class_level: Grade level
-            total_codes: Total codes
-            used_codes: Used codes
       filters:
+        search_placeholder:
+          creator_name_cont: Creator or name of the school
+          creator_name_or_metadata_school_cont: Creator or name of the school
         signin_code_sets:
           has_unused_codes_eq:
             label: Includes used codes
             values:
-              "true": "Yes"
-              "false": "No"
-        search_placeholder:
-          creator_name_or_metadata_school_cont: Creator or name of the school
-          creator_name_cont: Creator or name of the school
+              'false': 'No'
+              'true': 'Yes'
+      models:
+        signin_code_set:
+          fields:
+            class_level: Grade level
+            creation_time: Creation time
+            creator: Creator
+            school: School
+            total_codes: Total codes
+            used_codes: Used codes
     authorization_handlers:
       admin:
         helsinki_smsauth_id:
           help:
-          - Administrators can create login codes that teachers or youth workers can use for their school class.
+          - Administrators can create login codes that teachers or youth workers can
+            use for their school class.
       helsinki_smsauth_id:
         explanation: Verify your account using a text message code.
         fields:
-          phone_number: Phone number
           grade: Grade level
+          phone_number: Phone number
           school: School
         name: Login via text message
     helsinki_smsauth:
+      budgets:
+        voting:
+          index:
+            sign_in_first: You have to log in in order to start voting.
       common:
         unnamed_user: Unnamed
       devise:
         sessions:
           new:
             email: Log in using email
-      budgets:
-        voting:
-          index:
-            sign_in_first: You have to log in in order to start voting.
       omniauth:
         access_code:
           authenticate: Sign in with a code provided by a teacher or a youth worker
-          enter_access_code: If you are unable to log in via text message, you can request the login code from your teacher or a youth worker.
+          enter_access_code: If you are unable to log in via text message, you can
+            request the login code from your teacher or a youth worker.
           return_to_sms_login: Back to text message login
           submit: Log in
         authenticate_user:
-          error: Failed to verify the phone number. Please try again and check that you have entered the login code correctly.
-          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
+          access_code_error: Failed to verify the access code. Make sure that you
+            have entered the correct code and try again.
+          error: Failed to verify the phone number. Please try again and check that
+            you have entered the login code correctly.
           signed_in: Login successful.
-          success:  Login successful.
-          updated_phone_number: Updating the phone number was successful.
+          success: Login successful.
           unauthorized: You are not authorized to perform this action.
+          updated_phone_number: Updating the phone number was successful.
         development_hint:
-          verification_code: "Login code: "
-          hint_notification: (This message is visible only in the development mode)
+          hint_notification: "(This message is visible only in the development mode)"
+          verification_code: 'Login code: '
         edit:
           title: Update your phone number
         new:
-          problem_sign_in: Problems?
-          explanation: If you are having problems with the identification process, contact a youth worker or your teacher for help.
           another_method: Log in with a code given by your teacher or youth worker
+          explanation: If you are having problems with the identification process,
+            contact a youth worker or your teacher for help.
+          problem_sign_in: Problems?
           title: Log in via text message
         phone_form:
           submit: Send code
         phone_instructions:
           enter_phone_number: Phone number
           step_one: Stage 1/2
-          type_in_phone: Please enter your phone number in the field below. You will receive a code that allows you to log in.
+          type_in_phone: Please enter your phone number in the field below. You will
+            receive a code that allows you to log in.
         school_info:
-          title: My information
-          successfully_authenticated: Excellent! You are now logged in to vote. We need some more information about you, which you can enter in the fields below. You will be able to vote once you have entered your details.
           enter_your_information: Please enter your information
-          required_fields: "* Required fields are marked with an asterisk"
-          submit: Save and continue
           error: Failed to save the information. Please try again.
-          success: Login successful.
           grade_help: What is your grade level at your school?
+          required_fields: "* Required fields are marked with an asterisk"
           select_school: "** Choose your school"
+          submit: Save and continue
+          success: Login successful.
+          successfully_authenticated: Excellent! You are now logged in to vote. We
+            need some more information about you, which you can enter in the fields
+            below. You will be able to vote once you have entered your details.
+          title: My information
         send_message:
           error:
+            destination_blacklist: The text message sending service cannot send messages
+              to this number. Please contact the system maintainer. (POL3007)
+            destination_whitelist: The text message sending service cannot send messages
+              to the selected country. Please contact the system maintainer. (POL3006)
             generic_error: Failed to send the text message.
-            destination_blacklist: The text message sending service cannot send messages to this number. Please contact the system maintainer. (POL3007)
-            destination_whitelist: The text message sending service cannot send messages to the selected country. Please contact the system maintainer. (POL3006)
-            invalid_to_number: The phone number is in incorrect format. Please try again or contact the system maintainer. (POL3101)
-            unknown: Failed to send the text message and the error has been logged. Please try again shortly. If the problem persists, contact the system maintainer.
-            server_error: There is a temporary error at the SMS sending service. Please try again later.
-          success: "The code has been sent to %{phone}."
-          server_busy: Sending text messages is congested. We will send the code to you as soon as possible. If you still don't get the code, try again after a while.
-          resend: "The code has been sent to %{phone}."
-          expired: Your sign in code has expired. We have sent you a new code and you should receive it shortly. Please enter the new code to the form below.
+            invalid_to_number: The phone number is in incorrect format. Please try
+              again or contact the system maintainer. (POL3101)
+            server_error: There is a temporary error at the SMS sending service. Please
+              try again later.
+            unknown: Failed to send the text message and the error has been logged.
+              Please try again shortly. If the problem persists, contact the system
+              maintainer.
+          expired: Your sign in code has expired. We have sent you a new code and
+            you should receive it shortly. Please enter the new code to the form below.
           not_allowed: Please wait at least 1 minute to resend the code.
+          resend: The code has been sent to %{phone}.
+          server_busy: Sending text messages is congested. We will send the code to
+            you as soon as possible. If you still don't get the code, try again after
+            a while.
+          success: The code has been sent to %{phone}.
         verification:
+          already_verified: Your user account has been already verified via text message.
           authenticate: Log in via text message
-          sign_in: Log in via text message
-          step_two: Stage 2/2
+          change_number: Re-enter the phone number
+          did_not_receive: Did not receive the code?
+          enter_code_below: In the field below, enter the code you received via text
+            message.
+          enter_verification_code: Login code
           enter_verification_message_html: |
             The code has been sent to <strong>%{phone}</strong>
             <br>Please note: You may have to wait a while for the code.
-          enter_verification_code: Login code
-          submit: Log in
-          change_number: Re-enter the phone number
-          wrong_number: Wrong number?
-          already_verified: Your user account has been already verified via text message.
-          enter_code_below: In the field below, enter the code you received via text message.
-          did_not_receive: Did not receive the code?
           resend_code: Resend the code
+          sign_in: Log in via text message
+          step_two: Stage 2/2
+          submit: Log in
+          wrong_number: Wrong number?
+      verification:
+        authorizations:
+          school_info:
+            enter_your_information: Please enter your information
+            error: Failed to save the details. Please try again or contact the system
+              administrator.
+            grade_help: What is your grade level at your school?
+            required_fields: "* Required fields are marked with an asterisk"
+            school_info: Text message verification successful. Please enter few more
+              details and you are done.
+            submit: Save and continue
+            title: My information
+          update:
+            incorrect: Failed to authorize. Please try again.
       verifications:
         admin:
           signin_code_sets:
             index:
+              generate_codes: Create codes
               title: Alternative login codes
-              generate_codes: Create codes
           signin_codes:
-            new:
-              title: Create codes
-              cancel: Cancel
-              generate_codes: Create codes
-              generate: Create
             create:
-              success: Creating the login codes was successful.
               error: Failed to create the login codes. Please try again.
+              success: Creating the login codes was successful.
+            new:
+              cancel: Cancel
+              generate: Create
+              generate_codes: Create codes
+              title: Create codes
             view_generated_codes:
-              expiration_note: These codes will expire at %{expiration_time}
+              access_code: Login code
               access_codes: Login codes
+              continue: Continue
               download_as_csv: Download CSV
               download_as_xlsx: Download XLSX
-              access_code: Login code
-              continue: Continue
               exit_confirmation:
-                title: Are you sure you have downloaded the codes?
-                cancel: "No"
-                exit_modal: Yes, have downloaded the codes
-                codes_visibility_warning: The codes are visible only in this view and you are not able to return the codes after you move forward from this view. Please make sure you have downloaded the codes and saved them to a location where you can find them.
+                cancel: 'No'
+                codes_visibility_warning: The codes are visible only in this view
+                  and you are not able to return the codes after you move forward
+                  from this view. Please make sure you have downloaded the codes and
+                  saved them to a location where you can find them.
                 exit: Exit
+                exit_modal: Yes, have downloaded the codes
+                title: Are you sure you have downloaded the codes?
+              expiration_note: These codes will expire at %{expiration_time}
         authorizations:
+          access_code:
+            enter_access_code: If you cannot verify your account using a text message,
+              contact a youth worker or your teacher for help.
+            return_to_sms_verification: Return to text message login
+            submit: Verify your account
+            verify: Verify your account with a code given by your teacher or youth
+              worker
           edit:
-            verify: Enter the login code
-            submit: Continue
-            not_receive: Resend the code
-            destroy: Re-enter the phone number
             confirm_destroy: Are you sure you want to start over?
+            destroy: Re-enter the phone number
+            not_receive: Resend the code
+            submit: Continue
+            verify: Enter the login code
           new:
-            title: Verify your phone number
-            submit: Send code
-            problem_authorization: Problems?
-            explanation: If you cannot verify your account using a text message, contact a youth worker or your teacher for help.
             another_method: Log in with a code given by your teacher or youth worker
+            explanation: If you cannot verify your account using a text message, contact
+              a youth worker or your teacher for help.
+            problem_authorization: Problems?
+            submit: Send code
+            title: Verify your phone number
+          school_info:
+            enter_your_information: My information
+            error: Failed to save the details. Please try again or contact the system
+              administrator.
+            grade_help: What is your grade level at your school?
+            required_fields: "* Required fields are marked with an asterisk"
+            school_info: Text message verification successful. Please enter few more
+              details and you are done.
+            submit: Save and continue
+            title: My information
           update:
             incorrect: Failed to log in. Please try again.
-          school_info:
-            title: My information
-            enter_your_information: My information
-            required_fields: "* Required fields are marked with an asterisk"
-            school_info: Text message verification successful. Please enter few more details and you are done.
-            error: Failed to save the details. Please try again or contact the system administrator.
-            grade_help: What is your grade level at your school?
-            submit: Save and continue
-          access_code:
-            verify: Verify your account with a code given by your teacher or youth worker
-            enter_access_code: If you cannot verify your account using a text message, contact a youth worker or your teacher for help.
-            submit: Verify your account
-            return_to_sms_verification: Return to text message login
-      verification:
-        authorizations:
-          school_info:
-            title: My information
-            enter_your_information: Please enter your information
-            required_fields: "* Required fields are marked with an asterisk"
-            school_info: Text message verification successful. Please enter few more details and you are done.
-            error: Failed to save the details. Please try again or contact the system administrator.
-            grade_help: What is your grade level at your school?
-            submit: Save and continue
-          update:
-            incorrect: Failed to authorize. Please try again.
     verifications:
       sms:
         decidim:

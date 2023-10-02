@@ -3,18 +3,7 @@ sv:
   activemodel:
     attributes:
       signin_codes:
-          school: Skola
-          grade: Årskurs
-          generate_code_amount: Antal koder som ska genereras
-      sms_registration:
-        name: Ditt namn
-        email: Din e-post (valfritt)
-      sms_sign_in:
-        phone_number: Telefonnummer
-      sms_verification:
-        verification: Inloggningskod
-        access_code: Lärarens eller ungdomsledarens kod
-      sms_verification_school_metadata:
+        generate_code_amount: Antal koder som ska genereras
         grade: Årskurs
         school: Skola
       sms_authorization:
@@ -23,186 +12,224 @@ sv:
         school: Skola
       sms_authorization_confirmation:
         verification_code: Inloggningskod
+      sms_registration:
+        email: Din e-post (valfritt)
+        name: Ditt namn
+      sms_sign_in:
+        phone_number: Telefonnummer
+      sms_verification:
+        access_code: Lärarens eller ungdomsledarens kod
+        verification: Inloggningskod
+      sms_verification_school_metadata:
+        grade: Årskurs
+        school: Skola
       user:
         mask_number: Telefonnummer
   decidim:
     admin:
-      models:
-        signin_code_set:
-          fields:
-            creation_time: Skapande tid
-            creator: Skapare
-            school: Skola
-            class_level: Årskurs
-            total_codes: Totalt antal koder
-            used_codes: Använda koder
       filters:
+        search_placeholder:
+          creator_name_cont: Skapare eller namn på skolan
+          creator_name_or_metadata_school_cont: Skapare eller namn på skolan
         signin_code_sets:
           has_unused_codes_eq:
             label: Inkluderar använda koder
             values:
-              "true": "Ja"
-              "false": "Nej"
-        search_placeholder:
-          creator_name_or_metadata_school_cont: Skapare eller namn på skolan
-          creator_name_cont: Skapare eller namn på skolan
+              'false': Nej
+              'true': Ja
+      models:
+        signin_code_set:
+          fields:
+            class_level: Årskurs
+            creation_time: Skapande tid
+            creator: Skapare
+            school: Skola
+            total_codes: Totalt antal koder
+            used_codes: Använda koder
     authorization_handlers:
       admin:
         helsinki_smsauth_id:
           help:
-          - Administratörer kan skapa inloggningskoder som lärare eller ungdomsarbetare kan använda för sin skolklass.
+          - Administratörer kan skapa inloggningskoder som lärare eller ungdomsarbetare
+            kan använda för sin skolklass.
       helsinki_smsauth_id:
         explanation: Verifiera ditt konto med en textmeddelandekod.
         fields:
-          phone_number: Telefonnummer
           grade: Årskurs
+          phone_number: Telefonnummer
           school: Skola
         name: Logga in via SMS
     helsinki_smsauth:
+      budgets:
+        voting:
+          index:
+            sign_in_first: Du måste logga in för att börja omröstning.
       common:
         unnamed_user: Namnlös
       devise:
         sessions:
           new:
             email: Logga in med e-post
-      budgets:
-        voting:
-          index:
-            sign_in_first: Du måste logga in för att börja omröstning.
       omniauth:
         access_code:
           authenticate: Logga in med lärarens eller ungdomsledarens kod
-          enter_access_code: Om du inte kan logga in med SMS, kan du fråga lärare eller ungdomsledare att ge dig en inloggningskod.
+          enter_access_code: Om du inte kan logga in med SMS, kan du fråga lärare
+            eller ungdomsledare att ge dig en inloggningskod.
           return_to_sms_login: Tillbaka till inloggning med SMS
           submit: Log in
         authenticate_user:
-          error: Det gick inte att verifiera telefonnumret. Försök igen och kontrollera att du har skrivit in inloggningskoden korrekt.
-          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
+          access_code_error: Failed to verify the access code. Make sure that you
+            have entered the correct code and try again.
+          error: Det gick inte att verifiera telefonnumret. Försök igen och kontrollera
+            att du har skrivit in inloggningskoden korrekt.
           signed_in: Inloggningen lyckades.
-          success:  Inloggningen lyckades.
-          updated_phone_number: Uppdateringen av telefonnumret lyckades.
+          success: Inloggningen lyckades.
           unauthorized: Du är inte behörig att utföra den här åtgärden.
+          updated_phone_number: Uppdateringen av telefonnumret lyckades.
         development_hint:
-          verification_code: "Inloggningskod: "
-          hint_notification: (This message is visible only in the development mode)
+          hint_notification: "(This message is visible only in the development mode)"
+          verification_code: 'Inloggningskod: '
         edit:
           title: Uppdatera ditt telefonnummer
         new:
-          problem_sign_in: Har du problem?
-          explanation: Om du har problem med identifieringen, fråga om hjälp av din lärare eller ungdomsledare.
           another_method: Logga in med lärarens eller ungdomsledarens kod
+          explanation: Om du har problem med identifieringen, fråga om hjälp av din
+            lärare eller ungdomsledare.
+          problem_sign_in: Har du problem?
           title: Logga in med SMS
         phone_form:
           submit: Skicka kod
         phone_instructions:
           enter_phone_number: Telefonnummer
           step_one: Steg 1/2
-          type_in_phone: Ange ditt telefonnummer i fältet nedan. Du får en kod som gör att du kan logga in.
+          type_in_phone: Ange ditt telefonnummer i fältet nedan. Du får en kod som
+            gör att du kan logga in.
         school_info:
-          title: Egna uppgifter
-          successfully_authenticated: Fint! Du är nu inloggad och kan rösta. Vi behöver ännu några uppgifter om dig som du kan ange i fälten nedan. Efter detta kan du rösta.
           enter_your_information: Ange din information
-          required_fields: "* Obligatoriska fält är markerade med en asterisk"
-          submit: Spara uppgifterna och fortsätt
           error: Det gick inte att spara informationen. Var god försök igen.
-          success: Inloggningen lyckades.
           grade_help: Vilken är din årskurs på din skola?
+          required_fields: "* Obligatoriska fält är markerade med en asterisk"
           select_school: "** Välj din skola"
+          submit: Spara uppgifterna och fortsätt
+          success: Inloggningen lyckades.
+          successfully_authenticated: Fint! Du är nu inloggad och kan rösta. Vi behöver
+            ännu några uppgifter om dig som du kan ange i fälten nedan. Efter detta
+            kan du rösta.
+          title: Egna uppgifter
         send_message:
           error:
+            destination_blacklist: SMS-tjänsten kan inte skicka meddelanden till detta
+              nummer. Kontakta systemansvarig. (POL3007)
+            destination_whitelist: SMS-tjänsten kan inte skicka meddelanden till det
+              valda landet. Kontakta systemansvarig. (POL3006)
             generic_error: Det gick inte att skicka textmeddelandet.
-            destination_blacklist: SMS-tjänsten kan inte skicka meddelanden till detta nummer. Kontakta systemansvarig. (POL3007)
-            destination_whitelist: SMS-tjänsten kan inte skicka meddelanden till det valda landet. Kontakta systemansvarig. (POL3006)
-            invalid_to_number: Telefonnumret är i felaktigt format. Försök igen eller kontakta systemansvarig. (POL3101)
-            unknown: Det gick inte att skicka textmeddelandet och felet har loggats. Försök snart igen. Kontakta systemansvarig om problemet kvarstår.
-            server_error: Det finns ett tillfälligt fel i SMS-sändningstjänsten. Vänligen försök igen senare.
-          success: "Koden har skickats till numret %{phone}."
-          server_busy: Det är överbelastat att skicka textmeddelanden. Vi skickar koden till dig så snart som möjligt. Om du fortfarande inte får koden, försök igen efter ett tag.
-          resend: "Koden har skickats till numret %{phone}."
-          expired: Din inloggningskod har upphört att gälla. Vi har skickat en ny kod till dig och du bör få den inom kort. Ange den nya koden i formuläret nedan.
+            invalid_to_number: Telefonnumret är i felaktigt format. Försök igen eller
+              kontakta systemansvarig. (POL3101)
+            server_error: Det finns ett tillfälligt fel i SMS-sändningstjänsten. Vänligen
+              försök igen senare.
+            unknown: Det gick inte att skicka textmeddelandet och felet har loggats.
+              Försök snart igen. Kontakta systemansvarig om problemet kvarstår.
+          expired: Din inloggningskod har upphört att gälla. Vi har skickat en ny
+            kod till dig och du bör få den inom kort. Ange den nya koden i formuläret
+            nedan.
           not_allowed: Vänta minst 1 minut för att skicka koden igen.
+          resend: Koden har skickats till numret %{phone}.
+          server_busy: Det är överbelastat att skicka textmeddelanden. Vi skickar
+            koden till dig så snart som möjligt. Om du fortfarande inte får koden,
+            försök igen efter ett tag.
+          success: Koden har skickats till numret %{phone}.
         verification:
+          already_verified: Ditt användarkonto har redan verifierats via SMS.
           authenticate: Logga in med SMS
-          sign_in: Logga in med SMS
-          step_two: Steg 2/2
+          change_number: Ange ditt nummer på nytt.
+          did_not_receive: Fick du inte koden?
+          enter_code_below: Ange den kod som du fick via SMS i fältet nedan.
+          enter_verification_code: Inloggningskod
           enter_verification_message_html: |
             Koden har skickats till numret <strong>%{phone}</strong>
             <br>Obs! Det kan ta ett ögonblick innan du får koden.
-          enter_verification_code: Inloggningskod
-          submit: Logga in
-          change_number: Ange ditt nummer på nytt.
-          wrong_number: Är numret fel?
-          already_verified: Ditt användarkonto har redan verifierats via SMS.
-          enter_code_below: Ange den kod som du fick via SMS i fältet nedan.
-          did_not_receive: Fick du inte koden?
           resend_code: Skicka koden igen
+          sign_in: Logga in med SMS
+          step_two: Steg 2/2
+          submit: Logga in
+          wrong_number: Är numret fel?
+      verification:
+        authorizations:
+          school_info:
+            enter_your_information: Ange din information
+            error: Det gick inte att spara informationen. Försök igen eller kontakta
+              systemadministratören.
+            grade_help: Vilken är din årskurs på din skola?
+            required_fields: "* Obligatoriska fält är markerade med en asterisk"
+            school_info: SMS-inloggning lyckades. Vänligen ange några fler detaljer
+              och du är klar.
+            submit: Spara uppgifterna och fortsätt
+            title: Egna uppgifter
+          update:
+            incorrect: Det gick inte att auktorisera. Var god försök igen.
       verifications:
         admin:
           signin_code_sets:
             index:
+              generate_codes: Skapa koder
               title: Alternativa inloggningskoder
-              generate_codes: Skapa koder
           signin_codes:
-            new:
-              title: Skapa koder
-              cancel: Annullera
-              generate_codes: Skapa koder
-              generate: Skapa
             create:
-              success: Skapandet av inloggningskoderna lyckades.
               error: Det gick inte att skapa inloggningskoderna. Var god försök igen.
+              success: Skapandet av inloggningskoderna lyckades.
+            new:
+              cancel: Annullera
+              generate: Skapa
+              generate_codes: Skapa koder
+              title: Skapa koder
             view_generated_codes:
+              access_code: Inloggningskod
               access_codes: Inloggningskoder
+              continue: Fortsätta
               download_as_csv: Ladda ner CSV
               download_as_xlsx: Ladda ner XLSX
-              access_code: Inloggningskod
-              continue: Fortsätta
               exit_confirmation:
-                title: Är du säker på att du har laddat ner koderna?
-                cancel: "Nej"
-                exit_modal: Ja, har laddat ner koderna
-                codes_visibility_warning: Koderna är endast synliga i den här vyn och du kan inte returnera koderna efter att du gått vidare från den här vyn. Se till att du har laddat ner koderna och sparat dem på en plats där du kan hitta dem.
+                cancel: Nej
+                codes_visibility_warning: Koderna är endast synliga i den här vyn
+                  och du kan inte returnera koderna efter att du gått vidare från
+                  den här vyn. Se till att du har laddat ner koderna och sparat dem
+                  på en plats där du kan hitta dem.
                 exit: Utgång
+                exit_modal: Ja, har laddat ner koderna
+                title: Är du säker på att du har laddat ner koderna?
         authorizations:
+          access_code:
+            enter_access_code: Om du inte kan verifiera ditt konto med ett textmeddelande,
+              fråga om hjälp av din lärare eller ungdomsledare.
+            return_to_sms_verification: Tillbaka till inloggning med SMS
+            submit: Verifiera ditt konto
+            verify: Verifiera ditt konto med en kod som du fått av din lärare eller
+              ungdomsledare
           edit:
-            verify: Ange inloggningskoden
-            submit: Fortsätta
-            not_receive: Skicka koden igen
-            destroy: Ange telefonnumret igen
             confirm_destroy: Är du säker på att du vill börja om?
+            destroy: Ange telefonnumret igen
+            not_receive: Skicka koden igen
+            submit: Fortsätta
+            verify: Ange inloggningskoden
           new:
-            title: Verifiera ditt telefonnummer
-            submit: Skicka kod
-            problem_authorization: Har du problem?
-            explanation: Om du inte kan verifiera ditt konto med ett textmeddelande, fråga om hjälp av din lärare eller ungdomsledare.
             another_method: Logga in med en kod som du fått av din lärare eller ungdomsledare
+            explanation: Om du inte kan verifiera ditt konto med ett textmeddelande,
+              fråga om hjälp av din lärare eller ungdomsledare.
+            problem_authorization: Har du problem?
+            submit: Skicka kod
+            title: Verifiera ditt telefonnummer
+          school_info:
+            enter_your_information: Egna uppgifter
+            error: Det gick inte att spara informationen. Försök igen eller kontakta
+              systemadministratören.
+            grade_help: Vilken är din årskurs på din skola?
+            required_fields: "* Obligatoriska fält är markerade med en asterisk"
+            school_info: SMS-inloggning lyckades. Vänligen ange några fler detaljer
+              och du är klar.
+            submit: Spara uppgifterna och fortsätt
+            title: Egna uppgifter
           update:
             incorrect: Det gick inte att logga in. Försök igen.
-          school_info:
-            title: Egna uppgifter
-            enter_your_information: Egna uppgifter
-            required_fields: "* Obligatoriska fält är markerade med en asterisk"
-            school_info: SMS-inloggning lyckades. Vänligen ange några fler detaljer och du är klar.
-            error: Det gick inte att spara informationen. Försök igen eller kontakta systemadministratören.
-            grade_help: Vilken är din årskurs på din skola?
-            submit: Spara uppgifterna och fortsätt
-          access_code:
-            verify: Verifiera ditt konto med en kod som du fått av din lärare eller ungdomsledare
-            enter_access_code: Om du inte kan verifiera ditt konto med ett textmeddelande, fråga om hjälp av din lärare eller ungdomsledare.
-            submit: Verifiera ditt konto
-            return_to_sms_verification: Tillbaka till inloggning med SMS
-      verification:
-        authorizations:
-          school_info:
-            title: Egna uppgifter
-            enter_your_information: Ange din information
-            required_fields: "* Obligatoriska fält är markerade med en asterisk"
-            school_info: SMS-inloggning lyckades. Vänligen ange några fler detaljer och du är klar.
-            error: Det gick inte att spara informationen. Försök igen eller kontakta systemadministratören.
-            grade_help: Vilken är din årskurs på din skola?
-            submit: Spara uppgifterna och fortsätt
-          update:
-            incorrect: Det gick inte att auktorisera. Var god försök igen.
     verifications:
       sms:
         decidim:
@@ -210,4 +237,5 @@ sv:
             verification:
               authorizations:
                 edit:
-                  session_expired: Inloggningskoden har upphört att gälla. Var god försök igen.
+                  session_expired: Inloggningskoden har upphört att gälla. Var god
+                    försök igen.

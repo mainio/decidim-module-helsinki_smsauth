@@ -3,18 +3,7 @@ fi:
   activemodel:
     attributes:
       signin_codes:
-        school: Koulu
-        grade: Luokka-aste
         generate_code_amount: Luotavien koodien määrä
-      sms_registration:
-        name: Nimesi
-        email: Sähköpostiosoitteesi (vapaaehtoinen)
-      sms_sign_in:
-        phone_number: Puhelinnumero
-      sms_verification:
-        verification: Kirjautumiskoodi
-        access_code: Opettajan tai nuoriso-ohjaajan antama koodi
-      sms_verification_school_metadata:
         grade: Luokka-aste
         school: Koulu
       sms_authorization:
@@ -23,186 +12,226 @@ fi:
         school: Koulu
       sms_authorization_confirmation:
         verification_code: Kirjautumiskoodi
+      sms_registration:
+        email: Sähköpostiosoitteesi (vapaaehtoinen)
+        name: Nimesi
+      sms_sign_in:
+        phone_number: Puhelinnumero
+      sms_verification:
+        access_code: Opettajan tai nuoriso-ohjaajan antama koodi
+        verification: Kirjautumiskoodi
+      sms_verification_school_metadata:
+        grade: Luokka-aste
+        school: Koulu
       user:
         mask_number: Puhelinnumerosi
   decidim:
     admin:
-      models:
-        signin_code_set:
-          fields:
-            creation_time: Luontiaika
-            creator: Luoja
-            school: Koulu
-            class_level: Luokka-aste
-            total_codes: Koodeja yhteensä
-            used_codes: Käytettyjä koodeja
       filters:
+        search_placeholder:
+          creator_name_cont: Luoja tai koulun nimi
+          creator_name_or_metadata_school_cont: Luoja tai koulun nimi
         signin_code_sets:
           has_unused_codes_eq:
             label: Sisältää käytettyjä koodeja
             values:
-              "true": "Kyllä"
-              "false": "Ei"
-        search_placeholder:
-          creator_name_or_metadata_school_cont: Luoja tai koulun nimi
-          creator_name_cont: Luoja tai koulun nimi
+              'false': Ei
+              'true': Kyllä
+      models:
+        signin_code_set:
+          fields:
+            class_level: Luokka-aste
+            creation_time: Luontiaika
+            creator: Luoja
+            school: Koulu
+            total_codes: Koodeja yhteensä
+            used_codes: Käytettyjä koodeja
     authorization_handlers:
       admin:
         helsinki_smsauth_id:
           help:
-          - Hallintakäyttäjät voivat luoda kirjautumiskoodeja, joita opettajat ja ohjaajat voivat käyttää luokalleen.
+          - Hallintakäyttäjät voivat luoda kirjautumiskoodeja, joita opettajat ja
+            ohjaajat voivat käyttää luokalleen.
       helsinki_smsauth_id:
         explanation: Vahvista tilisi tekstiviestikoodin avulla.
         fields:
-          phone_number: Puhelinnumero
           grade: Luokka-aste
+          phone_number: Puhelinnumero
           school: Koulu
         name: Tekstiviestikirjautuminen
     helsinki_smsauth:
+      budgets:
+        voting:
+          index:
+            sign_in_first: Sinun on kirjauduttava aloittaaksesi äänestyksen.
       common:
         unnamed_user: Nimetön
       devise:
         sessions:
           new:
             email: Kirjaudu sisään sähköpostilla
-      budgets:
-        voting:
-          index:
-            sign_in_first: Sinun on kirjauduttava aloittaaksesi äänestyksen.
       omniauth:
         access_code:
           authenticate: Kirjaudu opettajan tai nuoriso-ohjaajan antamalla koodilla
-          enter_access_code: Jos et voi kirjautua tekstiviestillä, voit pyytää opettajalta tai nuoriso-ohjaajalta koodin, jonka avulla pääset kirjautumaan. Syötä saamasi koodi alla näkyvään kenttään.
+          enter_access_code: Jos et voi kirjautua tekstiviestillä, voit pyytää opettajalta
+            tai nuoriso-ohjaajalta koodin, jonka avulla pääset kirjautumaan. Syötä
+            saamasi koodi alla näkyvään kenttään.
           return_to_sms_login: Palaa tekstiviestikirjautumiseen
           submit: Kirjaudu
         authenticate_user:
-          error: Puhelinnumeron varmistaminen epäonnistui. Yritä uudestaan ja tarkasta, että olet kirjoittanut kirjautumiskoodin oikein.
-          access_code_error: Failed to verify the access code. Make sure that you have entered the correct code and try again.
+          access_code_error: Failed to verify the access code. Make sure that you
+            have entered the correct code and try again.
+          error: Puhelinnumeron varmistaminen epäonnistui. Yritä uudestaan ja tarkasta,
+            että olet kirjoittanut kirjautumiskoodin oikein.
           signed_in: Kirjautuminen onnistui.
-          success:  Kirjautuminen onnistui.
-          updated_phone_number: Puhelinnumeron päivitys onnistui.
+          success: Kirjautuminen onnistui.
           unauthorized: Et voi suorittaa tätä toimintoa.
+          updated_phone_number: Puhelinnumeron päivitys onnistui.
         development_hint:
-          verification_code: "Kirjautumiskoodi on: "
-          hint_notification: (Tämä viesti näkyy vain kehitystilassa)
+          hint_notification: "(Tämä viesti näkyy vain kehitystilassa)"
+          verification_code: 'Kirjautumiskoodi on: '
         edit:
           title: Päivitä puhelinnumerosi
         new:
-          problem_sign_in: Törmäsitkö ongelmiin?
-          explanation: Jos et voi kirjautua tekstiviestillä, voit pyytää opettajalta tai nuoriso-ohjaajalta koodin, jonka avulla pääset kirjautumaan. Syötä saamasi koodi alla näkyvään kenttään.
           another_method: Kirjaudu opettajan tai nuoriso-ohjaajan antamalla koodilla
+          explanation: Jos et voi kirjautua tekstiviestillä, voit pyytää opettajalta
+            tai nuoriso-ohjaajalta koodin, jonka avulla pääset kirjautumaan. Syötä
+            saamasi koodi alla näkyvään kenttään.
+          problem_sign_in: Törmäsitkö ongelmiin?
           title: Kirjaudu tekstiviestillä
         phone_form:
           submit: Lähetä koodi
         phone_instructions:
           enter_phone_number: Puhelinnumero
           step_one: Vaihe 1/2
-          type_in_phone: Kirjoita alla näkyvään kenttään puhelinnumerosi. Saat tekstiviestillä koodin, jolla pääset kirjautumaan.
+          type_in_phone: Kirjoita alla näkyvään kenttään puhelinnumerosi. Saat tekstiviestillä
+            koodin, jolla pääset kirjautumaan.
         school_info:
-          title: Omat tiedot
-          successfully_authenticated: Hienoa! Olet nyt kirjautunut äänestämään. Tarvitsemme sinusta vielä muutamia tietoja, jotka voit syöttää alla näkyviin kenttiin. Tietojen syöttämisen jälkeen pääset äänestämään.
           enter_your_information: Syötä omat tiedot
-          required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
-          submit: Tallenna tiedot ja jatka
           error: Tietojen tallennus epäonnistui. Yritä uudestaan.
-          success: Kirjautuminen onnistui.
           grade_help: Millä luokka-asteella opiskelet koulussasi?
+          required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
           select_school: "** Valitse oma koulusi"
+          submit: Tallenna tiedot ja jatka
+          success: Kirjautuminen onnistui.
+          successfully_authenticated: Hienoa! Olet nyt kirjautunut äänestämään. Tarvitsemme
+            sinusta vielä muutamia tietoja, jotka voit syöttää alla näkyviin kenttiin.
+            Tietojen syöttämisen jälkeen pääset äänestämään.
+          title: Omat tiedot
         send_message:
           error:
+            destination_blacklist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä
+              tähän numeroon. Ota yhteyttä järjestelmän ylläpitäjään. (POL3007)
+            destination_whitelist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä
+              valittuun maahan. Ota yhteyttä järjestelmän ylläpitäjään. (POL3006)
             generic_error: Tekstiviestin lähetys epäonnistui.
-            destination_blacklist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä tähän numeroon. Ota yhteyttä järjestelmän ylläpitäjään. (POL3007)
-            destination_whitelist: Tekstiviestien lähetyspalvelu ei voi lähettää viestejä valittuun maahan. Ota yhteyttä järjestelmän ylläpitäjään. (POL3006)
-            invalid_to_number: Syötetty puhelinnumero on väärän muotoinen. Yritä uudestaan tai ota yhteyttä järjestelmän ylläpitäjään. (POL3101)
-            unknown: Tekstiviestin lähetys epäonnistui ja virhe on lokitettu. Yritä hetken kuluttua uudestaan. Jos ongelma jatkuu, ota yhteyttä järjestelmän ylläpitäjään.
-            server_error: Tekstiviestin lähetyspalvelussa on väliaikainen ongelma. Yritä uudestaan myöhemmin.
-          success: "Kirjautumiskoodi lähetetty numeroon %{phone}."
-          server_busy: Tekstiviestien lähetys on ruuhkautunut. Lähetämme koodin sinulle heti, kun mahdollista. Jos et siitä huolimatta saa koodia, yritä hetken kuluttua uudestaan.
-          resend: "Kirjautumiskoodi lähetetty numeroon %{phone}."
-          expired: Kirjautumiskoodisi on vanhentunut. Olemme lähettäneet sinulle uuden koodin ja sinun pitäisi saada se pian. Syötä uusi koodi alla näkyvälle lomakkeelle.
+            invalid_to_number: Syötetty puhelinnumero on väärän muotoinen. Yritä uudestaan
+              tai ota yhteyttä järjestelmän ylläpitäjään. (POL3101)
+            server_error: Tekstiviestin lähetyspalvelussa on väliaikainen ongelma.
+              Yritä uudestaan myöhemmin.
+            unknown: Tekstiviestin lähetys epäonnistui ja virhe on lokitettu. Yritä
+              hetken kuluttua uudestaan. Jos ongelma jatkuu, ota yhteyttä järjestelmän
+              ylläpitäjään.
+          expired: Kirjautumiskoodisi on vanhentunut. Olemme lähettäneet sinulle uuden
+            koodin ja sinun pitäisi saada se pian. Syötä uusi koodi alla näkyvälle
+            lomakkeelle.
           not_allowed: Odota vähintään 1 minuutti lähettääksesi koodin uudestaan.
+          resend: Kirjautumiskoodi lähetetty numeroon %{phone}.
+          server_busy: Tekstiviestien lähetys on ruuhkautunut. Lähetämme koodin sinulle
+            heti, kun mahdollista. Jos et siitä huolimatta saa koodia, yritä hetken
+            kuluttua uudestaan.
+          success: Kirjautumiskoodi lähetetty numeroon %{phone}.
         verification:
+          already_verified: Käyttäjätilisi on jo varmennettu tekstiviestillä.
           authenticate: Kirjaudu tekstiviestillä
-          sign_in: Kirjaudu tekstiviestillä
-          step_two: Vaihe 2/2
+          change_number: Syötä numero uudestaan
+          did_not_receive: Etkö saanut koodia?
+          enter_code_below: Syötä alla näkyvään kenttään koodi, jonka sait tekstiviestillä.
+          enter_verification_code: Kirjautumiskoodi
           enter_verification_message_html: |
             Koodi lähetetty numeroon <strong>%{phone}</strong>
             <br>Huom! Voit joutua odottamaan koodia hetken.
-          enter_verification_code: Kirjautumiskoodi
-          submit: Kirjaudu
-          change_number: Syötä numero uudestaan
-          wrong_number: Onko numero väärin?
-          already_verified: Käyttäjätilisi on jo varmennettu tekstiviestillä.
-          enter_code_below: Syötä alla näkyvään kenttään koodi, jonka sait tekstiviestillä.
-          did_not_receive: Etkö saanut koodia?
           resend_code: Lähetä koodi uudestaan
+          sign_in: Kirjaudu tekstiviestillä
+          step_two: Vaihe 2/2
+          submit: Kirjaudu
+          wrong_number: Onko numero väärin?
+      verification:
+        authorizations:
+          school_info:
+            enter_your_information: Syötä omat tietosi
+            error: Tietojen tallentaminen epäonnistui. Yritä uudestaan tai ota yhteyttä
+              järjestelmän ylläpitäjään.
+            grade_help: Millä luokka-asteella opiskelet koulussasi?
+            required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
+            school_info: Tekstiviestikirjautuminen onnistui. Syötä vielä muutama tieto
+              ja tämän jälkeen olet valmis.
+            submit: Tallenna tiedot ja jatka
+            title: Omat tiedot
+          update:
+            incorrect: Vahvistaminen epäonnistui. Yritä uudestaan.
       verifications:
         admin:
           signin_code_sets:
             index:
-              title: Vaihtoehtoiset kirjautumiskoodit
               generate_codes: Luo koodit
+              title: Vaihtoehtoiset kirjautumiskoodit
           signin_codes:
-            new:
-              title: Luo koodeja
-              cancel: Peruuta
-              generate_codes: Luo koodeja
-              generate: Luo
             create:
-              success: Kirjautumiskoodien luonti onnistui.
               error: Kirjautumiskoodien luonti epäonnistui. Yritä uudestaan.
+              success: Kirjautumiskoodien luonti onnistui.
+            new:
+              cancel: Peruuta
+              generate: Luo
+              generate_codes: Luo koodeja
+              title: Luo koodeja
             view_generated_codes:
+              access_code: Kirjautumiskoodi
               access_codes: Kirjautumiskoodit
+              continue: Jatka
               download_as_csv: Lataa CSV
               download_as_xlsx: Lataa XLSX
-              access_code: Kirjautumiskoodi
-              continue: Jatka
               exit_confirmation:
-                title: Oletko varmasti ladannut koodit talteen?
-                cancel: "En"
-                exit_modal: Kyllä, olen ladannut koodit
-                codes_visibility_warning: Koodit näkyvät vain tässä näkymässä, etkä voi palauttaa koodeja, kun olet siirtynyt eteenpäin tästä näkymästä. Varmista, että olet ladannut koodit ja tallentanut ne paikkaan, josta löydät ne.
+                cancel: En
+                codes_visibility_warning: Koodit näkyvät vain tässä näkymässä, etkä
+                  voi palauttaa koodeja, kun olet siirtynyt eteenpäin tästä näkymästä.
+                  Varmista, että olet ladannut koodit ja tallentanut ne paikkaan,
+                  josta löydät ne.
                 exit: Poistu
+                exit_modal: Kyllä, olen ladannut koodit
+                title: Oletko varmasti ladannut koodit talteen?
         authorizations:
+          access_code:
+            enter_access_code: Jos et voi vahvistaa tiliäsi tekstiviestillä, voit
+              pyytää kirjautumiskoodin opettajalta tai nuoriso-ohjaajalta.
+            return_to_sms_verification: Palaa tekstiviestivahvistukseen
+            submit: Vahvista tilisi
+            verify: Vahvista tilisi opettajan tai nuoriso-ohjaajan antamalla koodilla
           edit:
-            verify: Syötä kirjautumiskoodi
-            submit: Jatka
-            not_receive: Lähetä koodi uudestaan
-            destroy: Syötä puhelinnumero uudestaan
             confirm_destroy: Haluatko varmasti aloittaa alusta?
+            destroy: Syötä puhelinnumero uudestaan
+            not_receive: Lähetä koodi uudestaan
+            submit: Jatka
+            verify: Syötä kirjautumiskoodi
           new:
-            title: Vahvista puhelinnumerosi
-            submit: Lähetä koodi
-            problem_authorization: Törmäsitkö ongelmiin?
-            explanation: Jos et voi vahvistaa tiliäsi tekstiviestillä, voit pyytää kirjautumiskoodin opettajalta tai nuoriso-ohjaajalta.
             another_method: Kirjaudu opettajan tai nuoriso-ohjaajan antamalla koodilla
+            explanation: Jos et voi vahvistaa tiliäsi tekstiviestillä, voit pyytää
+              kirjautumiskoodin opettajalta tai nuoriso-ohjaajalta.
+            problem_authorization: Törmäsitkö ongelmiin?
+            submit: Lähetä koodi
+            title: Vahvista puhelinnumerosi
+          school_info:
+            enter_your_information: Omat tiedot
+            error: Tietojen tallentaminen epäonnistui. Yritä uudestaan tai ota yhteyttä
+              järjestelmän ylläpitäjään.
+            grade_help: Millä luokka-asteella opiskelet koulussasi?
+            required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
+            school_info: Tekstiviestikirjautuminen onnistui. Syötä vielä muutama tieto
+              ja tämän jälkeen olet valmis.
+            submit: Tallenna tiedot ja jatka
+            title: Omat tiedot
           update:
             incorrect: Kirjautuminen epäonnistui. Yritä uudestaan.
-          school_info:
-            title: Omat tiedot
-            enter_your_information: Omat tiedot
-            required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
-            school_info: Tekstiviestikirjautuminen onnistui. Syötä vielä muutama tieto ja tämän jälkeen olet valmis.
-            error: Tietojen tallentaminen epäonnistui. Yritä uudestaan tai ota yhteyttä järjestelmän ylläpitäjään.
-            grade_help: Millä luokka-asteella opiskelet koulussasi?
-            submit: Tallenna tiedot ja jatka
-          access_code:
-            verify: Vahvista tilisi opettajan tai nuoriso-ohjaajan antamalla koodilla
-            enter_access_code: Jos et voi vahvistaa tiliäsi tekstiviestillä, voit pyytää kirjautumiskoodin opettajalta tai nuoriso-ohjaajalta.
-            submit: Vahvista tilisi
-            return_to_sms_verification: Palaa tekstiviestivahvistukseen
-      verification:
-        authorizations:
-          school_info:
-            title: Omat tiedot
-            enter_your_information: Syötä omat tietosi
-            required_fields: "* Vaaditut kentät on merkitty tähtimerkillä"
-            school_info: Tekstiviestikirjautuminen onnistui. Syötä vielä muutama tieto ja tämän jälkeen olet valmis.
-            error: Tietojen tallentaminen epäonnistui. Yritä uudestaan tai ota yhteyttä järjestelmän ylläpitäjään.
-            grade_help: Millä luokka-asteella opiskelet koulussasi?
-            submit: Tallenna tiedot ja jatka
-          update:
-            incorrect: Vahvistaminen epäonnistui. Yritä uudestaan.
     verifications:
       sms:
         decidim:
