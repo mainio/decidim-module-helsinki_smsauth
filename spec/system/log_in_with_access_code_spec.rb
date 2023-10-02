@@ -24,7 +24,7 @@ describe "log in with access code", type: :system do
   end
 
   context "when correct code" do
-    let!(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
+    # let!(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
     let!(:creator) { create(:user, :confirmed, :admin, organization: organization) }
     let!(:signin_code_set) { create(:signin_code_set, creator: creator) }
     let!(:signin_code) { create(:signin_code, code: access_code, signin_code_set: signin_code_set) }

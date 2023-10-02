@@ -25,11 +25,9 @@ shared_context "with telia gateway" do
 end
 
 shared_context "with single access code" do
-  let(:organization) { create(:organization) }
-  let!(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
   let!(:creator) { create(:user, :confirmed, :admin, organization: organization) }
-
   let!(:signin_code_set) { create(:signin_code_set, creator: creator) }
+  let!(:signin_code) { create(:signin_code, code: access_code, signin_code_set: signin_code_set) }
 end
 
 shared_context "with helsinki_smsauth_id authorization" do
