@@ -48,7 +48,7 @@ module Decidim
       def refined_phone_number
         country_prefix = country_code_prefix.split("+").last
         entry = phone_number.to_s
-        entry.gsub(/\A((00||\+)#{country_prefix}|0)/, "")
+        entry.gsub(/\A((00||\+)#{country_prefix}|0)/, "").gsub(/\A(0)/, "")
       end
     end
   end
