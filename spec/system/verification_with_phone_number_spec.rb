@@ -54,7 +54,7 @@ describe "verification with phone number", type: :system do
           name: "helsinki_smsauth_id",
           user: another_user,
           metadata: auth_metadata,
-          unique_id: "36622e90d8c073ac33cfa896610632a9"
+          unique_id: Digest::MD5.hexdigest("FI-4567890-#{Rails.application.secrets.secret_key_base}")
         )
       end
 

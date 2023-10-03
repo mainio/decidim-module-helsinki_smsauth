@@ -287,7 +287,7 @@ module Decidim
       end
 
       def find_user!
-        Decidim::User.find_by(
+        Decidim::User.unscoped.find_by(
           phone_number: PhoneNumberFormatter.new(default_params[:phone_number]).format,
           organization: current_organization
         )

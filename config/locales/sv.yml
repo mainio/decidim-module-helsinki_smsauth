@@ -183,7 +183,7 @@ sv:
               generate_codes: Skapa koder
               title: Skapa koder
             view_generated_codes:
-              access_code: Inloggningskod
+              expiration_note: Dessa koder upphör att gälla %{expiration_time}
               access_codes: Inloggningskoder
               continue: Fortsätta
               download_as_csv: Ladda ner CSV

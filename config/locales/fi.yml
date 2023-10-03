@@ -186,7 +186,7 @@ fi:
               generate_codes: Luo koodeja
               title: Luo koodeja
             view_generated_codes:
-              access_code: Kirjautumiskoodi
+              expiration_note: Nämä koodit vanhenevat %{expiration_time}
               access_codes: Kirjautumiskoodit
               continue: Jatka
               download_as_csv: Lataa CSV

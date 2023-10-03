@@ -37,12 +37,18 @@ module Decidim
         end
 
         def unique_id
-          "helsinki_smsauth_#{prefix}_#{form.access_code}"
+          Digest::MD5.hexdigest(
+            "helsinki_smsauth_#{random_prefix}_#{form.access_code}"
+          )
         end
 
-        def prefix
-          characters = ("0".."9").to_a + ("A".."Z").to_a
-          characters.sample(10).join
+        # Since we do not have anything uniquely identifiying users, we need
+        # to provide a random prefix for the codes because the used codes are
+        # destroyed from the database, so it is theoretically possible two
+        # users would use the exact same code at some point.
+        def random_prefix
+          characters = ("0".."9").to_a + ("A".."Z").to_a + ("a".."z").to_a
+          64.times.map { characters.sample }.join
         end
       end
     end

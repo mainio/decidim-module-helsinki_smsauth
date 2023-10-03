@@ -7,7 +7,7 @@ module Decidim
 
       attribute :metadata, type: :hash
 
-      belongs_to :creator, foreign_key: "decidim_user_id", class_name: "Decidim::User"
+      belongs_to :creator, -> { respond_to?(:entire_collection) ? entire_collection : self }, foreign_key: "decidim_user_id", class_name: "Decidim::User"
       has_many :signin_codes, foreign_key: "decidim_signin_code_set_id", class_name: "Decidim::HelsinkiSmsauth::SigninCode", dependent: :destroy
 
       validates :generated_code_amount, numericality: { greater_than: 0 }
