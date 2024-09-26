@@ -22,7 +22,7 @@ shared_examples "filterable login code" do
 
   it "filters based on creator name" do
     fill_in "q[creator_name_cont]", with: creators[0].name[0..3]
-    click_button("Search")
+    find('button[aria-label="Search"]').click
     table = find("table.stack.table-list")
     rows = table.find("tbody").all("tr")
     expect(rows.count).to eq(10)

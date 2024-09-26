@@ -32,7 +32,7 @@ describe "verification with access code", type: :system do
       it "does not authorize the user" do
         # empty form submission
         fill_in_with
-        expect(page).to have_content "There's an error in this field."
+        expect(page).to have_content "There is an error in this field."
 
         fill_in_with(incorrect_code)
 

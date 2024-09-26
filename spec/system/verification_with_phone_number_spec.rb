@@ -12,8 +12,8 @@ describe "verification with phone number", type: :system do
 
   it "Adds the sms login method to authorization methods" do
     visit "/users/sign_in"
-    expect(page).to have_content("Sign in with Sms")
-    within ".register__separator" do
+    expect(page).to have_link('Sms', href: '/users/auth/sms', title: 'Log in with Sms')
+    within ".login__omniauth-separator" do
       expect(page).to have_content "Or"
     end
   end
@@ -73,7 +73,7 @@ describe "verification with phone number", type: :system do
       expect(page).to have_content("Verify your phone number")
       expect(page).to have_link("Log in with a code given by your teacher or youth worker", href: "/helsinki_smsauth_id/authorizations/access_code")
       click_button "Send code"
-      expect(page).to have_content "There's an error in this field."
+      expect(page).to have_content "There is an error in this field."
     end
 
     context "with valid phone number" do
@@ -122,10 +122,10 @@ describe "verification with phone number", type: :system do
           click_button "Save and continue"
           expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
           within ".user-person" do
-            expect(page).to have_content("There's an error in this field.")
+            expect(page).to have_content("There is an error in this field.")
           end
           within ".grade-info" do
-            expect(page).to have_content("There's an error in this field.")
+            expect(page).to have_content("There is an error in this field.")
           end
         end
 
