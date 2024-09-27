@@ -17,9 +17,9 @@ describe "verification with access code", type: :system do
     before do
       sign_in user, scope: :user
       visit decidim.account_path
-      click_link "Authorization"
-      find(".card--list__item").click
-      click_link "Log in with a code given by your teacher or youth worker"
+      click_on "Authorization"
+      click_on "Subscribe"
+      click_on "Log in with a code given by your teacher or youth worker"
     end
 
     it "behaves like verifiable access code" do
