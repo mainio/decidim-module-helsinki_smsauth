@@ -1,10 +1,5 @@
-<div class="row">
-  <div class="columns large-centered">
-    <%= form.number_field :phone_number, value: (form.object.phone_number.present? ? "0#{form.object.phone_number}" : nil) %>
-  </div>
-</div>
-<div class="row">
-  <div class="columns large-centered">
-    <%= form.submit t(".submit"), class:"button expanded" %>
-  </div>
+<%= form.number_field :phone_number, value: (form.object.phone_number.present? ? "0#{form.object.phone_number}" : nil) %>
+
+<div class="form__wrapper-block">
+  <%= form.submit t(".submit"), class:"button button__lg button__primary" %>
 </div>
