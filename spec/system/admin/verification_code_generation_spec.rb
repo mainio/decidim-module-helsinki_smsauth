@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "verificqation code generation", type: :system do
+describe "verification code generation", type: :system do
   include_context "with helsinki_smsauth_id authorization"
 
   let!(:admin) { create(:user, :admin, :confirmed, organization: organization) }
@@ -16,7 +16,7 @@ describe "verificqation code generation", type: :system do
     end
 
     it "renders authorizations views" do
-      within ".secondary-nav" do
+      within "#admin-sidebar-menu-settings" do
         expect(page).to have_link("Login via text message")
       end
 

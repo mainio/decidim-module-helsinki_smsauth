@@ -33,7 +33,7 @@ describe "log in with phone number", type: :system do
 
         it "authenticate and redirects the user" do
           verify_phone
-          expect(page).to have_current_path("/authorizations")
+          expect(page).to have_current_path("/")
         end
       end
 
@@ -50,7 +50,7 @@ describe "log in with phone number", type: :system do
 
           fill_in "Grade", with: 1
           click_button "Save and continue"
-          expect(page).to have_current_path decidim_verifications.authorizations_path
+          expect(page).to have_current_path decidim.root_path
           user = Decidim::User.last
           expect(user.phone_number).to eq("+3584551122334")
           authorization = Decidim::Authorization.last

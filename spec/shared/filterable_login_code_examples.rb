@@ -36,7 +36,7 @@ shared_examples "filterable login code" do
     table = find("table.stack.table-list")
     first_school = table.find("tbody").all("tr")[0].find("td:nth-child(3)").text
     fill_in "q[creator_name_cont]", with: first_school
-    click_button("Search")
+    find('button[aria-label="Search"]').click
     rows = table.find("tbody").all("tr")
     rows.each do |row|
       school = row.find("td:nth-child(3)")

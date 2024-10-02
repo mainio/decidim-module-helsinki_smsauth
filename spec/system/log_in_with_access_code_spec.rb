@@ -37,7 +37,6 @@ describe "log in with access code", type: :system do
       signin_code_set.reload
       expect(signin_code_set.used_code_amount).to eq(1)
 
-      expect(page).to have_current_path("/authorizations")
       authorization = Decidim::Authorization.last
       expect(authorization.metadata["school"]).to eq(signin_code_set.metadata["school"])
       expect(authorization.metadata["grade"]).to eq(signin_code_set.metadata["grade"])

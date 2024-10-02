@@ -25,13 +25,13 @@ describe "verification with phone number", type: :system do
     end
 
     it "shows the available authorizations" do
-      within "#user-settings-tabs" do
+      within "#dropdown-menu-profile" do
         expect(page).to have_css("a", text: "Authorizations")
       end
       click_link "Authorization"
       expect(page).to have_content "Participant settings - Authorizations"
-      within ".card--list__item" do
-        expect(page).to have_css("svg.icon--lock-unlocked", count: 1)
+      within ".verification__container" do
+        expect(page).to have_css("svg.verification__icon", count: 1)
       end
     end
   end
@@ -41,7 +41,7 @@ describe "verification with phone number", type: :system do
       sign_in user, scope: :user
       visit decidim.account_path
       click_link "Authorization"
-      find(".card--list__item").click
+      click_on "Login via text message"
     end
 
     context "when authorization belongs to someone else" do
@@ -85,7 +85,7 @@ describe "verification with phone number", type: :system do
       it "generates the authorization process" do
         expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/edit")
         within_flash_messages do
-          expect(page).to have_content "Thanks! We've sent an SMS to your phone."
+          expect(page).to have_content "Thanks! We have sent an SMS to your phone."
         end
 
         expect(page).to have_link("Resend the code", href: "/helsinki_smsauth_id/authorizations/resend_code")
@@ -105,7 +105,7 @@ describe "verification with phone number", type: :system do
         expect(authorization).not_to be_granted
         expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
         visit "/authorizations"
-        expect(page).to have_css('svg[aria-label="Pending verification"]')
+        expect(page).to have_css("section.authorizations-list > div.verification__container-title", text: "PENDING VERIFICATION")
       end
 
       context "when adding school info" do

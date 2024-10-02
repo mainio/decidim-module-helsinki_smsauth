@@ -55,7 +55,7 @@ describe "verification with access code", type: :system do
         expect(authorization.metadata["school"]).to eq(school)
         expect(page).to have_current_path("/authorizations")
         within_flash_messages do
-          expect(page).to have_content("Congratulations. You've been successfully verified.")
+          expect(page).to have_content("Congratulations. You have been successfully verified.")
         end
       end
     end
