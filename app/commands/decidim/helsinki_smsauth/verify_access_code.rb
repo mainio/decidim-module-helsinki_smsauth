@@ -79,7 +79,7 @@ module Decidim
       def access_code_instance(code)
         digest = "#{code}-#{Rails.application.secrets.secret_key_base}"
         code_hash = Digest::MD5.hexdigest(digest)
-        ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash: code_hash)
+        ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash:)
       end
 
       def destroy_access_code!

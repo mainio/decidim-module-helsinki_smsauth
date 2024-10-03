@@ -8,7 +8,7 @@ def code_count(total, used)
 end
 FactoryBot.define do
   factory :signin_code_set, class: "Decidim::HelsinkiSmsauth::SigninCodeSet" do
-    creator { create(:user, :confirmed, :admin, organization: organization) }
+    creator { create(:user, :confirmed, :admin, organization:) }
     generated_code_amount { 1 }
     used_code_amount { 0 }
     metadata do
@@ -22,7 +22,7 @@ FactoryBot.define do
       create_list(
         :signin_code,
         code_count(evaluator.generated_code_amount, evaluator.used_code_amount),
-        signin_code_set: signin_code_set
+        signin_code_set:
       )
     end
 

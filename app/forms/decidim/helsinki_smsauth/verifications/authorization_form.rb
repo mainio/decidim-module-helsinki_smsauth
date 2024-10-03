@@ -37,7 +37,7 @@ module Decidim
         # The verification metadata to validate in the next step.
         def verification_metadata
           {
-            verification_code: verification_code,
+            verification_code:,
             code_sent_at: Time.current
           }
         end
@@ -45,8 +45,8 @@ module Decidim
         def metadata
           {
             phone_number: phone_with_country_code,
-            school: school,
-            grade: grade
+            school:,
+            grade:
           }
         end
 
@@ -58,7 +58,7 @@ module Decidim
               mobile_number = phone_with_country_code
               gateway = Decidim.config.sms_gateway_service.constantize
               if gateway.instance_method(:initialize).parameters.length > 2
-                gateway.new(mobile_number, generated_code, organization: organization)
+                gateway.new(mobile_number, generated_code, organization:)
               else
                 gateway.new(mobile_number, generated_code)
               end

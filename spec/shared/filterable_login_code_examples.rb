@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples "filterable login code" do
-  let!(:creators) { create_list(:user, 2, :confirmed, :admin, organization: organization) }
+  let!(:creators) { create_list(:user, 2, :confirmed, :admin, organization:) }
   let!(:unused_codes) do
     10.times do
       create_list(:signin_code_set, 1, generated_code_amount: code_amount, creator: creators[0])
@@ -45,9 +45,9 @@ shared_examples "filterable login code" do
   end
 
   it "filters based on used codes" do
-    click_link "Filter"
+    click_on "Filter"
     find("a", text: "Includes used codes").hover
-    click_link "Yes"
+    click_on "Yes"
     table = find("table.stack.table-list")
     rows = table.find("tbody").all("tr")
     expect(rows.count).to eq(10)
@@ -56,9 +56,9 @@ shared_examples "filterable login code" do
       expect(used_codes.text).to eq("0")
     end
 
-    click_link "Filter"
+    click_on "Filter"
     find("a", text: "Includes used codes").hover
-    click_link "No"
+    click_on "No"
     rows = table.find("tbody").all("tr")
     expect(rows.count).to eq(5)
     rows.each do |row|

@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-describe "verification code generation", type: :system do
+describe "CodeGenerationVerification" do
   include_context "with helsinki_smsauth_id authorization"
 
-  let!(:admin) { create(:user, :admin, :confirmed, organization: organization) }
+  let!(:admin) { create(:user, :admin, :confirmed, organization:) }
 
   it_behaves_like "filterable login code"
   describe "login code generation" do
@@ -20,15 +20,15 @@ describe "verification code generation", type: :system do
         expect(page).to have_link("Login via text message")
       end
 
-      click_link("Login via text message")
+      click_on "Login via text message"
       expect(page).to have_current_path("/admin/helsinki_smsauth_id/")
       expect(page).to have_content("Alternative login codes")
 
-      click_link "Create codes"
+      click_on "Create codes"
       expect(page).to have_current_path("/admin/helsinki_smsauth_id/signin_codes/new")
       expect(page).to have_content("Create codes")
 
-      click_button "Create"
+      click_on "Create"
       expect(page).to have_content("is not included in the list")
     end
   end

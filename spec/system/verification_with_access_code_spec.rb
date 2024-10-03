@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "verification with access code", type: :system do
+describe "AccessCodeVerification" do
   include_context "with helsinki_smsauth_id authorization"
   include_context "with single access code"
 
@@ -66,6 +66,6 @@ describe "verification with access code", type: :system do
   def fill_in_with(code = nil)
     fill_in("sms_verification[access_code]", with: code) if code
 
-    click_button "Verify your account"
+    click_on "Verify your account"
   end
 end

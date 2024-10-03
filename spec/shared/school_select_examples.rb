@@ -5,7 +5,7 @@ shared_examples "school select" do
     expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path)
     expect(page).to have_content("Login successful")
 
-    click_button "Save and continue"
+    click_on "Save and continue"
     expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path)
     within ".user-person" do
       expect(page).to have_content("There is an error in this field.")

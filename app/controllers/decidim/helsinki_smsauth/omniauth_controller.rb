@@ -7,7 +7,7 @@ module Decidim
 
       helper Decidim::HelsinkiSmsauth::Engine.routes.url_helpers
       helper Decidim::HelsinkiSmsauth::RegistrationHelper
-      before_action :ensure_authorized, only: [:new, :registration, :user_registry]
+      before_action :ensure_authorized, only: [:new, :user_registry]
 
       def new
         @form = form(OmniauthForm).instance
@@ -101,7 +101,7 @@ module Decidim
 
       def user_registry
         user = find_user!
-        @form = SchoolMetadataForm.from_params(user_params.merge(current_locale: current_locale, organization: current_organization, user: user))
+        @form = SchoolMetadataForm.from_params(user_params.merge(current_locale:, organization: current_organization, user:))
 
         RegisterByPhone.call(@form) do
           on(:ok) do |new_user|
@@ -157,7 +157,7 @@ module Decidim
       end
 
       def access_code_validation
-        @form = AccessCodeForm.from_params(params.merge(current_locale: current_locale, organization: current_organization))
+        @form = AccessCodeForm.from_params(params.merge(current_locale:, organization: current_organization))
         VerifyAccessCode.call(@form) do
           on(:ok) do |user, access_hash|
             update_sessions!(**access_hash)
@@ -202,7 +202,7 @@ module Decidim
 
       def generated_metadata(authorization, phone_number)
         metadata = authorization.metadata || {}
-        metadata.merge!({ phone_number: phone_number })
+        metadata.merge!({ phone_number: })
         metadata.merge!({ school: auth_session["school"] }) if metadata["school"].nil?
         metadata.merge!({ grade: auth_session["grade"] }) if metadata["grade"].nil?
         metadata
@@ -316,7 +316,7 @@ module Decidim
 
       def find_authorization(user)
         Decidim::Authorization.find_or_initialize_by(
-          user: user,
+          user:,
           name: "helsinki_smsauth_id"
         )
       end

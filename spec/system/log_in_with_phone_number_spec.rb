@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "log in with phone number", type: :system do
+describe "PhoneLogin" do
   let(:organization) { create(:organization) }
   let(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584551122334" } }
 
@@ -18,7 +18,7 @@ describe "log in with phone number", type: :system do
     let(:phone) { 4_551_122_334 }
 
     context "when user exists" do
-      let!(:user) { create(:user, organization: organization, phone_number: "+3584551122334") }
+      let!(:user) { create(:user, organization:, phone_number: "+3584551122334") }
 
       context "when authorization with school info exists" do
         let!(:authorization) do
@@ -26,7 +26,7 @@ describe "log in with phone number", type: :system do
             :authorization,
             :granted,
             name: "helsinki_smsauth_id",
-            user: user,
+            user:,
             metadata: auth_metadata
           )
         end
@@ -49,7 +49,7 @@ describe "log in with phone number", type: :system do
           end
 
           fill_in "Grade", with: 1
-          click_button "Save and continue"
+          click_on "Save and continue"
           expect(page).to have_current_path decidim.root_path
           user = Decidim::User.last
           expect(user.phone_number).to eq("+3584551122334")
@@ -71,9 +71,11 @@ describe "log in with phone number", type: :system do
 
   def verify_phone
     fill_in "Phone number", with: phone
-    click_button "Send code"
-    code = page.find("#hint").text
+    click_on "Send code"
+    code = page.find_by_id("hint").text
     fill_in "Login code", with: code
-    click_button "Log in"
+    within ".new_sms_verification" do
+      click_on "Log in"
+    end
   end
 end

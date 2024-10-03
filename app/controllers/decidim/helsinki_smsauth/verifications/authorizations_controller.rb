@@ -13,16 +13,23 @@ module Decidim
           # We use the :update action here because this is also where the user
           # is redirected to in case they previously started the authorization
           # but did not finish it (i.e. the authorization is "pending").
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = form(AuthorizationForm).instance
+        end
+
+        def edit
+          enforce_permission_to(:update, :authorization, authorization:)
+
+          @form = ConfirmationForm.new
+          verification_code
         end
 
         def create
           # We use the :update action here because this is also where the user
           # is redirected to in case they previously started the authorization
           # but did not finish it (i.e. the authorization is "pending").
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = AuthorizationForm.from_params(params.merge(user: current_user, school: nil, grade: nil, organization: current_organization))
           Decidim::Verifications::PerformAuthorizationStep.call(authorization, @form) do
@@ -38,13 +45,6 @@ module Decidim
           end
         end
 
-        def edit
-          enforce_permission_to :update, :authorization, authorization: authorization
-
-          @form = ConfirmationForm.new
-          verification_code
-        end
-
         def resend_code
           return unless eligible_to?
 
@@ -54,7 +54,7 @@ module Decidim
             on(:ok) do
               flash_message_for_resend(last_request_time)
               authorization_method = Decidim::Verifications::Adapter.from_element(authorization.name)
-              redirect_to authorization_method.resume_authorization_path(redirect_url: redirect_url)
+              redirect_to authorization_method.resume_authorization_path(redirect_url:)
             end
             on(:invalid) do
               flash.now[:alert] = I18n.t(".error", scope: "decidim.helsinki_smsauth.omniauth.sms.authenticate_user")
@@ -64,13 +64,13 @@ module Decidim
         end
 
         def school_info
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = form(::Decidim::HelsinkiSmsauth::SchoolMetadataForm).instance
         end
 
         def school_validation
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = form(::Decidim::HelsinkiSmsauth::SchoolMetadataForm).from_params(params)
           ValidateSchoolInfo.call(@form, authorization) do
@@ -81,7 +81,7 @@ module Decidim
         end
 
         def update
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = ConfirmationForm.from_params(params)
           ConfirmUserPhoneAuthorization.call(authorization, @form, session) do
@@ -100,7 +100,7 @@ module Decidim
         end
 
         def destroy
-          enforce_permission_to :destroy, :authorization, authorization: authorization
+          enforce_permission_to(:destroy, :authorization, authorization:)
 
           DestroyAuthorization.call(authorization) do
             on(:ok) do
@@ -111,13 +111,13 @@ module Decidim
         end
 
         def access_code
-          enforce_permission_to :update, :authorization, authorization: authorization
+          enforce_permission_to(:update, :authorization, authorization:)
 
           @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).instance
         end
 
         def access_code_validation
-          @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).from_params(params.merge({ current_locale: current_locale, organization: current_organization }))
+          @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).from_params(params.merge({ current_locale:, organization: current_organization }))
           ValidateAccessCode.call(@form, authorization, current_user) do
             on(:ok) do
               handle_redirect
@@ -167,7 +167,7 @@ module Decidim
 
         def redirect_smsauth
           authorization_method = Decidim::Verifications::Adapter.from_element(authorization.name)
-          authorization_method.resume_authorization_path(redirect_url: redirect_url)
+          authorization_method.resume_authorization_path(redirect_url:)
         end
 
         def handle_redirect

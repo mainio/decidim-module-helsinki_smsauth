@@ -89,7 +89,7 @@ module Decidim
           end
 
           def set_expiration_info
-            t("expiration_note", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes", expiration_time: expiration_time)
+            t("expiration_note", scope: "decidim.helsinki_smsauth.verifications.admin.signin_codes.view_generated_codes", expiration_time:)
           end
 
           def global_expiration_period

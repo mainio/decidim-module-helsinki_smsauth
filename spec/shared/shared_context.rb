@@ -25,14 +25,14 @@ shared_context "with telia gateway" do
 end
 
 shared_context "with single access code" do
-  let!(:creator) { create(:user, :confirmed, :admin, organization: organization) }
-  let!(:signin_code_set) { create(:signin_code_set, creator: creator) }
-  let!(:signin_code) { create(:signin_code, code: access_code, signin_code_set: signin_code_set) }
+  let!(:creator) { create(:user, :confirmed, :admin, organization:) }
+  let!(:signin_code_set) { create(:signin_code_set, creator:) }
+  let!(:signin_code) { create(:signin_code, code: access_code, signin_code_set:) }
 end
 
 shared_context "with helsinki_smsauth_id authorization" do
-  let!(:organization) { create(:organization, omniauth_settings: omniauth_settings, available_authorizations: available_authorizations) }
-  let!(:user) { create(:user, :confirmed, organization: organization) }
+  let!(:organization) { create(:organization, omniauth_settings:, available_authorizations:) }
+  let!(:user) { create(:user, :confirmed, organization:) }
   let(:available_authorizations) { ["helsinki_smsauth_id"] }
   let(:omniauth_settings) do
     {

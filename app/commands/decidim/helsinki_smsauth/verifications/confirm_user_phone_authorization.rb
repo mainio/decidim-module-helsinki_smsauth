@@ -20,7 +20,7 @@ module Decidim
             invalid!
           end
         rescue StandardError => e
-          puts e
+          Rails.logger.debug e
           invalid!(e.message)
         end
 

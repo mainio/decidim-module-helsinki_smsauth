@@ -66,7 +66,7 @@ module Decidim
             code = generate_code
             gateway = Decidim.config.sms_gateway_service.constantize
             if gateway.instance_method(:initialize).parameters.length > 2
-              gateway.new(phone_number, code, organization: organization)
+              gateway.new(phone_number, code, organization:)
             else
               gateway.new(phone_number, code)
             end

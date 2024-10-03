@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "verification with phone number", type: :system do
+describe "PhoneVerification" do
   include_context "with helsinki_smsauth_id authorization"
   include_context "with telia gateway"
 
@@ -12,7 +12,7 @@ describe "verification with phone number", type: :system do
 
   it "Adds the sms login method to authorization methods" do
     visit "/users/sign_in"
-    expect(page).to have_link('Sms', href: '/users/auth/sms', title: 'Log in with Sms')
+    expect(page).to have_link("Sms", href: "/users/auth/sms", title: "Log in with Sms")
     within ".login__omniauth-separator" do
       expect(page).to have_content "Or"
     end
@@ -28,7 +28,7 @@ describe "verification with phone number", type: :system do
       within "#dropdown-menu-profile" do
         expect(page).to have_css("a", text: "Authorizations")
       end
-      click_link "Authorization"
+      click_on "Authorization"
       expect(page).to have_content "Participant settings - Authorizations"
       within ".verification__container" do
         expect(page).to have_css("svg.verification__icon", count: 1)
@@ -40,12 +40,12 @@ describe "verification with phone number", type: :system do
     before do
       sign_in user, scope: :user
       visit decidim.account_path
-      click_link "Authorization"
+      click_on "Authorization"
       click_on "Login via text message"
     end
 
     context "when authorization belongs to someone else" do
-      let!(:another_user) { create(:user, :confirmed, organization: organization, phone_number: "+3584567890") }
+      let!(:another_user) { create(:user, :confirmed, organization:, phone_number: "+3584567890") }
       let(:auth_metadata) { { school: "0004", grade: 1, phone_number: "+3584567890" } }
       let!(:authorization) do
         create(
@@ -62,7 +62,7 @@ describe "verification with phone number", type: :system do
         # visit current_path
         expect(page).to have_content("Verify your phone number")
         fill_in "Phone number", with: 4_567_890
-        click_button "Send code"
+        click_on "Send code"
 
         expect(page).to have_content "There was a problem with your request"
         expect(page).to have_content "A participant is already authorized with the same data. An administrator will contact you to verify your details."
@@ -72,14 +72,14 @@ describe "verification with phone number", type: :system do
     it "shows phone number authorization" do
       expect(page).to have_content("Verify your phone number")
       expect(page).to have_link("Log in with a code given by your teacher or youth worker", href: "/helsinki_smsauth_id/authorizations/access_code")
-      click_button "Send code"
+      click_on "Send code"
       expect(page).to have_content "There is an error in this field."
     end
 
     context "with valid phone number" do
       before do
         fill_in "Phone number", with: 4_567_891
-        click_button "Send code"
+        click_on "Send code"
       end
 
       it "generates the authorization process" do
@@ -91,15 +91,15 @@ describe "verification with phone number", type: :system do
         expect(page).to have_link("Resend the code", href: "/helsinki_smsauth_id/authorizations/resend_code")
         expect(page).to have_link("Re-enter the phone number", href: "/helsinki_smsauth_id/authorizations")
         fill_in "Login code", with: "wrong code"
-        click_button "Continue"
+        click_on "Continue"
         expect(page).to have_content("Failed to authorize. Please try again.")
       end
 
       it "Verifies accont when everything is ok" do
-        code = page.find("#hint").text
+        code = page.find_by_id("hint").text
         fill_in "Login code", with: code
         authorization = Decidim::Authorization.find_by(decidim_user_id: user.id)
-        click_button "Continue"
+        click_on "Continue"
 
         expect(authorization.metadata["phone_number"]).to eq("+3584567891")
         expect(authorization).not_to be_granted
@@ -110,16 +110,16 @@ describe "verification with phone number", type: :system do
 
       context "when adding school info" do
         before do
-          code = page.find("#hint").text
+          code = page.find_by_id("hint").text
           fill_in "Login code", with: code
-          click_button "Continue"
+          click_on "Continue"
         end
 
         it "renders the school info correctly" do
           expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
           expect(page).to have_content("Text message verification successful. Please enter few more details and you are done.")
 
-          click_button "Save and continue"
+          click_on "Save and continue"
           expect(page).to have_current_path("/helsinki_smsauth_id/authorizations/school_info")
           within ".user-person" do
             expect(page).to have_content("There is an error in this field.")
@@ -136,7 +136,7 @@ describe "verification with phone number", type: :system do
           fill_in "Grade", with: 1
 
           expect(Decidim::Authorization.find_by(decidim_user_id: user.id)).not_to be_granted
-          click_button "Save and continue"
+          click_on "Save and continue"
           authorization = Decidim::Authorization.find_by(decidim_user_id: user.id)
           expect(authorization).to be_granted
           expect(authorization.metadata["grade"]).to eq(1)
