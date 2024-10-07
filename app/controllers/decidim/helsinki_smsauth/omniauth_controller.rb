@@ -7,7 +7,7 @@ module Decidim
 
       helper Decidim::HelsinkiSmsauth::Engine.routes.url_helpers
       helper Decidim::HelsinkiSmsauth::RegistrationHelper
-      before_action :ensure_authorized, only: [:new, :user_registry]
+      before_action :ensure_authorized, only: [:new, :registration, :user_registry]
 
       def new
         @form = form(OmniauthForm).instance
@@ -36,6 +36,8 @@ module Decidim
           end
         end
       end
+
+      def registration; end
 
       def send_message
         @form = ::Decidim::HelsinkiSmsauth::OmniauthForm.from_params(params)
