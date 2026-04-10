@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["sina.eftekhar@mainiotech.fi"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/mainio/decidim-module-ptp"
-  s.required_ruby_version = ">= 3.1"
+  s.required_ruby_version = ">= 3.2"
 
   s.name = "decidim-helsinki_smsauth"
   s.summary = "A decidim smsauth module for helsinki"
@@ -19,6 +19,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
   s.add_dependency "decidim-core", Decidim::HelsinkiSmsauth.decidim_version
-  s.add_development_dependency "decidim-sms-telia", Decidim::HelsinkiSmsauth.decidim_version
   s.metadata["rubygems_mfa_required"] = "true"
 end

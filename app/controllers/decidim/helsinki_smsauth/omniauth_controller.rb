@@ -332,7 +332,7 @@ module Decidim
       end
 
       def has_school_metadata?(user)
-        return if user.blank?
+        return false if user.blank?
 
         authorization = find_authorization(user)
 
@@ -340,8 +340,8 @@ module Decidim
       end
 
       def metadata_exist_for?(authorization, *args)
-        return unless authorization.is_a?(::Decidim::Authorization) && args.present?
-        return if authorization.metadata.blank?
+        return false unless authorization.is_a?(::Decidim::Authorization) && args.present?
+        return false if authorization.metadata.blank?
 
         args.each do |key|
           return false if authorization.metadata[key.to_s].blank?
