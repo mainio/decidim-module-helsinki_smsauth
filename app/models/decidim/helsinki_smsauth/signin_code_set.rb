@@ -16,6 +16,14 @@ module Decidim
       ransacker :has_unused_codes do
         Arel.sql(%((#{table_name}.used_code_amount < #{table_name}.generated_code_amount)::boolean))
       end
+
+      def self.ransackable_attributes(_auth_object = nil)
+        %w(created_at decidim_user_id generated_code_amount has_unused_codes id medata used_code_amount)
+      end
+
+      def self.ransackable_associations(_auth_object = nil)
+        %w(creator signin_codes)
+      end
     end
   end
 end
