@@ -14,7 +14,7 @@ describe "PhoneVerification" do
     visit "/users/sign_in"
     expect(page).to have_link("Sms", href: "/users/auth/sms", title: "Log in with Sms")
     within ".login__omniauth-separator" do
-      expect(page).to have_content "Or"
+      expect(page).to have_content "or"
     end
   end
 
