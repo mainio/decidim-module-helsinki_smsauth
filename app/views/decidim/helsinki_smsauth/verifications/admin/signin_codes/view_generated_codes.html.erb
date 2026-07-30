@@ -32,9 +32,8 @@
   </div>
 </div>
 <div class="button--double form-general-submit">
-  <button class="button" data-open="backup-confirmation" id="backup-confirmation-button">
+  <button class="button" data-dialog-open="backup-confirmation" id="backup-confirmation-button">
     <%= t(".continue") %>
   </button>
+  <%= render partial: "code_backup_confirmation_modal" %>
 </div>
-<%= render partial: "code_backup_confirmation_modal" %>
-<%= javascript_pack_tag("decidim_backup_confirmation")%>

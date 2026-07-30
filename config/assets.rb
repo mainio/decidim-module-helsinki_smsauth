@@ -4,8 +4,6 @@ base_path = File.expand_path("..", __dir__)
 
 Decidim::Shakapacker.register_path("#{base_path}/app/packs")
 Decidim::Shakapacker.register_entrypoints(
-  decidim_helsinki_smsauth: "#{base_path}/app/packs/entrypoints/decidim_helsinki_smsauth.js",
-  decidim_newsletter_checkbox: "#{base_path}/app/packs/entrypoints/decidim_newsletter_checkbox.js",
-  decidim_backup_confirmation: "#{base_path}/app/packs/entrypoints/decidim_backup_confirmation.js"
+  decidim_helsinki_smsauth: "#{base_path}/app/packs/entrypoints/decidim_helsinki_smsauth.js"
 )
 Decidim::Shakapacker.register_stylesheet_import("stylesheets/decidim/helsinki_smsauth/helsinki_smsauth")
