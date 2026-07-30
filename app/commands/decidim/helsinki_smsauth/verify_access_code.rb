@@ -66,7 +66,7 @@ module Decidim
         Digest::MD5.hexdigest(
           [
             payload.to_s,
-            Rails.application.secrets.secret_key_base
+            Rails.application.config.secret_key_base
           ].join(":")
         )
       end
@@ -77,7 +77,7 @@ module Decidim
       end
 
       def access_code_instance(code)
-        digest = "#{code}-#{Rails.application.secrets.secret_key_base}"
+        digest = "#{code}-#{Rails.application.config.secret_key_base}"
         code_hash = Digest::MD5.hexdigest(digest)
         ::Decidim::HelsinkiSmsauth::SigninCode.find_by(code_hash:)
       end

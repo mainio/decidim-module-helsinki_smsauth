@@ -29,5 +29,10 @@ RSpec.configure do |config|
         :password_too_common?
       ].freeze
     )
+    # Prevent ActiveStorage blob key collisions between tests by clearing
+    # attachments and blobs before each example (Rails 7+ defaults to the :vips
+    # variant processor, which generates deterministic blob keys in test.
+    ActiveStorage::Attachment.delete_all
+    ActiveStorage::Blob.delete_all
   end
 end

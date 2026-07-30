@@ -46,7 +46,7 @@ shared_examples "filterable login code" do
 
   it "filters based on used codes" do
     click_on "Filter"
-    find("a", text: "Includes used codes").hover
+    click_on "Includes used codes"
     click_on "Yes"
     table = find("table.stack.table-list")
     rows = table.find("tbody").all("tr")
@@ -57,7 +57,7 @@ shared_examples "filterable login code" do
     end
 
     click_on "Filter"
-    find("a", text: "Includes used codes").hover
+    click_on "Includes used codes"
     click_on "No"
     rows = table.find("tbody").all("tr")
     expect(rows.count).to eq(5)

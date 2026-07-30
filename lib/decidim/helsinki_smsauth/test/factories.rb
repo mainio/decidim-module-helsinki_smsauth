@@ -39,7 +39,7 @@ FactoryBot.define do
     signin_code_set { create(signin_code_set) }
 
     before(:create) do |signin_code, evaluator|
-      signin_code.code_hash = Digest::MD5.hexdigest("#{evaluator.code}-#{Rails.application.secrets.secret_key_base}")
+      signin_code.code_hash = Digest::MD5.hexdigest("#{evaluator.code}-#{Rails.application.config.secret_key_base}")
     end
   end
 end

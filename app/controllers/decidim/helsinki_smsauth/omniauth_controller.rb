@@ -212,7 +212,7 @@ module Decidim
 
       def unique_id(user)
         Digest::MD5.hexdigest(
-          "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{user.phone_number}-#{Rails.application.secrets.secret_key_base}"
+          "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{user.phone_number}-#{Rails.application.config.secret_key_base}"
         )
       end
 

@@ -23,7 +23,7 @@ module Decidim
         # A mobile phone can only be verified once but it should be private.
         def unique_id
           Digest::MD5.hexdigest(
-            "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{phone_number}-#{Rails.application.secrets.secret_key_base}"
+            "#{::Decidim::HelsinkiSmsauth.country_code[:country]}-#{phone_number}-#{Rails.application.config.secret_key_base}"
           )
         end
 

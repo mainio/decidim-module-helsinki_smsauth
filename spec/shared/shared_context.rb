@@ -36,8 +36,8 @@ shared_context "with helsinki_smsauth_id authorization" do
   let(:available_authorizations) { ["helsinki_smsauth_id"] }
   let(:omniauth_settings) do
     {
-      "omniauth_settings_sms_enabled" => true,
-      "omniauth_settings_sms_icon" => ""
+      "omniauth_settings_sms_enabled" => Decidim::AttributeEncryptor.encrypt(true),
+      "omniauth_settings_sms_icon" => Decidim::AttributeEncryptor.encrypt("phone-line")
     }
   end
 end

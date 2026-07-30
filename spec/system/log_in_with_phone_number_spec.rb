@@ -18,7 +18,8 @@ describe "PhoneLogin" do
     let(:phone) { 4_551_122_334 }
 
     context "when user exists" do
-      let!(:user) { create(:user, organization:, phone_number: "+3584551122334") }
+      let(:avatar) { nil }
+      let!(:user) { create(:user, organization:, phone_number: "+3584551122334", avatar:) }
 
       context "when authorization with school info exists" do
         let!(:authorization) do

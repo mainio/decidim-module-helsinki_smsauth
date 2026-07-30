@@ -30,7 +30,7 @@ module Decidim
         Digest::MD5.hexdigest(
           [
             payload.to_s,
-            Rails.application.secrets.secret_key_base
+            Rails.application.config.secret_key_base
           ].join(":")
         )
       end

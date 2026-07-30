@@ -66,11 +66,11 @@ module Decidim
         end
       end
 
-      # This initializer is only for the tests so that we do not need to modify
+      # This initializer is only for the local so that we do not need to modify
       # the secrets and configuration of the application.
-      if Rails.env.test?
+      if Rails.env.local?
         initializer "decidim_helsinki_smsauth.tests", before: :add_routing_paths do
-          Rails.application.secrets[:omniauth][:sms] = { enabled: true, icon: "phone" }
+          Decidim.omniauth_providers[:sms] = { enabled: true, icon: "phone" }
         end
       end
     end
