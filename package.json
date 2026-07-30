@@ -14,6 +14,7 @@
     "@babel/preset-env": "^7.20.0",
     "@decidim/dev": "^0.31.6",
     "@decidim/eslint-config": "^0.31.6",
-    "@decidim/stylelint-config": "^0.31.6"
+    "@decidim/stylelint-config": "^0.31.6",
+    "eslint": "^8.0.0"
   }
 }

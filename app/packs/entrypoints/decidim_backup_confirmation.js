@@ -1,2 +1,1 @@
-import "src/decidim/helsinki_smsauth/backup_confirmation"
-
+import "../src/decidim/helsinki_smsauth/backup_confirmation"
