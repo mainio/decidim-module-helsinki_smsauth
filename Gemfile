@@ -24,6 +24,7 @@ gem "faker", "~> 3.2"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
+  gem "decidim-initiatives", DECIDIM_VERSION
   gem "decidim-sms-telia", github: "mainio/decidim-sms-telia"
 
   # Fix issue with simplecov-cobertura
