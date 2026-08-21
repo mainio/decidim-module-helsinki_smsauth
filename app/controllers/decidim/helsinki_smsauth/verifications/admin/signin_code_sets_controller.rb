@@ -6,6 +6,7 @@ module Decidim
       module Admin
         class SigninCodeSetsController < Decidim::Admin::ApplicationController
           include Decidim::HelsinkiSmsauth::Verifications::Admin::Filterable
+
           layout "decidim/admin/users"
 
           helper_method :sets, :school_name

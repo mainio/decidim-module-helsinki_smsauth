@@ -4,6 +4,7 @@ module Decidim
   module HelsinkiSmsauth
     module DestroyAccountOverrides
       extend ActiveSupport::Concern
+
       included do
         private
 

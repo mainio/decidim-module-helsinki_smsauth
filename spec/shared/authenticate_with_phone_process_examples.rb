@@ -6,7 +6,7 @@ shared_examples "authenticate with phone process" do
   describe "authentication process" do
     it "does the authentication process" do
       expect(page).to have_content("Problems?")
-      expect(page).to have_link("Log in with a code given by your teacher", href: "/users/auth/sms/access_code")
+      expect(page).to have_link("Log in with a code given by your teacher or youth worker", href: "/users/auth/sms/access_code?locale=en")
 
       fill_in "Phone number", with: "45887874"
       click_on "Send code"

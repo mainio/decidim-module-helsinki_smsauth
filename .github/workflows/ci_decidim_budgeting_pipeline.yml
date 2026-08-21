@@ -21,5 +21,3 @@ jobs:
     name: Tests
     uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
     secrets: inherit
-    with:
-      image-processor: vips

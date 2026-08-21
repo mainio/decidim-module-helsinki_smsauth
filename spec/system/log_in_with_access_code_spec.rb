@@ -22,7 +22,7 @@ describe "AccessCodeLogin" do
     within_flash_messages do
       expect(page).to have_content("Failed to verify the access code. Make sure that you have entered the correct code and try again.")
     end
-    expect(page).to have_current_path("/users/auth/sms/access_code_validation")
+    expect(page).to have_current_path("/users/auth/sms/access_code_validation?locale=en")
   end
 
   context "when correct code" do

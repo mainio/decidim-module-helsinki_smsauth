@@ -22,11 +22,11 @@ describe "CodeGenerationVerification" do
       end
 
       click_on "Login via text message"
-      expect(page).to have_current_path("/admin/helsinki_smsauth_id/")
+      expect(page).to have_current_path("/en/admin/helsinki_smsauth_id/")
       expect(page).to have_content("Alternative login codes")
 
       click_on "Create codes"
-      expect(page).to have_current_path("/admin/helsinki_smsauth_id/signin_codes/new")
+      expect(page).to have_current_path("/en/admin/helsinki_smsauth_id/signin_codes/new")
       expect(page).to have_content("Create codes")
 
       click_on "Create"

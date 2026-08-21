@@ -15,6 +15,7 @@ shared_context "with telia gateway" do
   end
 
   let(:dummy_gateway) { double("DummyClass", constantize: dummy_class) }
+
   before do
     allow(Decidim::HelsinkiSmsauth).to receive(:country_code).and_return({ country: "FI", code: "+358" })
     allow(Decidim.config).to receive(:sms_gateway_service).and_return(dummy_gateway)

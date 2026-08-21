@@ -34,7 +34,7 @@ describe "PhoneLogin" do
 
         it "authenticate and redirects the user" do
           verify_phone
-          expect(page).to have_current_path("/")
+          expect(page).to have_current_path("/en")
         end
       end
 

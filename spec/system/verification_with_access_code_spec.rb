@@ -24,7 +24,7 @@ describe "AccessCodeVerification" do
 
     it "behaves like verifiable access code" do
       expect(page).to have_content "Verify your account with a code given by your teacher or youth worker"
-      expect(page).to have_link("Return to text message login", href: "/helsinki_smsauth_id/authorizations/new")
+      expect(page).to have_link("Return to text message login", href: "/en/helsinki_smsauth_id/authorizations/new")
       expect(page).to have_button("Verify your account")
     end
 
@@ -53,7 +53,7 @@ describe "AccessCodeVerification" do
         expect(authorization).to be_granted
         expect(authorization.metadata["grade"]).to eq(grade)
         expect(authorization.metadata["school"]).to eq(school)
-        expect(page).to have_current_path("/authorizations")
+        expect(page).to have_current_path("/en/authorizations")
         within_flash_messages do
           expect(page).to have_content("Congratulations. You have been successfully verified.")
         end

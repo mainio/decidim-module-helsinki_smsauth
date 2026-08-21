@@ -2,11 +2,11 @@
 
 shared_examples "school select" do
   it "shows the list of the schools and their names" do
-    expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path)
+    expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path, ignore_query: true)
     expect(page).to have_content("Login successful")
 
     click_on "Save and continue"
-    expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path)
+    expect(page).to have_current_path(decidim_helsinki_smsauth.users_auth_sms_school_info_path, ignore_query: true)
     within ".user-person" do
       expect(page).to have_content("There is an error in this field.")
     end
