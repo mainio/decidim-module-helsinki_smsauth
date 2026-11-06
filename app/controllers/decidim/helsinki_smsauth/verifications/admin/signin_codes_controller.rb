@@ -8,10 +8,14 @@ module Decidim
           layout "decidim/admin/users"
 
           def new
+            enforce_permission_to :create, :signin_codes
+
             @form = form(GenerateCodesForm).instance
           end
 
           def create
+            enforce_permission_to :create, :signin_codes
+
             @form = GenerateCodesForm.from_params(params.merge(user: current_user))
             ::Decidim::HelsinkiSmsauth::Verifications::Admin::GenerateAccessCodes.call(@form) do
               on(:ok) do |codes|
@@ -27,12 +31,16 @@ module Decidim
           end
 
           def view_generated_codes
+            enforce_permission_to :create, :signin_codes
+
             @codes = generated_codes_session
             remove_generated_codes_session
             @expiration_info = set_expiration_info
           end
 
           def generate_csv_file
+            enforce_permission_to :create, :signin_codes
+
             codes = params[:codes]
 
             csv_data = CSV.generate(headers: true) do |csv|
@@ -50,6 +58,8 @@ module Decidim
           end
 
           def generate_xlsx_file
+            enforce_permission_to :create, :signin_codes
+
             codes = params[:codes]
 
             workbook = RubyXL::Workbook.new
@@ -70,6 +80,10 @@ module Decidim
           end
 
           private
+
+          def permission_class_chain
+            [Decidim::HelsinkiSmsauth::Admin::Permissions] + super
+          end
 
           def generate_codes_session(codes)
             session[:generated_codes] = codes

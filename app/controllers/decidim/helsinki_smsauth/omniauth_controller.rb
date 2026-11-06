@@ -13,6 +13,8 @@ module Decidim
         @form = form(OmniauthForm).instance
       end
 
+      # Disabling rubocop for authorization rule
+      # rubocop:disable Decidim/EnforcePermissionTo
       def edit
         @form = form(OmniauthForm).instance
       end
@@ -173,6 +175,7 @@ module Decidim
           end
         end
       end
+      # rubocop:enable Decidim/EnforcePermissionTo
 
       private
 

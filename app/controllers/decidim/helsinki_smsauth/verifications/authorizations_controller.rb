@@ -46,6 +46,8 @@ module Decidim
         end
 
         def resend_code
+          enforce_permission_to(:update, :authorization, authorization:)
+
           return unless eligible_to?
 
           @form = AuthorizationForm.from_params(params.merge(user: current_user, organization: current_organization).merge(authorization_params))
@@ -84,7 +86,7 @@ module Decidim
           enforce_permission_to(:update, :authorization, authorization:)
 
           @form = ConfirmationForm.from_params(params)
-          ConfirmUserPhoneAuthorization.call(authorization, @form, session) do
+          ConfirmUserPhoneAuthorization.call(authorization, @form) do
             on(:ok) do
               update_current_user!
               handle_redirect
@@ -117,6 +119,8 @@ module Decidim
         end
 
         def access_code_validation
+          enforce_permission_to(:update, :authorization, authorization:)
+
           @form = form(::Decidim::HelsinkiSmsauth::AccessCodeForm).from_params(params.merge({ current_locale:, organization: current_organization }))
           ValidateAccessCode.call(@form, authorization, current_user) do
             on(:ok) do

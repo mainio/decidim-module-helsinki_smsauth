@@ -7,17 +7,23 @@ module Decidim
         def call
           return already_confirmed! if authorization.granted?
 
-          return invalid! unless form.valid?
+          Decidim::Authorization.transaction do
+            authorization.lock!
+            authorization.clear_expired_lock!
 
-          throttle! if too_many_failed_attempts?
-          if confirmation_successful?
-            if code_still_valid?
-              valid!
+            return locked! if authorization.locked_for_confirmation?
+
+            return invalid! unless form.valid?
+
+            if confirmation_successful?
+              if code_still_valid?
+                valid!
+              else
+                expire!
+              end
             else
-              expire!
+              invalid!
             end
-          else
-            invalid!
           end
         rescue StandardError => e
           Rails.logger.debug e
@@ -27,7 +33,7 @@ module Decidim
         private
 
         def valid!
-          reset_failed_attempts!
+          authorization.reset_failed_attempts!
           broadcast(:ok)
         end
 
